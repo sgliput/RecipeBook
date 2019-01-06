@@ -1,0 +1,49 @@
+.jumbotron{
+    height: 250px; 
+    clear: both;
+    text-align: center;
+    color: orange;
+    background-image: url("./headerimg/recipecard.jpg");
+    background-size: 50% 100%;
+    width: 90%;
+    margin: 0 auto;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    
+}
+
+h1{
+    font-size: 2.3rem;
+    font-style: italic;
+    font-weight: bold;
+    background-color: blue;
+    border-radius: 40px;
+    width: 30%;
+    margin: 50px auto 0 auto;
+    text-align: center;
+    letter-spacing: 0.7rem;
+    padding: 5px;
+    border: 5px outset orange;
+}
+
+
+
+@media screen and (max-width: 1246px) {
+    h1{
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 858px) {
+    h1{
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 730px) {
+    .jumbotron{
+        background-size: 100% 100%;
+    }
+    
+
+}
