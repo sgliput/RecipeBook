@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import changeFunctions from "./changeFunctions";
 //import { Col, Row, Container } from "../Grid";
 import "./directionFields.css";
 
@@ -10,8 +11,11 @@ class DirectionFields extends Component {
         step2: "",
         step3: "",
         step4: "",
+        step5: "",
+        step6: "",
         numberOfFields: 3,
-        addedFields: 0,
+        addedFields:-1,
+        changeFunctions: changeFunctions
     }
 
     Step1Change = event => {
@@ -38,45 +42,28 @@ class DirectionFields extends Component {
         console.log("Step 3: " + this.state.step3);
     };
 
-    Step4Change = event => {
-        //Changes this.state.step4 to the content of the input box
-        
-        this.setState({
-            step4: event.target.value
-        });
-        console.log("Step 4: " + this.state.step4);
-    };
-
-    Step5Change = event => {
-        //Changes this.state.step5 to the content of the input box
-        
-        this.setState({
-            step5: event.target.value
-        });
-        console.log("Step 5: " + this.state.step5);
-    };
-
-    changeFunctions = [
-        this.Step4Change,
-        this.Step5Change
-    ];
-
-
     addStep = event => {
         const newID = "step" + (this.state.numberOfFields + 1);
         const newFieldClass = "step" + (this.state.numberOfFields + 1) + "Field form-control";
+        const addedFields = this.state.addedFields + 1;
+        const onChange = (event) => {        
+            this.setState(this.state.changeFunctions[addedFields](event));
+        }
 
         this.fields.push(
         <div id = {newID} key={this.state.numberOfFields + 1}>
         <label>Step {this.state.numberOfFields + 1}:</label>
         <br />
-        <textarea className={newFieldClass} rows="3" onChange={this.changeFunctions[this.state.addedFields]} />
+        <textarea className={newFieldClass} rows="3" onChange={onChange} />
         <br />
         </div>);
         this.setState({
             numberOfFields: this.state.numberOfFields + 1,
             addedFields: this.state.addedFields + 1
         });
+        console.log("Step 4: " + this.state.step4);
+        console.log("Step 5: " + this.state.step5);
+        console.log("Step 6: " + this.state.step6);
     }
 
     fields = [

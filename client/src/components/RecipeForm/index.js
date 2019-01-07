@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Col, Row, Container } from "../Grid";
 import IngredientFields from "../IngredientFields";
 import DirectionFields from "../DirectionFields";
+import API from "../../utils/API";
 import "./recipeForm.css";
 
 // This file exports the SearchForm component
@@ -13,7 +14,7 @@ class RecipeForm extends Component {
         cooktime: "",
         description: "",
         ingredients: [],
-        directions: {}
+        direction: []
     }
 
     handleRecipeNameChange = event => {
@@ -52,6 +53,21 @@ class RecipeForm extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
+        const recipeName = this.state.recipeName;
+        const userName = this.state.name;
+        const cooktime = this.state.cooktime;
+        const description = this.state.description;
+        const fullRecipe = {
+            name: recipeName,
+            creator: userName,
+            cooktime: cooktime,
+            description: description
+        };
+        API.saveRecipe(fullRecipe)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => console.log(err));
 
     }
 
@@ -88,7 +104,7 @@ class RecipeForm extends Component {
                         </Row>
                         <Row>
                             <br />
-                            <button className="btn btn-success submit">Submit</button>
+                            <button className="btn btn-success submit" onClick={this.handleSubmit}>Submit</button>
                         </Row>
                     </div>
                 </section>

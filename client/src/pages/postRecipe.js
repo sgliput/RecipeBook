@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import API from "../utils/API";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import RecipeForm from "../components/RecipeForm";

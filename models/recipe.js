@@ -7,7 +7,7 @@ const recipeSchema = new Schema({
   creator: String,
   description: String,
   ingredients: Array,
-  directions: Object,
+  directions: Array,
   cooktime: String,
   tags: Array,
   dateSaved: { type: Date, default: Date.now }
