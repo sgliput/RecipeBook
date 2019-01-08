@@ -6,8 +6,8 @@ const recipeSchema = new Schema({
   //id: { type: String, required: true, unique: true },
   creator: String,
   description: String,
-  ingredients: Array,
-  directions: Array,
+  ingredients: Object,
+  directions: Object,
   cooktime: String,
   tags: Array,
   dateSaved: { type: Date, default: Date.now }
