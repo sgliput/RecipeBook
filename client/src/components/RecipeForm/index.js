@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { Col, Row, Container } from "../Grid";
 import IngredientFields from "../IngredientFields";
-import IngChangeFunctions from "../IngredientFields/changeFunctions";
 import DirectionFields from "../DirectionFields";
-import DirChangeFunctions from "../DirectionFields/changeFunctions";
 import API from "../../utils/API";
 import "./recipeForm.css";
 
@@ -17,10 +15,8 @@ class RecipeForm extends Component {
         description: "",
         ingredients: {},
         IngNumberOfFields: 1,
-        IngAddedFields:-1,
         directions: {},
-        DirNumberOfFields: 1,
-        DirAddedFields: -1
+        DirNumberOfFields: 1
     }
 
     handleRecipeNameChange = event => {
@@ -57,23 +53,25 @@ class RecipeForm extends Component {
 
     ///////  Ingredient Fields Column  ////////////////////////
 
-    Ingredient1Change = event => {
+    IngredientChange = event => {
         const value = event.target.value;
+        const id = event.target.id;
+        console.log("Ingredient: " + id);
         const ingrs = this.state.ingredients;
-        ingrs.ingredient1 = value;
+        ingrs[id] = value;
 
         //Changes this.state.ingredients to the current ingredients object
         this.setState({
             ingredients: ingrs
         });
-        console.log("Ingredient 1: " + this.state.ingredient1);
+        console.log("Ingredient 1: " + this.state.ingredients[id]);
         console.log(this.state.ingredients);
     };
 
     IngFields = [
         <div id="ingredient1" key="1">
             <label>Ingredient 1:</label>
-            <input className="form-control ingredient1Field" rows="3" value={this.state.ingredients.ingredient1} onChange={this.Ingredient1Change} />
+            <input className="form-control ingredient1" id="ingredient1" rows="3" value={this.state.ingredients.ingredient1} onChange={this.IngredientChange} />
             <br />
         </div>
     ]
@@ -81,30 +79,27 @@ class RecipeForm extends Component {
     addIngredient = () => {
         const newID = "ingredient" + (this.state.IngNumberOfFields + 1);
         const newFieldClass = "ingredient" + (this.state.IngNumberOfFields + 1) + "Field form-control";
-        const addedFields = this.state.IngAddedFields + 1;
-        const onChange = (event) => {        
-            this.setState(IngChangeFunctions[addedFields](event, this.state));
-        }
 
         this.IngFields.push(
         <div id = {newID} key={this.state.IngNumberOfFields + 1}>
         <label>Ingredient {this.state.IngNumberOfFields + 1}:</label>
         <br />
-        <input className={newFieldClass} rows="3" value={this.state.ingredients[newID]} onChange={onChange} />
+        <input className={newFieldClass} rows="3" id={newID} value={this.state.ingredients[newID]} onChange= {this.IngredientChange} />
         <br />
         </div>);
         this.setState({
-            IngNumberOfFields: this.state.IngNumberOfFields + 1,
-            IngAddedFields: this.state.IngAddedFields + 1
+            IngNumberOfFields: this.state.IngNumberOfFields + 1
         });
     }
 
      ///////  Direction Fields Column  ////////////////////////
 
-     Step1Change = event => {
+     StepChange = event => {
         const value = event.target.value;
+        const id = event.target.id;
+        console.log("Step: " + id);
         const steps = this.state.directions;
-        steps.step1 = value;
+        steps[id] = value;
 
         //Changes this.state.ingredient1 to the content of the input box
         this.setState({
@@ -116,7 +111,7 @@ class RecipeForm extends Component {
     DirFields = [
         <div id="step1" key="1">
             <label>Step 1:</label>
-            <textarea className="form-control step1Field" rows="3" value={this.state.directions.step1} onChange={this.Step1Change} />
+            <textarea className="form-control step1Field" id="step1" rows="3" value={this.state.directions.step1} onChange={this.StepChange} />
             <br />
         </div>
     ]
@@ -124,21 +119,16 @@ class RecipeForm extends Component {
     addStep = event => {
         const newID = "step" + (this.state.DirNumberOfFields + 1);
         const newFieldClass = "step" + (this.state.DirNumberOfFields + 1) + "Field form-control";
-        const addedFields = this.state.DirAddedFields + 1;
-        const onChange = (event) => {        
-            this.setState(DirChangeFunctions[addedFields](event, this.state));
-        }
 
         this.DirFields.push(
         <div id = {newID} key={this.state.DirNumberOfFields + 1}>
         <label>Step {this.state.DirNumberOfFields + 1}:</label>
         <br />
-        <textarea className={newFieldClass} rows="3" value={this.state.directions[newID]} onChange={onChange} />
+        <textarea className={newFieldClass} id={newID} rows="3" value={this.state.directions[newID]} onChange={this.StepChange} />
         <br />
         </div>);
         this.setState({
-            DirNumberOfFields: this.state.DirNumberOfFields + 1,
-            DirAddedFields: this.state.DirAddedFields + 1
+            DirNumberOfFields: this.state.DirNumberOfFields + 1
         });
         console.log(this.state.directions);
        

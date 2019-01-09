@@ -1,10 +1,16 @@
+/*const addedFields = this.state.DirAddedFields + 1;
+        const onChange = (event) => {        
+            this.setState(DirChangeFunctions[addedFields](event, this.state));
+        }
+*/
+
 const Step2Change = (event, state) => {
     const value = event.target.value;
     const steps = state.directions;
     steps.step2 = value;
 
     //Changes state.directions to the current steps object
-    return{
+    return {
         directions: steps
     };
 };
@@ -164,7 +170,7 @@ const Step17Change = (event, state) => {
     //Changes state.directions to the current steps object
     return {
         directions: steps
-    }; 
+    };
 };
 const Step18Change = (event, state) => {
     const value = event.target.value;
@@ -205,7 +211,7 @@ const Step21Change = (event, state) => {
     //Changes state.directions to the current steps object
     return {
         directions: steps
-    }; 
+    };
 };
 const Step22Change = (event, state) => {
     const value = event.target.value;
@@ -235,7 +241,7 @@ const Step24Change = (event, state) => {
     //Changes state.directions to the current steps object
     return {
         directions: steps
-    };  
+    };
 };
 const Step25Change = (event, state) => {
     const value = event.target.value;
@@ -245,7 +251,7 @@ const Step25Change = (event, state) => {
     //Changes state.directions to the current steps object
     return {
         directions: steps
-    }; 
+    };
 };
 const Step26Change = (event, state) => {
     const value = event.target.value;
@@ -255,7 +261,7 @@ const Step26Change = (event, state) => {
     //Changes state.directions to the current steps object
     return {
         directions: steps
-    }; 
+    };
 };
 const Step27Change = (event, state) => {
     const value = event.target.value;
@@ -265,7 +271,7 @@ const Step27Change = (event, state) => {
     //Changes state.directions to the current steps object
     return {
         directions: steps
-    }; 
+    };
 };
 const Step28Change = (event, state) => {
     const value = event.target.value;
@@ -285,7 +291,7 @@ const Step29Change = (event, state) => {
     //Changes state.directions to the current steps object
     return {
         directions: steps
-    };  
+    };
 };
 const Step30Change = (event, state) => {
     const value = event.target.value;
@@ -295,7 +301,7 @@ const Step30Change = (event, state) => {
     //Changes state.directions to the current steps object
     return {
         directions: steps
-    }; 
+    };
 };
 
 const changeFunctions = [Step2Change, Step3Change, Step4Change, Step5Change, Step6Change, Step7Change, Step8Change, Step9Change, Step10Change, Step11Change, Step12Change, Step13Change, Step14Change, Step15Change, Step16Change, Step17Change, Step18Change, Step19Change, Step20Change, Step21Change, Step22Change, Step23Change, Step24Change, Step25Change, Step26Change, Step27Change, Step28Change, Step29Change, Step30Change];

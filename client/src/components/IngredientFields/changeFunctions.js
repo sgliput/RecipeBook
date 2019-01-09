@@ -1,7 +1,14 @@
+/*const addedFields = this.state.IngAddedFields + 1;
+        const onChange = (event) => {        
+            this.setState(IngChangeFunctions[addedFields](event, this.state));
+        }
+*/
+
 const Ingredient2Change = (event, state) => {
     const value = event.target.value;
+    const id = event.target.id;
     const ingrs = state.ingredients;
-    ingrs.ingredient2 = value;
+    ingrs[id] = value;
 
     //Changes this.state.ingredient2 to the content of the input box
     return{

@@ -11,9 +11,13 @@ class postRecipe extends Component {
     render() {
         return (
             <div>
-            <Header />
-            <br />
-            <RecipeForm />
+                <Header />
+                <br />
+                <Link to={"/"}>
+                    <button className="btn btn-info toHome">Home Page</button>
+                </Link>
+                <br />
+                <RecipeForm />
             </div>
         )
 

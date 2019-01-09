@@ -6,10 +6,9 @@
     background-image: url("./headerimg/recipecard.jpg");
     background-size: 50% 100%;
     width: 90%;
-    margin: 0 auto;
+    margin: 10px auto 0 auto;
     border-top: 2px solid black;
     border-bottom: 2px solid black;
-    
 }
 
 h1{

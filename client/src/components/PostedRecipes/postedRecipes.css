@@ -1,0 +1,22 @@
+.card{
+    width: 100%;
+    background-color: tan;
+    margin-bottom: 5px;
+    padding: 10px;
+}
+
+.title{
+   width: 50%;
+   float: left;
+   margin-bottom: 30px;
+}
+
+.top a{
+    float: right;
+}
+
+
+.creator{
+    margin: 0;
+    padding: 0;
+}

@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./pages/home";
 import postRecipe from "./pages/postRecipe";
+import Recipe from "./pages/recipe";
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
           <Route exact path="/" component={Home} />
           <Route exact path="/recipes" component={Home} />
           <Route exact path="/postRecipe" component={postRecipe} />
+          <Route exact path="/recipes/:id" component={Recipe} />
           <Route component={Home} />
         </Switch>
     </Router>
