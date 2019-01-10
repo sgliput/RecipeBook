@@ -53,18 +53,24 @@ class RecipeSpec extends Component {
         return (
             <Container>
 
-                <h2>{this.state.recipeData.name}</h2>
-                <p>{this.state.recipeData.creator}</p>
-                <p>Takes {this.state.recipeData.cooktime}</p>
-                <p>{this.state.recipeData.description}</p>
-                <ul>
+                <h2 className="specRecipeName">{this.state.recipeData.name}</h2>
+                <p className="specCreator">Posted by {this.state.recipeData.creator}</p>
+                <p className="specCooktime">Takes {this.state.recipeData.cooktime}</p>
+                <p className="specDescription">{this.state.recipeData.description}</p>
+                <Row className="underline">
+                    <Col size="md-4 sm-11">
+                <ul className="specIngredientList">
                     {this.state.ingredients}
                 </ul>
                 <br />
-                <ul>
+                </Col>
+                <Col size="md-7 sm-11">
+                <ol className="specDirectionList">
                     {this.state.directions}
-                </ul>
-
+                </ol>
+                <br />
+                </Col>
+                </Row>
             </Container>
 
 

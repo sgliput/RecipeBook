@@ -8,11 +8,12 @@
 .title{
    width: 50%;
    float: left;
-   margin-bottom: 30px;
+   margin: 10px 0 30px 10px;
 }
 
 .top a{
     float: right;
+    margin: 15px 10px 25px 0;
 }
 
 
