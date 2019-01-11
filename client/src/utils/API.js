@@ -21,5 +21,16 @@ export default {
   // Saves a recipe to the database
   saveRecipe: function(recipeData) {
     return axios.post("/api/recipes", recipeData);
-  }
+  },
+
+
+getUser: function(password) {
+    return axios.get("/api/users/" + password);
+  },
+  saveUser: function(newUser) {
+    return axios.post("/api/users", newUser);
+  },
+  deleteUser: function(id) {
+    return axios.delete("/api/users/" + id);
+  },
 };

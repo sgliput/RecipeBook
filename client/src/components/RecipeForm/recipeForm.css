@@ -1,3 +1,19 @@
-h3{
+.formInst{
    text-decoration: underline;
+   margin: 2rem 0 2rem 1.5rem;
+}
+
+.siteToScrape{
+    width: 40%;
+    margin: 0 0 0 55%;
+}
+
+.siteToScrapeLabel{
+    margin: 0 0 0 55%;
+}
+
+.siteToScrapeIntro{
+    text-align: right;
+    margin-top: 2rem;
+    margin-right: 1.5rem;
 }

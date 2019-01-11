@@ -16,7 +16,8 @@ class RecipeForm extends Component {
         ingredients: {},
         IngNumberOfFields: 1,
         directions: {},
-        DirNumberOfFields: 1
+        DirNumberOfFields: 1,
+        siteToScrape: ""
     }
 
     handleRecipeNameChange = event => {
@@ -160,14 +161,34 @@ class RecipeForm extends Component {
 
     }
 
+    scrapeChange = event => {
+        const siteToScrape = event.target.value;
+        this.setState({siteToScrape});
+    }
+
     render() {
         return (
             <Container>
                 <section className="recipeForm">
                     <Row>
-                        <h3>Input Your Recipe Below</h3>
+                        <Col size="md-3">
+                        <h3 className="formInst">Input Your Recipe Below</h3>
+                        </Col>
+                        <Col size="md-9">
+                        <form class="form-horizontal">
+                        <h5 className="siteToScrapeIntro">Or enter the URL from one of the below sites to import the recipe into your Recipe Book</h5>
+                        <div className="form-group">
+                        <label className="control-label siteToScrapeLabel">Website:</label>
+                            <select className="form-control siteToScrape" size="1" onChange={this.scrapeChange}>
+                                <option>Food Network</option>
+                                <option>Tastee</option>
+                                <option>Pinterest</option>
+                                </select>
+                                </div>
+                                </form>
+                        </Col>
                     </Row>
-
+                    <br />
                     <div className="form-group">
                         <Row>
                             <Col size="md-4">
