@@ -4,6 +4,12 @@
     margin-bottom: 20px;
 }
 
+.editBtn{
+    margin-left: 88%;
+    margin-top: 10px;
+    margin-bottom: -40px;
+}
+
 .specRecipeName{
     text-align: center;
     margin-top: 1rem;
@@ -58,11 +64,46 @@ ol li{
     margin-bottom: 1rem;
 }
 
+.noDirections{
+    text-align: center;
+    font-size: 4rem;
+    margin-top: 10%;
+}
 
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 991px) {
+    .editBtn{
+        margin-left: 83%;
+        margin-bottom: -30px;
+    }
+}
+
+@media screen and (max-width: 767px) {
     .ingredientList{
         margin: 1rem 5rem;
+    }
+    .col-md-4{
+        border-right: none;
+        border-bottom: 2px solid black;
+    }
+    .col-md-7{
+        border-left: none;
+        border-top: 2px solid black;
+    }
+    .noDirections{
+        font-size: 2rem;
+        margin-top: 8%;
+        margin-bottom: 8%;
+    }
+    .editBtn{
+        margin-left: 78%;
+        margin-bottom: 5px;
+    }
+}
+
+@media screen and (max-width: 510px) {
+    .editBtn{
+        margin-left: 74%;
     }
 }

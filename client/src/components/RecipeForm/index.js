@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import cheerio from "cheerio";
+import request from "request";
 import { Col, Row, Container } from "../Grid";
 import IngredientFields from "../IngredientFields";
 import DirectionFields from "../DirectionFields";
@@ -20,7 +21,12 @@ class RecipeForm extends Component {
         directions: {},
         DirNumberOfFields: 1,
         siteToScrape: "Food Network",
-        urlToScrape: ""
+        urlToScrape: "",
+        loggedInUserID: ""
+    }
+
+    componentDidMount() {
+        this.setState({ loggedInUserID: sessionStorage.getItem('userID') });
     }
 
     handleRecipeNameChange = event => {
@@ -144,6 +150,7 @@ class RecipeForm extends Component {
         event.preventDefault();
         const recipeName = this.state.recipeName;
         const userName = this.state.name;
+        const creatorID = this.state.loggedInUserID;
         const cooktime = this.state.cooktime;
         const description = this.state.description;
         const ingredients = this.state.ingredients;
@@ -151,16 +158,21 @@ class RecipeForm extends Component {
         const fullRecipe = {
             name: recipeName,
             creator: userName,
+            creatorID: creatorID,
             cooktime: cooktime,
             description: description,
             ingredients: ingredients,
             directions: directions
         };
-        API.saveRecipe(fullRecipe)
-            .then(res => {
-                console.log(res);
-            })
-            .catch(err => console.log(err));
+        if (this.state.loggedInUserID) {
+            API.saveRecipe(fullRecipe)
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => console.log(err));
+        } else {
+            console.log("Sorry");
+        }
 
     }
 
@@ -190,10 +202,12 @@ class RecipeForm extends Component {
 
                 const recipeName = $(".o-AssetTitle__a-HeadlineText").text().trim();
                 const creator = $(".o-Attribution__a-Name").children().text().trim();
+                const creatorID = this.state.loggedInUserID;
                 const description = $(".o-AssetDescription__a-Description").text().trim();
                 const cooktime = $(".m-RecipeInfo__a-Description--Total").text().trim();
                 //const imageSrc = $(".m-MediaBlock__a-Image a-Image").attr("src");
                 //const ingredients = $(".o-Ingredients__m-Body").children();
+                const link = this.state.urlToScrape;
 
                 // Now, we grab the headline, byline, tag, article link, and summary from every Feedcard element
                 $(".o-Ingredients__a-Ingredient").each((i, element) => {
@@ -222,20 +236,28 @@ class RecipeForm extends Component {
                 const scrapedRecipe = {
                     name: recipeName,
                     creator: creator,
+                    creatorID: creatorID,
                     description: description,
                     cooktime: cooktime,
                     //imageSrc: imageSrc,
                     ingredients: ingredients,
                     directions: steps,
-                    otherSite: true
+                    link: link,
+                    otherSite: true,
+                    source: "Food Network"
                 };
                 console.log(scrapedRecipe);
-                API.saveRecipe(scrapedRecipe)
-                    .then(res => {
-                        console.log(res);
-                    })
-                    .catch(err => console.log(err));
-                // //Push each result to the results array
+                if (this.state.loggedInUserID) {
+                    API.saveRecipe(scrapedRecipe)
+                        .then(dbRecipe => {
+                            console.log(dbRecipe);
+                            return API.getSpecUser(this.state.loggedInUserID, { $push: { recipes: dbRecipe._id } }, { new: true });
+                        })
+                        .catch(err => console.log(err));
+                } else {
+                    console.log("Sorry");
+                }
+                // //Push each result to the resultsarray
                 // results.push(result);
 
                 // //If all these have values, then the article information is added to the database (upserted if it is not already present)
@@ -257,42 +279,75 @@ class RecipeForm extends Component {
             const proxyurl = "https://cors-anywhere.herokuapp.com/";
             console.log("url: " + this.state.urlToScrape);
             axios.get(proxyurl + this.state.urlToScrape).then(response => {
-                
+
+
                 const $ = cheerio.load(response.data);
-                console.log(response.data);
-                const ingredients = [];
 
                 //https://www.pinterest.com/pin/202591683214899897/
 
-                const recipeName = $("CloseupTitleCard").children().children().children().children().children().children().text().trim();
-                const link = $("CloseupTitleCard").children().children().children().children().attr("href");
-                const creator = $(".actionButton").children().children().children().text().trim();
-                const description = $(".Module CardSourceDescriptionText").children().text().trim();
-                //const cooktime = $(".richPinInformation").siblings().children().children().last().text().trim();
-                const cooktime = $("div[itemprop = 'name']").attr("itemprop");
-                //const cooktime = $(cooktimeDiv).children().attr("href");
-                //const imageSrc = $(".m-MediaBlock__a-Image a-Image").attr("src");
-                //const ingredients = $(".o-Ingredients__m-Body").children();
+                const parsed = JSON.parse($("#jsInit1").contents()).resourceDataCache[0].data;
+
+                const recipeName = parsed.rich_metadata.recipe.name;
+                const link = parsed.rich_metadata.url;
+                const creator = this.state.urlToScrape;
+                let cooktime = "";
+                if (parsed.rich_metadata.recipe.cook_times.total) {
+                    cooktime = parsed.rich_metadata.recipe.cook_times.total.m + " minutes";
+                }
+                const description = parsed.description;
+                //const imageSrc = parsed.board.image_thumbnail_url;
 
                 // Now, we grab the headline, byline, tag, article link, and summary from every Feedcard element
-                $("li").each((i, element) => {
-
-                    const ingredient = $(element).children().children().text().trim();
-
-                    ingredients.push(ingredient);
-
+                const ingredientArrays = parsed.rich_metadata.recipe.categorized_ingredients.map(Ing => {
+                    const ings = Ing.ingredients.map(lowerIng => {
+                        return lowerIng.amt + " " + lowerIng.name;
+                    });
+                    return ings;
                 });
-                const scrapedRecipe = {
-                    name: recipeName,
-                    creator: creator,
-                    description: description,
-                    cooktime: cooktime,
-                    //imageSrc: imageSrc,
-                    ingredients: ingredients,
-                    link: link,
-                    otherSite: true
-                };
+                const ingredients = [];
+                for (let i = 0; i < ingredientArrays.length; i++) {
+                    for (let j = 0; j < ingredientArrays[i].length; j++) {
+                        ingredients.push(ingredientArrays[i][j]);
+                    }
+                }
+                let scrapedRecipe = "";
+                if (recipeName && creator && description && ingredients && link && cooktime) {
+                    scrapedRecipe = {
+                        name: recipeName,
+                        creator: creator,
+                        description: description,
+                        cooktime: cooktime,
+                        //imageSrc: imageSrc,
+                        ingredients: ingredients,
+                        link: link,
+                        otherSite: true,
+                        source: "Pinterest"
+                    };
+                } else if (recipeName && creator && description && ingredients && link) {
+                    scrapedRecipe = {
+                        name: recipeName,
+                        creator: creator,
+                        description: description,
+                        //imageSrc: imageSrc,
+                        ingredients: ingredients,
+                        link: link,
+                        otherSite: true,
+                        source: "Pinterest"
+                    };
+                }
                 console.log(scrapedRecipe);
+
+
+                if (this.state.loggedInUserID) {
+                    API.saveRecipe(scrapedRecipe)
+                        .then(dbRecipe => {
+                            console.log(dbRecipe);
+                            //return API.getSpecUser(this.state.loggedInUserID, { $push: { recipes: dbRecipe._id } }, { new: true });
+                        })
+                        .catch(err => console.log(err));
+                } else {
+                    console.log("Sorry");
+                }
 
 
             });
@@ -308,7 +363,7 @@ class RecipeForm extends Component {
                             <h3 className="formInst">Input Your Recipe Below</h3>
                         </Col>
                         <Col size="md-9">
-                            <form class="form-horizontal">
+                            <form className="form-horizontal">
                                 <Row>
                                     <h5 className="siteToScrapeIntro">Or enter the URL from one of the below sites to import the recipe into your Recipe Book</h5>
                                 </Row>
@@ -318,7 +373,14 @@ class RecipeForm extends Component {
                                             <label className="control-label siteToScrapeLabel">Website:</label>
                                             <select className="form-control siteToScrape" size="1" onChange={this.scrapeChange}>
                                                 <option>Food Network</option>
+                                                <option>Epicurious</option>
+                                                <option>All Recipes</option>
+                                                <option>Food.com</option>
+                                                <option>MyRecipes.com</option>
                                                 <option>Tastee</option>
+                                                <option>Yummly</option>
+                                                <option>Simply Recipes</option>
+                                                <option>SeriousEats.com</option>
                                                 <option>Pinterest</option>
                                             </select>
                                         </div>

@@ -27,6 +27,9 @@ export default {
 getUser: function(password) {
     return axios.get("/api/users/" + password);
   },
+  getSpecUser: function(id) {
+    return axios.get("/api/users/" + id);
+  },
   saveUser: function(newUser) {
     return axios.post("/api/users", newUser);
   },
