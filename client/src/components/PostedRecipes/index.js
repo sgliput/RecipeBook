@@ -9,7 +9,7 @@ function PostedRecipes(props) {
         <Link to={"/recipes/" + recipe._id}>
             <h3 className="name">{recipe.name}</h3>
             </Link>
-            <p className="creator">By {recipe.creator}</p>
+            {recipe.otherSite ? <p className="creator">{recipe.creator}</p> : <p className="creator">By {recipe.creator}</p>}
             <hr />
             <p className="cooktime">Takes {recipe.cooktime}</p>
             <p className="description">Description: {recipe.description}</p>

@@ -10,6 +10,7 @@ const recipeSchema = new Schema({
   directions: Object,
   cooktime: String,
   tags: Array,
+  otherSite: {type: Boolean, default: false},
   dateSaved: { type: Date, default: Date.now }
 });
 
