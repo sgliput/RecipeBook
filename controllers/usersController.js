@@ -2,32 +2,57 @@ const db = require("../models");
 
 // Defining methods for the recipesController
 module.exports = {
-  create: function(req, res) {
+  create: function (req, res) {
     db.User
       .create(req.body)
       .then(dbModel => {
-        console.log(req.body);
         console.log(dbModel);
-        res.json(dbModel)})
+        res.json(dbModel)
+      })
       .catch(err => res.status(422).json(err));
   },
-  findOne: function(req, res) {
+  findOne: function (req, res) {
     db.User
-      .findOne({password: req.params.id})
+      .findOne({ password: req.params.id })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  update: function(req, res) {
+  findID: function (req, res) {
+    console.log("ID: " + req.params.id);
+    db.User
+    .findOne({_id: req.params.id}).populate("recipe")
+    .then(dbModel => {
+      console.log("Hello");
+      console.log(dbModel);
+      res.json(dbModel)
+    })
+    .catch(err => {
+      console.log("Goodbye");
+      console.log(err);
+      res.status(422).json(err)
+    });
+  },
+  findOneAndUpdate: function (req, res) {
+    db.User
+      .findOneAndUpdate({ _id: req.params.userID }, { $push: { recipes: req.params.recipeID } }, { new: true })
+      .then(dbModel => {
+        console.log(dbModel);
+        res.json(dbModel)
+      })
+      .catch(err => res.status(422).json(err));
+  },
+  update: function (req, res) {
     db.User
       .findOneAndUpdate({ _id: req.params.id }, req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
-  remove: function(req, res) {
+  remove: function (req, res) {
     db.User
-      .findOne({id: req.params.id})
+      .findOne({ id: req.params.id })
       .then(dbModel => {
-        dbModel.remove()})
+        dbModel.remove()
+      })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   }

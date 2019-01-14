@@ -2,7 +2,7 @@
   "name": "books-and-crannies",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3002/",
+  "proxy": "http://localhost:3003/",
   "dependencies": {
     "axios": "^0.18.0",
     "cheerio": "^1.0.0-rc.2",

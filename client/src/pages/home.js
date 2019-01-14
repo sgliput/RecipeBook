@@ -11,14 +11,19 @@ class Home extends Component {
     state = {
         recipes: [],
         signInModal: "none",
-        logInModal: "none"
+        logInModal: "none",
+        userID: ""
     }
 
     componentDidMount() {
+        const userID = sessionStorage.getItem("userID");
         API.getRecipes()
             .then(res => {
                 console.log(res.data);
-                this.setState({ recipes: res.data });
+                this.setState({ 
+                    recipes: res.data,
+                    userID
+                });
 
             })
     }
@@ -33,8 +38,11 @@ class Home extends Component {
 
     //Handles hiding modal when its X is clicked
     closeModal = () => {
-        this.setState({ signInModal: "none" });
-        this.setState({ logInModal: "none" });
+        const userID = sessionStorage.getItem("userID");
+        this.setState({ 
+            signInModal: "none",
+            logInModal: "none",
+            userID });       
     }
 
     render() {
@@ -42,7 +50,7 @@ class Home extends Component {
             <div>
                 <Header />
                 <br />
-                <Container>
+                <Container className="mainContainer">
                     <Row>
                         <Col size="md-6 sm-12">
                             <SignInHome showSignInModal={this.showSignInModal} showLogInModal={this.showLogInModal} signInModal={this.state.signInModal} logInModal={this.state.logInModal} closeModal={this.closeModal} />
@@ -50,7 +58,7 @@ class Home extends Component {
 
                         </Col>
                         <Col size="md-6 sm-12">
-                            <PostedRecipes recipes={this.state.recipes} />
+                            <PostedRecipes recipes={this.state.recipes} userID={this.state.userID} />
                         </Col>
                         <br />
 

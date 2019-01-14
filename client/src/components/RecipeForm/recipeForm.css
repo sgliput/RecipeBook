@@ -4,8 +4,8 @@
 }
 
 .siteToScrape{
-    width: 40%;
-    margin: 0 0 0 55%;
+    width: 65%;
+    margin: 0 0 0 30%;
 }
 
 .siteToScrapeLabel{
@@ -20,4 +20,49 @@
 
 .urlToScrapeLabel{
     margin: 0;
+}
+
+.submitURL{
+    margin-top: 1.3rem;
+    
+}
+
+.publicRadio{
+    margin-right: 1.5rem;
+}
+
+.radio-inline{
+    margin-top: 0.3rem;
+}
+
+.formToPrivate{
+    margin-top: 1rem;
+    float: right;
+}
+
+
+
+
+@media screen and (max-width: 767px) {
+#dropdownCol, #firstFields, #firstIngrCol, #firstDirCol{
+    border-bottom: 2px solid black;
+    padding-bottom: 8px;
+}
+#firstFields, #firstIngrCol, #firstDirCol{
+    padding: 1.5rem;
+}
+
+.submitURL{
+    margin: 8px 0;
+    float: right;
+}
+
+.recipeSubmit{
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+.radio-inline{
+    margin-top: 2rem;
+}
+
 }

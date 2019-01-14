@@ -14,6 +14,9 @@ export default {
   getRecipe: function(id) {
     return axios.get("/api/recipes/" + id);
   },
+  getPrivateRecipes: function(id) {
+    return axios.get("/api/recipes", id);
+  },
   // Deletes the recipe with the given id
   deleteRecipe: function(id) {
     return axios.delete("/api/recipes/" + id);
@@ -22,13 +25,19 @@ export default {
   saveRecipe: function(recipeData) {
     return axios.post("/api/recipes", recipeData);
   },
+  updateRecipe: function(id, recipeData) {
+    return axios.put("/api/recipes/" + id, recipeData);
+  },
 
 
 getUser: function(password) {
     return axios.get("/api/users/" + password);
   },
-  getSpecUser: function(id) {
-    return axios.get("/api/users/" + id);
+  getUserByID: function(id) {
+    return axios.post("/api/users/userRecipes/" + id);
+  },
+  updateUserRecipes: function(userID, recipeID) {
+    return axios.get("/api/users/" + userID + "/" + recipeID);
   },
   saveUser: function(newUser) {
     return axios.post("/api/users", newUser);

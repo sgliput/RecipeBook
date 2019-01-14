@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import cheerio from "cheerio";
-import request from "request";
+import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../Grid";
 import IngredientFields from "../IngredientFields";
 import DirectionFields from "../DirectionFields";
@@ -22,7 +22,8 @@ class RecipeForm extends Component {
         DirNumberOfFields: 1,
         siteToScrape: "Food Network",
         urlToScrape: "",
-        loggedInUserID: ""
+        loggedInUserID: "",
+        selectedOption: "public"
     }
 
     componentDidMount() {
@@ -58,8 +59,15 @@ class RecipeForm extends Component {
         this.setState({
             description: event.target.value
         });
-        console.log("Description: " + this.state.description);
+        console.log(this.state);
     };
+
+    handleRadioChange = event => {
+        this.setState({
+          selectedOption: event.target.value
+        });
+        console.log(this.state);
+      }
 
     ///////  Ingredient Fields Column  ////////////////////////
 
@@ -225,7 +233,13 @@ class RecipeForm extends Component {
                     steps.push(step);
 
                 });
-
+                const ingObject = Object.assign({}, ingredients);
+                let keys = Object.keys(ingObject);
+                for (var i = 0; i < keys.length; i++) {
+                    var key = keys[i].replace(i, "ingredient" + i);
+                    ingObject[key] = ingObject[keys[i]];
+                    delete ingObject[i];
+                }
 
                 // //Removing BY and By from each byline
                 // const cutByline1 = byline.replace("BY ", "");
@@ -240,7 +254,7 @@ class RecipeForm extends Component {
                     description: description,
                     cooktime: cooktime,
                     //imageSrc: imageSrc,
-                    ingredients: ingredients,
+                    ingredients: ingObject,
                     directions: steps,
                     link: link,
                     otherSite: true,
@@ -251,7 +265,11 @@ class RecipeForm extends Component {
                     API.saveRecipe(scrapedRecipe)
                         .then(dbRecipe => {
                             console.log(dbRecipe);
-                            return API.getSpecUser(this.state.loggedInUserID, { $push: { recipes: dbRecipe._id } }, { new: true });
+                            //
+                            API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
+                                .then(dbUser => {
+                                    console.log(dbUser);
+                                })
                         })
                         .catch(err => console.log(err));
                 } else {
@@ -356,32 +374,41 @@ class RecipeForm extends Component {
 
     render() {
         return (
-            <Container>
+            <Container className="mainContainer">
+            {this.state.loggedInUserID ? (
+            <Row>
+                <Col size="md-8"></Col>
+                <Col size="md-4">
+            <Link to={"/userRecipes/" + this.state.loggedInUserID}>
+                            <button className="btn btn-success formToPrivate">Your RecipeBook</button>
+                        </Link>
+                        </Col>
+                </Row>) : ""}
                 <section className="recipeForm">
                     <Row>
                         <Col size="md-3">
                             <h3 className="formInst">Input Your Recipe Below</h3>
                         </Col>
-                        <Col size="md-9">
+                        <Col size="md-9" id="dropdownCol">
                             <form className="form-horizontal">
                                 <Row>
-                                    <h5 className="siteToScrapeIntro">Or enter the URL from one of the below sites to import the recipe into your Recipe Book</h5>
+                                    <h5 className="siteToScrapeIntro">Or enter the URL from one of the below sites to import the recipe into your personal Recipe Book</h5>
                                 </Row>
                                 <Row>
-                                    <Col size="md-4">
+                                    <Col size="md-4" id="dropdown">
                                         <div className="form-group">
                                             <label className="control-label siteToScrapeLabel">Website:</label>
                                             <select className="form-control siteToScrape" size="1" onChange={this.scrapeChange}>
-                                                <option>Food Network</option>
-                                                <option>Epicurious</option>
-                                                <option>All Recipes</option>
-                                                <option>Food.com</option>
-                                                <option>MyRecipes.com</option>
-                                                <option>Tastee</option>
-                                                <option>Yummly</option>
-                                                <option>Simply Recipes</option>
-                                                <option>SeriousEats.com</option>
-                                                <option>Pinterest</option>
+                                                <option defaultValue="Food Network">Food Network</option>
+                                                <option value="Epicurious">Epicurious</option>
+                                                <option value="All Recipes">All Recipes</option>
+                                                <option value="Food.com">Food.com</option>
+                                                <option value="MyRecipes.com">MyRecipes.com</option>
+                                                <option value="Tastee">Tastee</option>
+                                                <option value="Yummly">Yummly</option>
+                                                <option value="Simply Recipes">Simply Recipes</option>
+                                                <option value="SeriousEats.com">SeriousEats.com</option>
+                                                <option value="Pinterest">Pinterest</option>
                                             </select>
                                         </div>
                                     </Col>
@@ -400,7 +427,7 @@ class RecipeForm extends Component {
                     <br />
                     <div className="form-group">
                         <Row>
-                            <Col size="md-4">
+                            <Col size="md-4" id="firstFields">
                                 <label>Name of Recipe:</label>
                                 <input className="form-control recipeNameField" value={this.state.recipeName} onChange={this.handleRecipeNameChange} />
                                 <br />
@@ -414,16 +441,39 @@ class RecipeForm extends Component {
                                 <textarea className="form-control descriptionField" rows="3" value={this.state.description} onChange={this.handleDescriptionChange} />
                                 <br />
                             </Col>
-                            <Col size="md-4">
+                            <Col size="md-4" id="firstIngrCol">
                                 <IngredientFields addIngredient={this.addIngredient} IngFields={this.IngFields} />
                             </Col>
-                            <Col size="md-4">
+                            <Col size="md-4" id="firstDirCol">
                                 <DirectionFields addStep={this.addStep} DirFields={this.DirFields} />
                             </Col>
                         </Row>
                         <Row>
                             <br />
-                            <button className="btn btn-success submit" onClick={this.handleSubmit}>Submit</button>
+                            <Col size="md-2 sm-3">
+                                <button className="btn btn-success recipeSubmit" onClick={this.handleSubmit}>Submit</button>
+                            </Col>
+                            <Col size="md-5 sm-6">
+                                <form>
+                                    
+                                        <label className="radio-inline publicRadio">
+                                            <input type="radio" value="public"
+                                                checked={this.state.selectedOption === 'public'}
+                                                onChange={this.handleRadioChange} />
+                                            Public
+      </label>
+                                    
+                                    
+                                        <label className="radio-inline">
+                                            <input type="radio" value="private"
+                                                checked={this.state.selectedOption === 'private'}
+                                                onChange={this.handleRadioChange} />
+                                            Private
+      </label>
+                                    
+                                </form>
+                            </Col>
+
                         </Row>
                     </div>
                 </section>

@@ -16,6 +16,10 @@ class Recipe extends Component {
             <div>
                 <Header />
                 <br />
+                <Link to={"/"}>
+                    <button className="btn btn-info toHome">Home Page</button>
+                </Link>
+                <br />
                 <RecipeSpec params={this.state.params} />
             </div>
         );
