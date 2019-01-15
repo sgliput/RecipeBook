@@ -45,6 +45,23 @@ class Home extends Component {
             userID });       
     }
 
+    deleteRecipeMaster = id => {
+        console.log(id);
+        API.deleteRecipe(id)
+        .then(dbRecipe => {
+            console.log(dbRecipe);
+            API.getRecipes()
+            .then(res => {
+                console.log(res.data);
+                this.setState({ 
+                    recipes: res.data,
+                });
+
+            })
+        })
+        .catch(err => console.log(err));
+    }
+
     render() {
         return (
             <div>
@@ -58,7 +75,7 @@ class Home extends Component {
 
                         </Col>
                         <Col size="md-6 sm-12">
-                            <PostedRecipes recipes={this.state.recipes} userID={this.state.userID} />
+                            <PostedRecipes recipes={this.state.recipes} userID={this.state.userID} deleteRecipeMaster={this.deleteRecipeMaster} />
                         </Col>
                         <br />
 

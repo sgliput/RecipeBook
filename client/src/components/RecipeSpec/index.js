@@ -22,33 +22,36 @@ class RecipeSpec extends Component {
         otherSite: false,
         key1: 0,
         key2: 100,
-        editing: false
+        editing: false,
+        recipeGone: false
     }
 
     componentDidMount() {
         API.getRecipe(this.props.params)
             .then(res => {
                 console.log(res.data);
-                this.setState({
-                    recipeData: res.data,
-                    recipeName: res.data.name,
-                    creator: res.data.creator,
-                    cooktime: res.data.cooktime,
-                    description: res.data.description
-                });
-                if (res.data.otherSite) {
+                if (res.data === null) {
+                    this.setState({ recipeGone: true });
+                } else {
                     this.setState({
-                        source: res.data.source,
-                        otherSite: res.data.otherSite
+                        recipeData: res.data,
+                        recipeName: res.data.name,
+                        creator: res.data.creator,
+                        cooktime: res.data.cooktime,
+                        description: res.data.description
                     });
+                    if (res.data.otherSite) {
+                        this.setState({
+                            source: res.data.source,
+                            otherSite: res.data.otherSite
+                        });
 
-                };
-                this.getIngredientList();
-                this.getDirectionsList();
-                console.log(res.data.ingredients);
-                console.log(this.state.ingredients);
-
-                //this.setState({ingFields: this.IngFields});
+                    };
+                    this.getIngredientList();
+                    this.getDirectionsList();
+                    console.log(res.data.ingredients);
+                    console.log(this.state.ingredients);
+                }
             })
     }
 
@@ -175,11 +178,11 @@ class RecipeSpec extends Component {
         const description = this.state.description;
         let ingredients = this.state.ingredients;
         //forEach loop removes any empty values in the ingredients array
-        ingredients.forEach(function(element, index) {
-            if(element === ""){
+        ingredients.forEach(function (element, index) {
+            if (element === "") {
                 delete ingredients[index];
             }
-          });
+        });
         const ingObjects = Object.assign({}, ingredients);
         let ingKeys = Object.keys(ingObjects);
         for (var i = 0; i < ingKeys.length; i++) {
@@ -189,11 +192,11 @@ class RecipeSpec extends Component {
         }
         let directions = this.state.directions;
         //forEach loop removes any empty values in the directions array
-        directions.forEach(function(element, index) {
-            if(element === ""){
+        directions.forEach(function (element, index) {
+            if (element === "") {
                 delete directions[index];
             }
-          });
+        });
         const dirObjects = Object.assign({}, directions);
         let dirKeys = Object.keys(dirObjects);
         for (var j = 0; j < dirKeys.length; j++) {
@@ -201,7 +204,7 @@ class RecipeSpec extends Component {
             dirObjects[dirKey] = dirObjects[dirKeys[j]];
             delete dirObjects[j];
         }
-        
+
         const editedRecipe = {
             name: recipeName,
             cooktime: cooktime,
@@ -211,19 +214,21 @@ class RecipeSpec extends Component {
         };
         console.log("Editedd Recipe");
         console.log(editedRecipe);
-        
-            API.updateRecipe(id, editedRecipe)
-                .then(res => {
-                    console.log(res);
-                })
-                .catch(err => console.log(err));
-            }
+
+        API.updateRecipe(id, editedRecipe)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => console.log(err));
+    }
 
     render() {
         return (
 
             <Container className="mainContainer">
-                {this.state.editing ? (
+                {this.state.recipeGone ? (<h3 className="sorry">Sorry, this recipe has been deleted by its original poster.</h3>) :
+                
+                this.state.editing ? (
                     <section className="recipeForm">
                         <Row>
                             <Col size="md-6">
@@ -290,6 +295,7 @@ class RecipeSpec extends Component {
                             </Row>
                         </div>
                     )}
+                    
             </Container>
 
 

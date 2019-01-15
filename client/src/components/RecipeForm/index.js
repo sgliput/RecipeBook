@@ -360,9 +360,12 @@ class RecipeForm extends Component {
                     API.saveRecipe(scrapedRecipe)
                         .then(dbRecipe => {
                             console.log(dbRecipe);
-                            //return API.getSpecUser(this.state.loggedInUserID, { $push: { recipes: dbRecipe._id } }, { new: true });
-                        })
-                        .catch(err => console.log(err));
+                            API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
+                            .then(dbUser => {
+                                console.log(dbUser);
+                            })
+                    })
+                    .catch(err => console.log(err));
                 } else {
                     console.log("Sorry");
                 }

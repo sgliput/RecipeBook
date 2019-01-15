@@ -36,6 +36,7 @@ module.exports = {
     db.User
       .findOneAndUpdate({ _id: req.params.userID }, { $push: { recipes: req.params.recipeID } }, { new: true })
       .then(dbModel => {
+        console.log("Yesssssssssssssssssssssss");
         console.log(dbModel);
         res.json(dbModel)
       })
@@ -45,6 +46,16 @@ module.exports = {
     db.User
       .findOneAndUpdate({ _id: req.params.id }, req.body)
       .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+  removeFromArray: function (req, res) {
+    db.User
+      .findOneAndUpdate({_id: req.params.userID }, { $pull: { recipes: req.params.recipeID }}, { new: true })
+      .then(dbModel => {
+        console.log("Noooooooooooooooooooo");
+        console.log(dbModel);
+        res.json(dbModel)
+      })
       .catch(err => res.status(422).json(err));
   },
   remove: function (req, res) {

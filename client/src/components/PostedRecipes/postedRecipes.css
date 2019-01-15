@@ -23,6 +23,9 @@
     margin: 20px 10px 25px 0;
 }
 
+.card a{
+    float: left;
+}
 
 .creator{
     margin: 0 0 0 20px;
@@ -34,6 +37,17 @@
     margin-top: -2rem;
     float: right;
 }
+
+.deleteRecipeMaster{
+    color: black;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    width: 10px;
+    margin-top: -0.6rem;
+    cursor: pointer;
+}
+
 
 .toRecipePostUnlogged{
     

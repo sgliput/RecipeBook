@@ -39,6 +39,9 @@ getUser: function(password) {
   updateUserRecipes: function(userID, recipeID) {
     return axios.get("/api/users/" + userID + "/" + recipeID);
   },
+  deleteUserRecipe: function(userID, recipeID) {
+    return axios.delete("/api/users/" + userID + "/" + recipeID);
+  },
   saveUser: function(newUser) {
     return axios.post("/api/users", newUser);
   },
