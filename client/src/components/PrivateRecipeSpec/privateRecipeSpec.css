@@ -3,18 +3,18 @@
     margin: 2rem;
 }
 
-.addBtn{
-    margin-left: 1rem;
-}
-
-.addBtn2{
-    margin: 1rem 0 0 1rem;
-}
-
 .editBtn{
     margin-left: 88%;
-    margin-top: 1rem;
+    margin-top: 10px;
     margin-bottom: -40px;
+}
+
+.backToRecipeBook{
+    margin: 0.1rem 0 0 1.3rem;
+}
+
+backToRecipeBookEdit{
+    margin: 1rem 0 0 1rem;
 }
 
 .specRecipeName{
@@ -40,11 +40,6 @@ p{
     width: 85%;
     margin: 0 auto;
     padding-bottom: 2rem;
-}
-
-.ingredientsTitle, .directionsTitle{
-    text-align: center;
-    margin-top:1.5rem;
 }
 
 .specIngredientList{
@@ -103,7 +98,7 @@ ol li{
         margin-left: 83%;
         margin-bottom: -30px;
     }
-    .addBtn{
+    .backToRecipeBook{
         margin-top: -0.5rem;
     }
 }
@@ -129,7 +124,7 @@ ol li{
         margin-left: 78%;
         margin-bottom: 5px;
     }
-    .addBtn{
+    .backToRecipeBook{
         margin-top: -2.7rem;
     }
 }

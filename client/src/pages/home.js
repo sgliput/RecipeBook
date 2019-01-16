@@ -17,6 +17,7 @@ class Home extends Component {
 
     componentDidMount() {
         const userID = sessionStorage.getItem("userID");
+        console.log(userID);
         API.getRecipes()
             .then(res => {
                 console.log(res.data);
@@ -45,9 +46,9 @@ class Home extends Component {
             userID });       
     }
 
-    deleteRecipeMaster = id => {
+    removeFromPublic = id => {
         console.log(id);
-        API.deleteRecipe(id)
+        API.updateRecipe(id, {public: false, deleted: true})
         .then(dbRecipe => {
             console.log(dbRecipe);
             API.getRecipes()
@@ -75,7 +76,7 @@ class Home extends Component {
 
                         </Col>
                         <Col size="md-6 sm-12">
-                            <PostedRecipes recipes={this.state.recipes} userID={this.state.userID} deleteRecipeMaster={this.deleteRecipeMaster} />
+                            <PostedRecipes recipes={this.state.recipes} userID={this.state.userID} removeFromPublic={this.removeFromPublic} />
                         </Col>
                         <br />
 

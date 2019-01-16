@@ -20,7 +20,7 @@ module.exports = {
   findID: function (req, res) {
     console.log("ID: " + req.params.id);
     db.User
-    .findOne({_id: req.params.id}).populate("recipe")
+    .findById(req.params.id).populate("recipes")
     .then(dbModel => {
       console.log("Hello");
       console.log(dbModel);

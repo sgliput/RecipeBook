@@ -6,15 +6,16 @@ import API from "../utils/API";
 
 class privateRecipes extends Component {
     state = {
-        params: this.props.match.params.id,
+        userID: this.props.match.params.userID,
         recipes: [],
         loggedInUserID: ""
     }
 
     componentDidMount() {
         this.setState({ loggedInUserID: sessionStorage.getItem('userID') });
-        console.log("Param: " + this.state.params);
-        API.getUserByID(this.state.params)
+        console.log("UserID: " + this.state.userID);
+
+        API.getUserByID(this.state.userID)
             .then(res => {
                 console.log(res.data.recipes);
                 this.setState({ recipes: res.data.recipes });
@@ -27,7 +28,7 @@ class privateRecipes extends Component {
         API.deleteUserRecipe(this.state.loggedInUserID, id)
             .then(dbUser => {
                 console.log(dbUser);
-                API.getUserByID(this.state.params)
+                API.getUserByID(this.state.userID)
                     .then(res => {
                         console.log(res.data.recipes);
                         this.setState({ recipes: res.data.recipes });
@@ -53,7 +54,7 @@ class privateRecipes extends Component {
                     <button className="btn btn-info toHome">Home Page</button>
                 </Link>
                 <br />
-                <RecipeBook params={this.state.params} recipes={this.state.recipes} deleteUserRecipe={this.deleteUserRecipe} />
+                <RecipeBook userID={this.state.userID} recipes={this.state.recipes} deleteUserRecipe={this.deleteUserRecipe} />
             </div >
         );
     }

@@ -152,7 +152,7 @@ class RecipeForm extends Component {
 
     }
 
-    ///////////////////////////////////////////
+    //////////////////////////////////////////
 
     handleSubmit = event => {
         event.preventDefault();
@@ -258,7 +258,8 @@ class RecipeForm extends Component {
                     directions: steps,
                     link: link,
                     otherSite: true,
-                    source: "Food Network"
+                    source: "Food Network",
+                    public: false
                 };
                 console.log(scrapedRecipe);
                 if (this.state.loggedInUserID) {
@@ -315,7 +316,6 @@ class RecipeForm extends Component {
                 const description = parsed.description;
                 //const imageSrc = parsed.board.image_thumbnail_url;
 
-                // Now, we grab the headline, byline, tag, article link, and summary from every Feedcard element
                 const ingredientArrays = parsed.rich_metadata.recipe.categorized_ingredients.map(Ing => {
                     const ings = Ing.ingredients.map(lowerIng => {
                         return lowerIng.amt + " " + lowerIng.name;
@@ -339,7 +339,8 @@ class RecipeForm extends Component {
                         ingredients: ingredients,
                         link: link,
                         otherSite: true,
-                        source: "Pinterest"
+                        source: "Pinterest",
+                        public: false
                     };
                 } else if (recipeName && creator && description && ingredients && link) {
                     scrapedRecipe = {
@@ -350,7 +351,8 @@ class RecipeForm extends Component {
                         ingredients: ingredients,
                         link: link,
                         otherSite: true,
-                        source: "Pinterest"
+                        source: "Pinterest",
+                        public: false
                     };
                 }
                 console.log(scrapedRecipe);

@@ -31,21 +31,21 @@ export default {
 
 
 getUser: function(password) {
-    return axios.get("/api/users/" + password);
+    return axios.get("/api/users/user/" + password);
   },
   getUserByID: function(id) {
-    return axios.post("/api/users/userRecipes/" + id);
+    return axios.get("/api/users/userRecipes/" + id);
   },
   updateUserRecipes: function(userID, recipeID) {
-    return axios.get("/api/users/" + userID + "/" + recipeID);
+    return axios.get("/api/users/update/" + userID + "/recipe/" + recipeID);
   },
   deleteUserRecipe: function(userID, recipeID) {
-    return axios.delete("/api/users/" + userID + "/" + recipeID);
+    return axios.delete("/api/users/update/" + userID + "/recipe/" + recipeID);
   },
   saveUser: function(newUser) {
     return axios.post("/api/users", newUser);
   },
   deleteUser: function(id) {
-    return axios.delete("/api/users/" + id);
+    return axios.delete("/api/users/user/" + id);
   },
 };

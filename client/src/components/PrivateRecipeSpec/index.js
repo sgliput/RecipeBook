@@ -4,12 +4,11 @@ import API from "../../utils/API";
 import { Col, Row, Container } from "../Grid";
 import EditIngredientFields from "../EditIngredientFields";
 import EditDirectionFields from "../EditDirectionFields";
-import "./recipeSpec.css";
+import "./privateRecipeSpec.css";
 
-class RecipeSpec extends Component {
+class PrivateRecipeSpec extends Component {
     state = {
         recipeData: {},
-        recipeID: "",
         recipeName: "",
         creator: "",
         creatorID: "",
@@ -22,14 +21,17 @@ class RecipeSpec extends Component {
         dirList: [],
         source: "",
         otherSite: false,
+        dateSaved: "",
         editing: false,
         recipeGone: false,
+        beenEdited: false,
         loggedInUserID: ""
     }
 
     componentDidMount() {
         this.setState({ loggedInUserID: sessionStorage.getItem('userID') });
-        API.getRecipe(this.props.params)
+        console.log("RecipeID: " + this.props.recipeID);
+        API.getRecipe(this.props.recipeID)
             .then(res => {
                 console.log(res.data);
                 if (res.data === null) {
@@ -37,12 +39,13 @@ class RecipeSpec extends Component {
                 } else {
                     this.setState({
                         recipeData: res.data,
-                        recipeID: res.data._id,
                         recipeName: res.data.name,
                         creator: res.data.creator,
                         creatorID: res.data.creatorID,
                         cooktime: res.data.cooktime,
-                        description: res.data.description
+                        description: res.data.description,
+                        beenEdited: res.data.edited,
+                        dateSaved: res.data.dateSaved
                     });
                     if (res.data.otherSite) {
                         this.setState({
@@ -167,7 +170,7 @@ class RecipeSpec extends Component {
         console.log(this.state.directions);
     }
 
-    handleEditSubmit = event => {
+    handlePrivateEdit = event => {
         event.preventDefault();
         const id = this.state.recipeData._id;
         const recipeName = this.state.recipeName;
@@ -201,30 +204,56 @@ class RecipeSpec extends Component {
             dirObjects[dirKey] = dirObjects[dirKeys[j]];
             delete dirObjects[j];
         }
+        if (this.state.beenEdited) {
+            const editedRecipe = {
+                name: recipeName,
+                cooktime: cooktime,
+                description: description,
+                ingredients: ingObjects,
+                directions: dirObjects
+            };
 
-        const editedRecipe = {
-            name: recipeName,
-            cooktime: cooktime,
-            description: description,
-            ingredients: ingObjects,
-            directions: dirObjects
-        };
-        console.log("Editedd Recipe");
-        console.log(editedRecipe);
+            API.updateRecipe(id, editedRecipe)
+                .then(res => {
+                    console.log("Res for Edited:");
+                    console.log(res);
+                })
+                .catch(err => console.log(err));
 
-        API.updateRecipe(id, editedRecipe)
-            .then(res => {
-                console.log(res);
-            })
-            .catch(err => console.log(err));
-    }
 
-    addToPrivate = () => {
-        API.updateUserRecipes(this.state.loggedInUserID, this.state.recipeID)
-            .then(dbUser => {
-                console.log(dbUser);
-            })
-            .catch(err => console.log(err));
+        } else {
+            const editedRecipe = {
+                name: recipeName,
+                creator: this.state.creator,
+                creatorID: this.state.loggedInUserID,
+                cooktime: cooktime,
+                description: description,
+                ingredients: ingObjects,
+                directions: dirObjects,
+                public: false,
+                edited: true,
+                deleted: false,
+                otherSite: this.state.otherSite,
+                source: this.state.source,
+                dateSaved: this.state.dateSaved
+            };
+            console.log("Editedd Recipe");
+            console.log(editedRecipe);
+            API.saveRecipe(editedRecipe)
+                .then(dbRecipe => {
+                    console.log(dbRecipe);
+                    API.deleteUserRecipe(this.state.loggedInUserID, id)
+                        .then(dbUser => {
+                            console.log(dbUser);
+                            API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
+                                .then(dbUser => {
+                                    console.log(dbUser);
+                                })
+                        })
+                })
+                .catch(err => console.log(err));
+
+        }
     }
 
     render() {
@@ -235,6 +264,11 @@ class RecipeSpec extends Component {
 
                     this.state.editing ? (
                         <section className="recipeForm">
+                        <Row>
+                                    <Link to={"/userRecipes/" + this.state.loggedInUserID}>
+                                        <button className="btn btn-info backToRecipeBookEdit">Back to Your Recipe Book</button>
+                                    </Link>
+                                </Row>
                             <Row>
                                 <Col size="md-6">
                                     <h3 className="formInst">Editing <br /> {this.state.recipeName}</h3>
@@ -265,25 +299,19 @@ class RecipeSpec extends Component {
                                 </Row>
                                 <Row>
                                     <br />
-                                    <button className="btn btn-success submit" onClick={this.handleEditSubmit}>Submit</button>
+                                    <button className="btn btn-success submit" onClick={this.handlePrivateEdit}>Submit</button>
                                 </Row>
                             </div>
                         </section>
 
                     ) : (
                             <div>
-
-                                {this.state.creatorID === this.state.loggedInUserID ? (
-                                    <Row>
-                                        <button className="btn btn-info editBtn" onClick={this.handleEdit}>Edit Recipe</button>
-                                        <button className="btn btn-info addBtn" onClick={this.addToPrivate}>Add to Your Recipe Book</button>
-                                    </Row>
-                                ) : (
-                                        <Row>
-                                            <button className="btn btn-info addBtn2" onClick={this.addToPrivate}>Add to Your Recipe Book</button>
-                                        </Row>
-                                    )}
-
+                                <Row>
+                                    <button className="btn btn-info editBtn" onClick={this.handleEdit}>Edit Recipe</button>
+                                    <Link to={"/userRecipes/" + this.state.loggedInUserID}>
+                                        <button className="btn btn-info backToRecipeBook">Back to Your Recipe Book</button>
+                                    </Link>
+                                </Row>
 
                                 <h2 className="specRecipeName">{this.state.recipeData.name}</h2>
                                 {this.state.recipeData.source === "Pinterest" ? <p>From <a href={this.state.recipeData.creator} target="blank">Pinterest</a></p> : this.state.recipeData.otherSite ? <p className="specCreator">{this.state.recipeData.creator}</p> : <p className="specCreator">Posted by {this.state.recipeData.creator}</p>}
@@ -293,14 +321,12 @@ class RecipeSpec extends Component {
 
                                 <Row className="underline">
                                     <Col size="md-4 sm-12" id="ingrCol">
-                                        <h4 className="ingredientsTitle">Ingredients</h4>
                                         <ul className="specIngredientList">
                                             {this.state.ingList}
                                         </ul>
                                         <br />
                                     </Col>
                                     <Col size="md-7 sm-12" id="dirCol">
-                                        <h4 className="directionsTitle">Directions</h4>
                                         {this.state.recipeData.directions ? (
                                             <ol className="specDirectionList">
                                                 {this.state.dirList}
@@ -323,4 +349,4 @@ class RecipeSpec extends Component {
 
 };
 
-export default RecipeSpec;
+export default PrivateRecipeSpec;

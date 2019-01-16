@@ -5,39 +5,25 @@ import "./recipeBook.css";
 
 function RecipeBook(props) {
 
-    // const recipeCards = props.recipes.map((recipe, index) => (
-    //     <div className="card" key={index}>
-    //         <Link to={"/recipes/" + recipe._id}>
-    //             <h3 className="name">{recipe.name}</h3>
-    //         </Link>
-    //         {recipe.source === "Pinterest" ? <p className="creator">From Pinterest</p> : recipe.otherSite ? <p className="creator">{recipe.creator}</p> : <p className="creator">By {recipe.creator}</p>}
-    //         <hr />
-    //         {recipe.cooktime ? <p className="cooktime">Takes {recipe.cooktime}</p> : ""}
-    //         {recipe.description ? <p className="description">Description: {recipe.description}</p> : ""}
-    //     </div>
-    // ))
-
     const recipeCards = props.recipes.map((recipe, index) => (
         <Col size="md-4 sm-6">
-            <div className="card" key={index}>
-                <Row>
-                    <Col size="md-10">
-                        <Link to={"/recipes/" + recipe}>
-                            <h3 className="name">Recipe Name</h3>
-                        </Link>
-                    </Col>
-                    <Col size="md-2">
-                        <span className="deleteRecipePrivate" data-id={index} onClick={() => props.deleteUserRecipe(recipe)}>&times;</span>
-                    </Col>
-                </Row>
-                <p className="creator">By Creator</p>
-                <hr />
-                <p className="cooktime">Takes an hour</p>
-                <p className="description">Description</p>
-            </div>
+        <div className="card" key={recipe._id}>
+        <Row>
+            <Col size="md-10">
+             <Link to={"/users/" + props.userID + "/recipes/" + recipe._id}>
+                <h3 className="name">{recipe.name}</h3>
+            </Link>
+            </Col>
+            <Col size="md-2">
+            <span className="deleteRecipePrivate" data-id={recipe._id} onClick={() => props.deleteUserRecipe(recipe._id)}>&times;</span>
+            </Col>
+            </Row>
+            {recipe.source === "Pinterest" ? <p className="creator">From Pinterest</p> : recipe.otherSite ? <p className="creator">{recipe.creator}</p> : <p className="creator">By {recipe.creator}</p>}
+            <hr />
+            {recipe.cooktime ? <p className="cooktime">Takes {recipe.cooktime}</p> : ""}
+        </div>
         </Col>
     ))
-
 
     return (
         <div className="recipeBook">
@@ -56,18 +42,22 @@ function RecipeBook(props) {
                 </Container>
 
             </div>
-            <Container className="mainContainer">
+            <Container className="mainComponent">
+            {!props.recipes ? (
                 <Row>
-                    {!props.recipes ? (
+                   
                         <Container>
                         <h3 className="startPosting">Start posting to fill your own personal Recipe Book!</h3>
                         </Container>
+                        </Row>
                     ) : (
-                        <Container>
+                        
+                        <Row>
                     {recipeCards}
-                    </Container>
+                    </Row>
+                      
                     )}
-                </Row>
+              
             </Container>
 
         </div>

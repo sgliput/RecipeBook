@@ -12,6 +12,8 @@ const recipeSchema = new Schema({
   cooktime: String,
   tags: Array,
   public: {type: Boolean, default: true},
+  edited: {type: Boolean, default: false},
+  deleted: {type: Boolean, default: false},
   otherSite: {type: Boolean, default: false},
   link: String,
   source: String,

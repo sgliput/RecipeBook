@@ -16,7 +16,7 @@ function PostedRecipes(props) {
                     </Col>
                     <Col size="md-2">
                         {props.userID === recipe.creatorID ? (
-                            <span className="deleteRecipeMaster" data-id={recipe._id} onClick={() => props.deleteRecipeMaster(recipe._id)}>&times;</span>
+                            <span className="deleteRecipeMaster" data-id={recipe._id} onClick={() => props.removeFromPublic(recipe._id)}>&times;</span>
                         ) : ""}
                     </Col>
                 </Row>
