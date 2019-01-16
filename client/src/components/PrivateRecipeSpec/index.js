@@ -183,6 +183,7 @@ class PrivateRecipeSpec extends Component {
                 delete ingredients[index];
             }
         });
+        //Converts the ingredients from an object to an array with no duplicates
         const ingObjects = Object.assign({}, ingredients);
         let ingKeys = Object.keys(ingObjects);
         for (var i = 0; i < ingKeys.length; i++) {
@@ -197,6 +198,7 @@ class PrivateRecipeSpec extends Component {
                 delete directions[index];
             }
         });
+        //Converts the directions from an object to an array with no duplicates
         const dirObjects = Object.assign({}, directions);
         let dirKeys = Object.keys(dirObjects);
         for (var j = 0; j < dirKeys.length; j++) {
@@ -252,7 +254,7 @@ class PrivateRecipeSpec extends Component {
                         })
                 })
                 .catch(err => console.log(err));
-
+//https://www.foodnetwork.com/recipes/food-network-kitchen/creamy-spinach-and-artichoke-chicken-skillet-3885792
         }
     }
 
@@ -272,7 +274,7 @@ class PrivateRecipeSpec extends Component {
                             <Row>
                                 <Col size="md-6">
                                     <h3 className="formInst">Editing <br /> {this.state.recipeName}</h3>
-                                    {this.state.source === "Pinterest" ? <h4 className="editCreator">From Pinterest</h4> : this.state.otherSite ? <h4 className="editCreator">{this.state.creator}</h4> : <h4 className="editCreator">By {this.state.creator}</h4>}
+                                    <h4 className="editCreator">{this.state.recipeData.edited ? "Original: " : ""}{this.state.source === "Pinterest" ? "From Pinterest" : this.state.otherSite ? this.state.creator : this.state.recipeData.creatorID === this.state.loggedInUserID ? "Posted by You" : `By ${this.state.creator}`}</h4>
 
                                 </Col>
                             </Row>
@@ -314,7 +316,11 @@ class PrivateRecipeSpec extends Component {
                                 </Row>
 
                                 <h2 className="specRecipeName">{this.state.recipeData.name}</h2>
-                                {this.state.recipeData.source === "Pinterest" ? <p>From <a href={this.state.recipeData.creator} target="blank">Pinterest</a></p> : this.state.recipeData.otherSite ? <p className="specCreator">{this.state.recipeData.creator}</p> : <p className="specCreator">Posted by {this.state.recipeData.creator}</p>}
+
+
+                                <p className="specCreator">{this.state.recipeData.edited ? "Original: " : ""}{this.state.recipeData.source === "Pinterest" ? `From <a href=${this.state.recipeData.creator} target='blank'>Pinterest</a>` : this.state.recipeData.otherSite ? this.state.recipeData.creator : this.state.recipeData.creatorID === this.state.loggedInUserID ? "Posted by You" : `Posted by ${this.state.recipeData.creator}`}</p>
+
+
                                 {this.state.recipeData.link ? <a href={this.state.recipeData.link} target="blank"><p className="origin">See Source</p></a> : ""}
                                 {this.state.recipeData.cooktime ? <p className="specCooktime">Takes {this.state.recipeData.cooktime}</p> : ""}
                                 <p className="specDescription">{this.state.recipeData.description}</p>

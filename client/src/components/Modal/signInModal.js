@@ -51,11 +51,19 @@ class SignInModal extends Component {
         API.saveUser(newUser)
             .then(res => {
                 console.log(res);
-                this.setState({ notRegistered: false });
+                this.setState({ 
+                    notRegistered: false,
+                 });
                 // Save user to sessionStorage
                 sessionStorage.setItem('userID', res.data._id);
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log(err);
+                this.setState({
+                    newUserName: "Choose a different name or password",
+                    newUserPassword: "Choose a different name or password"
+                })
+            });
     }
 
     closeModal = event => {

@@ -34,7 +34,7 @@ module.exports = {
   },
   findOneAndUpdate: function (req, res) {
     db.User
-      .findOneAndUpdate({ _id: req.params.userID }, { $push: { recipes: req.params.recipeID } }, { new: true })
+      .findOneAndUpdate({ _id: req.params.userID }, { $addToSet: { recipes: req.params.recipeID } }, { new: true })
       .then(dbModel => {
         console.log("Yesssssssssssssssssssssss");
         console.log(dbModel);

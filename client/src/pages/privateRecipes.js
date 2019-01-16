@@ -25,17 +25,48 @@ class privateRecipes extends Component {
 
     deleteUserRecipe = id => {
         console.log("ID: " + id);
-        API.deleteUserRecipe(this.state.loggedInUserID, id)
-            .then(dbUser => {
-                console.log(dbUser);
-                API.getUserByID(this.state.userID)
-                    .then(res => {
-                        console.log(res.data.recipes);
-                        this.setState({ recipes: res.data.recipes });
-                    })
-                    .catch(err => console.log(err));
-            })
+        //Gets the recipe data to delete
+        API.getRecipe(id)
+            .then(dbRecipe => {
+                console.log("This is the recipe.");
+                console.log(dbRecipe);
+                //If the recipe is public, it's ID will be deleted from the user's private recipes array
+                if (dbRecipe.data.public === true) {
+                    API.deleteUserRecipe(this.state.loggedInUserID, id)
+                        .then(dbUser => {
+                            console.log("Deleted from array");
+                            console.log(dbUser);
+                            //And their Recipe Book will be updated
+                            API.getUserByID(this.state.userID)
+                                .then(res => {
+                                    console.log(res.data.recipes);
+                                    this.setState({ recipes: res.data.recipes });
+                                })
+                                .catch(err => console.log(err));
+                        })
+                //If the recipe is private, meaning it's been scraped by the user or edited to make it the user's own (a whole separate record)
+                } else {
+                    //The recipe is deleted from the database
+                    API.deleteRecipe(id)
+                        .then(dbRecipe => {
+                            console.log("Deleted whole recipe");
+                            console.log(dbRecipe);
+                            //The recipe's id is deleted from the user's private recipes array
+                            API.deleteUserRecipe(this.state.loggedInUserID, id)
+                                .then(dbUser => {
+                                    console.log("Deleted from user's array");
+                                    console.log(dbUser);
+                                    //And their Recipe Book is updated accordingly
+                                    API.getUserByID(this.state.loggedInUserID)
+                                    .then(res => {
+                                        console.log(res.data.recipes);
+                                        this.setState({ recipes: res.data.recipes });
+                                    })
+                                }).catch(err => console.log(err));
+                        })
+                }
 
+            })
     }
 
     // db.getCollection('users').update(
