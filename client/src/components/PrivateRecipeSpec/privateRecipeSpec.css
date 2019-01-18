@@ -3,19 +3,19 @@
     margin: 2rem;
 }
 
-.editBtn{
+.editBtn, .stopEditBtn{
     margin-left: 88%;
     margin-top: 10px;
     margin-bottom: -40px;
 }
 
-.backToRecipeBook{
+.backToRecipeBook, .backToRecipeBookEdit{
     margin: 0.1rem 0 0 1.3rem;
 }
 
-.backToRecipeBookEdit{
+/* .backToRecipeBookEdit{
     margin: 1rem 0 0 1rem;
-}
+} */
 
 .specRecipeName{
     text-align: center;
@@ -40,6 +40,19 @@ p{
     width: 85%;
     margin: 0 auto;
     padding-bottom: 2rem;
+}
+
+.tagsSpecLabel{
+    font-size: 1.5rem;
+    margin: 1rem;
+}
+
+.specBtns{
+    border-bottom: 3px solid black;
+    width: 85%;
+    padding: 1rem 0 0 23%;
+    margin: 0 auto;
+    padding-bottom: 1rem;
 }
 
 .specIngredientList{
@@ -94,11 +107,11 @@ ol li{
 
 
 @media screen and (max-width: 991px) {
-    .editBtn{
+    .editBtn, .stopEditBtn{
         margin-left: 83%;
         margin-bottom: -30px;
     }
-    .backToRecipeBook{
+    .backToRecipeBook, .backToRecipeBookEdit{
         margin-top: -0.5rem;
     }
 }
@@ -120,17 +133,17 @@ ol li{
         margin-top: 8%;
         margin-bottom: 8%;
     }
-    .editBtn{
+    .editBtn, .stopEditBtn{
         margin-left: 78%;
         margin-bottom: 5px;
     }
-    .backToRecipeBook{
-        margin-top: -2.7rem;
+    .backToRecipeBook, .backToRecipeBookEdit{
+        margin-top: -4.7rem;
     }
 }
 
 @media screen and (max-width: 510px) {
-    .editBtn{
+    .editBtn, .stopEditBtn{
         margin-left: 74%;
     }
 }

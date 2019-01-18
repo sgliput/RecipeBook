@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../Grid";
+import DeleteModal from "../Modal/deleteModal";
 import "./postedRecipes.css";
 
 function PostedRecipes(props) {
@@ -16,7 +17,7 @@ function PostedRecipes(props) {
                     </Col>
                     <Col size="md-2">
                         {props.userID === recipe.creatorID ? (
-                            <span className="deleteRecipeMaster" data-id={recipe._id} onClick={() => props.removeFromPublic(recipe._id)}>&times;</span>
+                            <span className="deleteRecipeMaster" data-id={recipe._id} onClick={() => props.showDeleteModal(recipe._id)}>&times;</span>
                         ) : ""}
                     </Col>
                 </Row>
@@ -49,14 +50,9 @@ function PostedRecipes(props) {
                                 <Link to={"/postRecipe"}>
                                     <button className="btn btn-success toRecipePost">Post a Recipe</button>
                                 </Link>
-                            </Col>) : (
-                                <Col size="md-4">
-                                    <Link to={"/postRecipe"}>
-                                        <button className="btn btn-success toRecipePostUnlogged">Post a Recipe</button>
-                                    </Link>
-                                </Col>
-                            )}
+                            </Col>) : ""}
                     </Row>
+                    <DeleteModal recipeToRemove={props.recipeToRemove} show={props.deleteModal} closeModal={props.closeModal} removeFromPublic={props.removeFromPublic} />
                 </Container>
             </div>
             {recipeCards}

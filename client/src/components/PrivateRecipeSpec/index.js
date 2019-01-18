@@ -14,6 +14,9 @@ class PrivateRecipeSpec extends Component {
         creatorID: "",
         cooktime: "",
         description: "",
+        tagArray: [],
+        tagBtnArray: [],
+        editTagBtnArray: [],
         ingredients: [],
         ingList: [],
         ingFields: [],
@@ -37,29 +40,46 @@ class PrivateRecipeSpec extends Component {
                 if (res.data === null) {
                     this.setState({ recipeGone: true });
                 } else {
-                    this.setState({
-                        recipeData: res.data,
-                        recipeName: res.data.name,
-                        creator: res.data.creator,
-                        creatorID: res.data.creatorID,
-                        cooktime: res.data.cooktime,
-                        description: res.data.description,
-                        beenEdited: res.data.edited,
-                        dateSaved: res.data.dateSaved
-                    });
-                    if (res.data.otherSite) {
-                        this.setState({
-                            source: res.data.source,
-                            otherSite: res.data.otherSite
-                        });
-
-                    };
-                    this.getIngredientList();
-                    this.getDirectionsList();
-                    console.log(res.data.ingredients);
-                    console.log(this.state.ingredients);
+                    this.displayRecipe(res);
                 }
             })
+    }
+
+    displayRecipe = res => {
+        const tagBtnArray = res.data.tags.map(tag => (
+            <button className="btn btn-info tagBtn" data-name={tag}>
+                {tag}
+            </button>));
+        const editTagBtnArray = res.data.tags.map(tag => (
+            <button className="btn btn-info tagBtn" data-name={tag}>
+                {tag}
+                <span className="deleteTag" data-name={tag} onClick={this.deleteTag}>&times;</span>
+            </button>));
+        this.setState({
+            recipeData: res.data,
+            recipeName: res.data.name,
+            creator: res.data.creator,
+            creatorID: res.data.creatorID,
+            cooktime: res.data.cooktime,
+            description: res.data.description,
+            beenEdited: res.data.edited,
+            dateSaved: res.data.dateSaved,
+            tagArray: res.data.tags,
+            tagBtnArray: tagBtnArray,
+            editTagBtnArray: editTagBtnArray
+        });
+        if (res.data.otherSite) {
+            this.setState({
+                source: res.data.source,
+                otherSite: res.data.otherSite
+            });
+
+        };
+        this.getIngredientList();
+        this.getDirectionsList();
+        console.log(res.data.ingredients);
+        console.log(this.state.ingredients);
+        console.log(this.state.tagArray);
     }
 
     getIngredientList() {
@@ -138,9 +158,14 @@ class PrivateRecipeSpec extends Component {
     handleEdit = event => {
         event.preventDefault();
 
-        this.setState({ editing: true });
-        console.log(this.IngredientChange);
+        this.setState({ editing: true, tagField: "" });
     };
+
+    stopEdit = event => {
+        event.preventDefault();
+        this.setState({ editing: false });
+    };
+
 
     addIngredient = () => {
         this.state.ingredients.push("");
@@ -170,12 +195,48 @@ class PrivateRecipeSpec extends Component {
         console.log(this.state.directions);
     }
 
+    addTag = event => {
+        const tag = event.target.value;
+        const tagArray = this.state.tagArray;
+        const tagBtnArray = this.state.tagBtnArray;
+        const editTagBtnArray = this.state.editTagBtnArray;
+        console.log("Index: " + tagArray.indexOf(tag));
+        if (tagArray.indexOf(tag) === -1) {
+            tagArray.push(tag);
+            editTagBtnArray.push(
+                <button className="btn btn-info tagBtn" data-name={tag}>
+                    {tag}
+                    <span className="deleteTag" data-name={tag} onClick={this.deleteTag}>&times;</span>
+                </button>);
+        }
+        this.setState({ tagArray, tagBtnArray, tagField: tag });
+
+        console.log(this.state.tagArray);
+    }
+
+    deleteTag = event => {
+        const tag = event.target.dataset.name;
+        console.log("Tag: " + tag);
+        const tagArray = this.state.tagArray;
+        const tagBtnArray = this.state.tagBtnArray;
+        const editTagBtnArray = this.state.editTagBtnArray;
+        const index = tagArray.indexOf(tag);
+        console.log("Index: " + index);
+        if (index > -1) {
+            tagArray.splice(index, 1);
+            editTagBtnArray.splice(index, 1);
+        }
+        this.setState({ tagArray, tagBtnArray, editTagBtnArray, tagField: "" });
+        console.log(this.state.tagArray);
+    }
+
     handlePrivateEdit = event => {
         event.preventDefault();
         const id = this.state.recipeData._id;
         const recipeName = this.state.recipeName;
         const cooktime = this.state.cooktime;
         const description = this.state.description;
+        const tagArray = this.state.tagArray;
         let ingredients = this.state.ingredients;
         //forEach loop removes any empty values in the ingredients array
         ingredients.forEach(function (element, index) {
@@ -212,13 +273,16 @@ class PrivateRecipeSpec extends Component {
                 cooktime: cooktime,
                 description: description,
                 ingredients: ingObjects,
-                directions: dirObjects
+                directions: dirObjects,
+                tags: tagArray
             };
 
             API.updateRecipe(id, editedRecipe)
                 .then(res => {
                     console.log("Res for Edited:");
                     console.log(res);
+                    this.displayRecipe(res);
+                    this.setState({editing: false});
                 })
                 .catch(err => console.log(err));
 
@@ -232,6 +296,7 @@ class PrivateRecipeSpec extends Component {
                 description: description,
                 ingredients: ingObjects,
                 directions: dirObjects,
+                tags: tagArray,
                 public: false,
                 edited: true,
                 deleted: false,
@@ -244,12 +309,14 @@ class PrivateRecipeSpec extends Component {
             API.saveRecipe(editedRecipe)
                 .then(dbRecipe => {
                     console.log(dbRecipe);
+                    this.displayRecipe(dbRecipe);
+                    this.setState({editing: false});
                     API.deleteUserRecipe(this.state.loggedInUserID, id)
                         .then(dbUser => {
                             console.log(dbUser);
                             API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
-                                .then(dbUser => {
-                                    console.log(dbUser);
+                                .then(dbUser2 => {
+                                    console.log(dbUser2);
                                 })
                         })
                 })
@@ -267,6 +334,7 @@ class PrivateRecipeSpec extends Component {
                     this.state.editing ? (
                         <section className="recipeForm">
                         <Row>
+                        <button className="btn btn-info stopEditBtn" onClick={this.stopEdit}>Stop Editing</button>
                                     <Link to={"/userRecipes/" + this.state.loggedInUserID}>
                                         <button className="btn btn-info backToRecipeBookEdit">Back to Your Recipe Book</button>
                                     </Link>
@@ -279,6 +347,48 @@ class PrivateRecipeSpec extends Component {
                                 </Col>
                             </Row>
                             <br />
+                            <Row>
+                        <Col size="md-2">
+                            <label className="control-label tagLabel">Tags:</label>
+                            <select className="form-control tagList" size="1" value={this.state.tagField} onChange={this.addTag}>
+                                <option defaultValue=""></option>
+                                <option value="Chicken">Chicken</option>
+                                <option value="Beef">Beef</option>
+                                <option value="Salad">Salad</option>
+                                <option value="Soup">Soup</option>
+                                <option value="Sandwich">Sandwich</option>
+                                <option value="Pasta">Pasta</option>
+                                <option value="Rice">Rice</option>
+                                <option value="Seafood">Seafood</option>
+                                <option value="Breakfast">Breakfast</option>
+                                <option value="Brunch">Brunch</option>
+                                <option value="Dessert">Dessert</option>
+                                <option value="Baked Goods">Baked Goods</option>
+                                <option value="Cake">Cake</option>
+                                <option value="Pastry">Pastry</option>
+                                <option value="Cookie">Cookie</option>
+                                <option value="Eggs">Eggs</option>
+                                <option value="Vegetarian">Vegetarian</option>
+                                <option value="Vegan">Vegan</option>
+                                <option value="Fruit">Fruit</option>
+                                <option value="Asian">Asian</option>
+                                <option value="Mexican">Mexican</option>
+                                <option value="Potatoes">Potatoes</option>
+                                <option value="Side Dish">Side Dish</option>
+                                <option value="Poultry">Poultry</option>
+                                <option value="Casserole">Casserole</option>
+                                <option value="Drinks">Drinks</option>
+                                <option value="Appetizer">Appetizer</option>
+                            </select>
+                        </Col>
+                        <Col size="md-10">
+                            <div className="tagsAdded">
+                                {this.state.editTagBtnArray}
+                            </div>
+                        </Col>
+
+                    </Row>
+                    <br />
                             <div className="form-group">
                                 <Row>
                                     <Col size="md-4" id="infoFieldCol">
@@ -324,15 +434,24 @@ class PrivateRecipeSpec extends Component {
                                 {this.state.recipeData.link ? <a href={this.state.recipeData.link} target="blank"><p className="origin">See Source</p></a> : ""}
                                 {this.state.recipeData.cooktime ? <p className="specCooktime">Takes {this.state.recipeData.cooktime}</p> : ""}
                                 <p className="specDescription">{this.state.recipeData.description}</p>
+                                {this.state.tagArray[0] !== undefined ? (
+                                <Row>
+                                    <div className="specBtns">
+                                    <span className="tagsSpecLabel">Tags:</span> {this.state.tagBtnArray}
+                                    </div>
+                                </Row>
+                                ): ""}
 
-                                <Row className="underline">
+                                <Row>
                                     <Col size="md-4 sm-12" id="ingrCol">
+                                    <h4 className="ingredientsTitle">Ingredients</h4>
                                         <ul className="specIngredientList">
                                             {this.state.ingList}
                                         </ul>
                                         <br />
                                     </Col>
                                     <Col size="md-7 sm-12" id="dirCol">
+                                    <h4 className="directionsTitle">Directions</h4>
                                         {this.state.recipeData.directions ? (
                                             <ol className="specDirectionList">
                                                 {this.state.dirList}

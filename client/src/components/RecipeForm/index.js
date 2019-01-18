@@ -16,6 +16,9 @@ class RecipeForm extends Component {
         name: "",
         cooktime: "",
         description: "",
+        tagField: "",
+        tagArray: [],
+        tagBtnArray: [],
         ingredients: {},
         IngNumberOfFields: 1,
         directions: {},
@@ -64,10 +67,10 @@ class RecipeForm extends Component {
 
     handleRadioChange = event => {
         this.setState({
-          selectedOption: event.target.value
+            selectedOption: event.target.value
         });
         console.log(this.state);
-      }
+    }
 
     ///////  Ingredient Fields Column  ////////////////////////
 
@@ -115,7 +118,7 @@ class RecipeForm extends Component {
     StepChange = event => {
         const value = event.target.value;
         const id = event.target.id;
-        console.log("Step: " + id);
+        console.log("Step : " + id);
         const steps = this.state.directions;
         steps[id] = value;
 
@@ -152,6 +155,42 @@ class RecipeForm extends Component {
 
     }
 
+    //////////////// For dealing with tags ////////////////////
+
+    addTag = event => {
+        const tag = event.target.value;
+        const tagArray = this.state.tagArray;
+        const tagBtnArray = this.state.tagBtnArray;
+        console.log("Index: " + tagArray.indexOf(tag));
+        if (tagArray.indexOf(tag) === -1) {
+            tagArray.push(tag);
+            tagBtnArray.push(
+                <button className="btn btn-info tagBtn" data-name={tag}>
+                    {tag}
+                    <span className="deleteTag" data-name={tag} onClick={this.deleteTag}>&times;</span>
+                </button>);
+        }
+        this.setState({ tagArray, tagBtnArray, tagField: tag });
+
+        console.log(this.state.tagArray);
+    }
+
+    deleteTag = event => {
+        const tag = event.target.dataset.name;
+        console.log("Tag: " + tag);
+        const tagArray = this.state.tagArray;
+        const tagBtnArray = this.state.tagBtnArray;
+        const index = tagArray.indexOf(tag);
+        console.log("Index: " + index);
+        if (index > -1) {
+            tagArray.splice(index, 1);
+            tagBtnArray.splice(index, 1);
+        }
+        this.setState({ tagArray, tagBtnArray, tagField: "" });
+        console.log(this.state.tagArray);
+    }
+
+
     //////////////////////////////////////////
 
     handleSubmit = event => {
@@ -163,6 +202,7 @@ class RecipeForm extends Component {
         const description = this.state.description;
         const ingredients = this.state.ingredients;
         const directions = this.state.directions;
+        const tagArray = this.state.tagArray;
         const fullRecipe = {
             name: recipeName,
             creator: userName,
@@ -170,12 +210,17 @@ class RecipeForm extends Component {
             cooktime: cooktime,
             description: description,
             ingredients: ingredients,
-            directions: directions
+            directions: directions,
+            tags: tagArray
         };
         if (this.state.loggedInUserID) {
             API.saveRecipe(fullRecipe)
-                .then(res => {
-                    console.log(res);
+                .then(dbRecipe => {
+                    console.log(dbRecipe);
+                    API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
+                        .then(dbUser => {
+                            console.log(dbUser);
+                        })
                 })
                 .catch(err => console.log(err));
         } else {
@@ -184,6 +229,8 @@ class RecipeForm extends Component {
 
     }
 
+
+    ///////////////////////// For scraping from other sites ////////////////////
     scrapeChange = event => {
         const siteToScrape = event.target.value;
         this.setState({ siteToScrape });
@@ -363,11 +410,11 @@ class RecipeForm extends Component {
                         .then(dbRecipe => {
                             console.log(dbRecipe);
                             API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
-                            .then(dbUser => {
-                                console.log(dbUser);
-                            })
-                    })
-                    .catch(err => console.log(err));
+                                .then(dbUser => {
+                                    console.log(dbUser);
+                                })
+                        })
+                        .catch(err => console.log(err));
                 } else {
                     console.log("Sorry");
                 }
@@ -380,15 +427,15 @@ class RecipeForm extends Component {
     render() {
         return (
             <Container className="mainContainer">
-            {this.state.loggedInUserID ? (
-            <Row>
-                <Col size="md-8"></Col>
-                <Col size="md-4">
-            <Link to={"/userRecipes/" + this.state.loggedInUserID}>
-                            <button className="btn btn-success formToPrivate">Your RecipeBook</button>
-                        </Link>
+                {this.state.loggedInUserID ? (
+                    <Row>
+                        <Col size="md-8"></Col>
+                        <Col size="md-4">
+                            <Link to={"/userRecipes/" + this.state.loggedInUserID}>
+                                <button className="btn btn-success formToPrivate">Your RecipeBook</button>
+                            </Link>
                         </Col>
-                </Row>) : ""}
+                    </Row>) : ""}
                 <section className="recipeForm">
                     <Row>
                         <Col size="md-3">
@@ -430,6 +477,48 @@ class RecipeForm extends Component {
                         </Col>
                     </Row>
                     <br />
+                    <Row>
+                        <Col size="md-2">
+                            <label className="control-label tagLabel">Tags:</label>
+                            <select className="form-control tagList" size="1" value={this.state.tagField} onChange={this.addTag}>
+                                <option defaultValue=""></option>
+                                <option value="Chicken">Chicken</option>
+                                <option value="Beef">Beef</option>
+                                <option value="Salad">Salad</option>
+                                <option value="Soup">Soup</option>
+                                <option value="Sandwich">Sandwich</option>
+                                <option value="Pasta">Pasta</option>
+                                <option value="Rice">Rice</option>
+                                <option value="Seafood">Seafood</option>
+                                <option value="Breakfast">Breakfast</option>
+                                <option value="Brunch">Brunch</option>
+                                <option value="Dessert">Dessert</option>
+                                <option value="Baked Goods">Baked Goods</option>
+                                <option value="Cake">Cake</option>
+                                <option value="Pastry">Pastry</option>
+                                <option value="Cookie">Cookie</option>
+                                <option value="Eggs">Eggs</option>
+                                <option value="Vegetarian">Vegetarian</option>
+                                <option value="Vegan">Vegan</option>
+                                <option value="Fruit">Fruit</option>
+                                <option value="Asian">Asian</option>
+                                <option value="Mexican">Mexican</option>
+                                <option value="Potatoes">Potatoes</option>
+                                <option value="Side Dish">Side Dish</option>
+                                <option value="Poultry">Poultry</option>
+                                <option value="Casserole">Casserole</option>
+                                <option value="Drinks">Drinks</option>
+                                <option value="Appetizer">Appetizer</option>
+                            </select>
+                        </Col>
+                        <Col size="md-10">
+                            <div className="tagsAdded">
+                                {this.state.tagBtnArray}
+                            </div>
+                        </Col>
+
+                    </Row>
+                    <br />
                     <div className="form-group">
                         <Row>
                             <Col size="md-4" id="firstFields">
@@ -460,22 +549,22 @@ class RecipeForm extends Component {
                             </Col>
                             <Col size="md-5 sm-6">
                                 <form>
-                                    
-                                        <label className="radio-inline publicRadio">
-                                            <input type="radio" value="public"
-                                                checked={this.state.selectedOption === 'public'}
-                                                onChange={this.handleRadioChange} />
-                                            Public
+
+                                    <label className="radio-inline publicRadio">
+                                        <input type="radio" value="public"
+                                            checked={this.state.selectedOption === 'public'}
+                                            onChange={this.handleRadioChange} />
+                                        Public
       </label>
-                                    
-                                    
-                                        <label className="radio-inline">
-                                            <input type="radio" value="private"
-                                                checked={this.state.selectedOption === 'private'}
-                                                onChange={this.handleRadioChange} />
-                                            Private
+
+
+                                    <label className="radio-inline">
+                                        <input type="radio" value="private"
+                                            checked={this.state.selectedOption === 'private'}
+                                            onChange={this.handleRadioChange} />
+                                        Private
       </label>
-                                    
+
                                 </form>
                             </Col>
 

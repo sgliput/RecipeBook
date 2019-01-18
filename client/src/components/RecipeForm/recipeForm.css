@@ -40,6 +40,29 @@
     float: right;
 }
 
+.tagBtn{
+    background-color: blue;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btn.btn-info.tagBtn:hover{
+    text-decoration: none;
+    cursor: default;
+    background-color: blue;
+}
+
+.deleteTag{
+    padding-left: 10px;
+    margin-right: -10px;
+    font-weight: bold;
+}
+.deleteTag:hover,
+  .deleteTag:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  } 
 
 
 

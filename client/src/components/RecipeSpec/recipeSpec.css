@@ -39,7 +39,20 @@ p{
     border-bottom: 3px solid black;
     width: 85%;
     margin: 0 auto;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
+}
+
+.tagsSpecLabel{
+    font-size: 1.5rem;
+    margin: 1rem;
+}
+
+.specBtns{
+    border-bottom: 3px solid black;
+    width: 85%;
+    padding: 1rem 0 0 23%;
+    margin: 0 auto;
+    padding-bottom: 1rem;
 }
 
 .ingredientsTitle, .directionsTitle{

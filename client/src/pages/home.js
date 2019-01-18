@@ -12,7 +12,9 @@ class Home extends Component {
         recipes: [],
         signInModal: "none",
         logInModal: "none",
-        userID: ""
+        deleteModal: "none",
+        userID: "",
+        recipeToRemove: ""
     }
 
     componentDidMount() {
@@ -37,14 +39,21 @@ class Home extends Component {
         this.setState({logInModal: "block"});
     }
 
+    showDeleteModal = id => {
+        this.setState({deleteModal: "block"});
+        this.setState({recipeToRemove: id});
+    }
+
     //Handles hiding modal when its X is clicked
     closeModal = () => {
         const userID = sessionStorage.getItem("userID");
         this.setState({ 
             signInModal: "none",
             logInModal: "none",
+            deleteModal: "none",
             userID });       
     }
+
 
     removeFromPublic = id => {
         console.log(id);
@@ -56,6 +65,7 @@ class Home extends Component {
                 console.log(res.data);
                 this.setState({ 
                     recipes: res.data,
+                    deleteModal: "none"
                 });
 
             })
@@ -76,7 +86,8 @@ class Home extends Component {
 
                         </Col>
                         <Col size="md-6 sm-12">
-                            <PostedRecipes recipes={this.state.recipes} userID={this.state.userID} removeFromPublic={this.removeFromPublic} />
+                            <PostedRecipes recipes={this.state.recipes} userID={this.state.userID} removeFromPublic={this.removeFromPublic} recipeToRemove={this.state.recipeToRemove} showDeleteModal={this.showDeleteModal} deleteModal={this.state.deleteModal} closeModal={this.closeModal}  />
+                            
                         </Col>
                         <br />
 

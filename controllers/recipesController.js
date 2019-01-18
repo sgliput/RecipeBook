@@ -27,7 +27,7 @@ module.exports = {
   },
   update: function (req, res) {
     db.Recipe
-      .findOneAndUpdate({ _id: req.params.id }, req.body)
+      .findOneAndUpdate({ _id: req.params.id }, req.body, {new: true})
       .then(dbModel => {
         console.log(dbModel);
         res.json(dbModel)
