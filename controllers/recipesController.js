@@ -1,5 +1,6 @@
 const db = require("../models");
 
+
 // Defining methods for the recipesController
 module.exports = {
   findAll: function (req, res) {
@@ -38,6 +39,17 @@ module.exports = {
     db.Recipe
       .findByIdAndRemove(req.params.id)
       .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+  search: function (req, res) {
+    console.log("Search Terms: ")
+    console.log(req.params.searchTerms);
+    db.Recipe
+      .find(
+        { public: true, $text: { $search: req.params.searchTerms } },
+        { score: { $meta: "textScore" } }
+      ).sort( { score: { $meta: "textScore" } } )
+        .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   }
 };

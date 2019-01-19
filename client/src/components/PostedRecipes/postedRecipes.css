@@ -34,7 +34,8 @@
 }
 
 .toRecipePost{
-    margin-top: -2rem;
+    margin-top: 1rem;
+    margin-right: -3.5rem;
     float: right;
 }
 
@@ -53,10 +54,17 @@
     
 }
 
-
-
 @media screen and (max-width: 767px) {
-    .toRecipePost{
-        margin: 0;
+    .title, .toRecipePost {
+        margin-top: 0;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    #recipeTop{
+        width: 50%;
+    }
+    #toRecipePostCol{
+        width: 50%;
     }
 }

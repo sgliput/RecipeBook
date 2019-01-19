@@ -1,14 +1,21 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
+import Navbar from "../components/Navbar";
 import RecipeSpec from "../components/RecipeSpec";
 
 
 class Recipe extends Component {
     state = {
-        params: this.props.match.params.id
+        params: this.props.match.params.id,
+        userID: ""
     }
 
+    componentDidMount() {
+        const userID = sessionStorage.getItem("userID");
+        console.log(userID);
+        this.setState({ userID });
+    }
 
 
     render() {
@@ -16,10 +23,7 @@ class Recipe extends Component {
             <div>
                 <Header />
                 <br />
-                <Link to={"/"}>
-                    <button className="btn btn-info toHome">Home Page</button>
-                </Link>
-                <br />
+                <Navbar userID={this.state.userID} />
                 <RecipeSpec params={this.state.params} />
             </div>
         );

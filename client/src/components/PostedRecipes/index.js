@@ -38,15 +38,11 @@ function PostedRecipes(props) {
             <div className="top">
                 <Container className="topArea">
                     <Row>
-                        <Col size="md-8">
+                        <Col size="md-8 sm-10" id="recipeTop">
                             <h3 className="title">Latest Recipes:</h3>
                         </Col>
                         {props.userID ? (
-                            <Col size="md-4">
-
-                                <Link to={"/userRecipes/" + props.userID}>
-                                    <button className="btn btn-success toPrivate">Your RecipeBook</button>
-                                </Link>
+                            <Col size="md-4 sm-2" id="toRecipePostCol">
                                 <Link to={"/postRecipe"}>
                                     <button className="btn btn-success toRecipePost">Post a Recipe</button>
                                 </Link>

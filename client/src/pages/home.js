@@ -3,6 +3,7 @@ import API from "../utils/API";
 
 import { Col, Row, Container } from "../components/Grid";
 import Header from "../components/Header";
+import Navbar from "../components/Navbar";
 import PostedRecipes from "../components/PostedRecipes";
 import SignInHome from "../components/SignInHome";
 import "./home.css";
@@ -14,7 +15,8 @@ class Home extends Component {
         logInModal: "none",
         deleteModal: "none",
         userID: "",
-        recipeToRemove: ""
+        recipeToRemove: "",
+        searchTerms: ""
     }
 
     componentDidMount() {
@@ -28,6 +30,25 @@ class Home extends Component {
                     userID
                 });
 
+            })
+    }
+
+    handleSearchChange = event => {
+        //Changes this.state.searchTerms to the content of the input box
+        this.setState({
+            searchTerms: event.target.value
+        });
+        console.log(this.state.searchTerms);
+    };
+
+    onSearch = () => {
+        console.log("Search Terms: " + this.state.searchTerms);
+        API.searchRecipes(this.state.searchTerms)
+            .then(dbRecipes => {
+                console.log(dbRecipes.data);
+                this.setState({
+                    recipes: dbRecipes.data
+                })
             })
     }
 
@@ -78,6 +99,7 @@ class Home extends Component {
             <div>
                 <Header />
                 <br />
+                <Navbar userID={this.state.userID} handleSearchChange={this.handleSearchChange} searchTerms={this.state.searchTerms} onSearch={this.onSearch} home="home" />
                 <Container className="mainContainer">
                     <Row>
                         <Col size="md-6 sm-12">

@@ -427,15 +427,6 @@ class RecipeForm extends Component {
     render() {
         return (
             <Container className="mainContainer">
-                {this.state.loggedInUserID ? (
-                    <Row>
-                        <Col size="md-8"></Col>
-                        <Col size="md-4">
-                            <Link to={"/userRecipes/" + this.state.loggedInUserID}>
-                                <button className="btn btn-success formToPrivate">Your RecipeBook</button>
-                            </Link>
-                        </Col>
-                    </Row>) : ""}
                 <section className="recipeForm">
                     <Row>
                         <Col size="md-3">

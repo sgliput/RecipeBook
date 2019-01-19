@@ -20,6 +20,8 @@ const recipeSchema = new Schema({
   dateSaved: { type: Date, default: Date.now }
 });
 
+recipeSchema.index( { "$**": "text" } );
+
 const Recipe = mongoose.model("Recipe", recipeSchema);
 
 module.exports = Recipe;

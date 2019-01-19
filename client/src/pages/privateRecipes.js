@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
+import Navbar from "../components/Navbar";
 import RecipeBook from "../components/RecipeBook";
 import API from "../utils/API";
 
@@ -8,7 +9,8 @@ class privateRecipes extends Component {
     state = {
         userID: this.props.match.params.userID,
         recipes: [],
-        loggedInUserID: ""
+        loggedInUserID: "",
+        privateSearchTerms: ""
     }
 
     componentDidMount() {
@@ -21,6 +23,25 @@ class privateRecipes extends Component {
                 this.setState({ recipes: res.data.recipes });
             })
             .catch(err => console.log(err));
+    }
+
+    handlePrivateSearchChange = event => {
+        //Changes this.state.privateSearchTerms to the content of the input box
+        this.setState({
+            privateSearchTerms: event.target.value
+        });
+        console.log(this.state.privateSearchTerms);
+    };
+
+    onPrivateSearch = () => {
+        console.log("Search Terms: " + this.state.privateSearchTerms);
+        API.searchPrivateRecipes(this.state.userID, this.state.privateSearchTerms)
+            .then(dbRecipes => {
+                console.log(dbRecipes.data);
+                this.setState({
+                    recipes: dbRecipes.data
+                })
+            })
     }
 
     deleteUserRecipe = id => {
@@ -81,10 +102,7 @@ class privateRecipes extends Component {
             <div>
                 <Header />
                 <br />
-                <Link to={"/"}>
-                    <button className="btn btn-info toHome">Home Page</button>
-                </Link>
-                <br />
+                <Navbar userID={this.state.userID} handlePrivateSearchChange={this.handlePrivateSearchChange} privateSearchTerms={this.state.privateSearchTerms} onPrivateSearch={this.onPrivateSearch} private="private" />
                 <RecipeBook userID={this.state.userID} recipes={this.state.recipes} deleteUserRecipe={this.deleteUserRecipe} />
             </div >
         );

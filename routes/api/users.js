@@ -25,7 +25,8 @@ router
   .get(usersController.findID);
 
   router
-    .route("users/:userID/recipes/:recipeID")
+    .route("/userSearch/:userID/search/:searchTerms")
+    .get(usersController.search);
 
 
 module.exports = router;

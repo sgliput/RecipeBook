@@ -4,6 +4,8 @@
   "private": true,
   "proxy": "http://localhost:3003/",
   "dependencies": {
+    "@material-ui/core": "^3.9.0",
+    "@material-ui/icons": "^3.0.2",
     "axios": "^0.18.0",
     "cheerio": "^1.0.0-rc.2",
     "react": "^16.7.0",

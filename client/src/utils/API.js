@@ -12,21 +12,24 @@ export default {
   },
   // Gets the recipe with the given id
   getRecipe: function(id) {
-    return axios.get("/api/recipes/" + id);
+    return axios.get("/api/recipes/find/" + id);
   },
   getPrivateRecipes: function(id) {
     return axios.get("/api/recipes", id);
   },
   // Deletes the recipe with the given id
   deleteRecipe: function(id) {
-    return axios.delete("/api/recipes/" + id);
+    return axios.delete("/api/recipes/delete/" + id);
   },
   // Saves a recipe to the database
   saveRecipe: function(recipeData) {
     return axios.post("/api/recipes", recipeData);
   },
   updateRecipe: function(id, recipeData) {
-    return axios.put("/api/recipes/" + id, recipeData);
+    return axios.put("/api/recipes/update/" + id, recipeData);
+  },
+  searchRecipes: function(searchTerms) {
+    return axios.get("/api/recipes/search/" + searchTerms)
   },
 
 
@@ -48,4 +51,7 @@ getUser: function(password) {
   deleteUser: function(id) {
     return axios.delete("/api/users/user/" + id);
   },
+  searchPrivateRecipes: function(id, searchTerms) {
+    return axios.get("/api/users/userSearch/" + id + "/search/" + searchTerms);
+  }
 };

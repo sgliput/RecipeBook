@@ -282,7 +282,7 @@ class PrivateRecipeSpec extends Component {
                     console.log("Res for Edited:");
                     console.log(res);
                     this.displayRecipe(res);
-                    this.setState({editing: false});
+                    this.setState({ editing: false });
                 })
                 .catch(err => console.log(err));
 
@@ -310,7 +310,7 @@ class PrivateRecipeSpec extends Component {
                 .then(dbRecipe => {
                     console.log(dbRecipe);
                     this.displayRecipe(dbRecipe);
-                    this.setState({editing: false});
+                    this.setState({ editing: false });
                     API.deleteUserRecipe(this.state.loggedInUserID, id)
                         .then(dbUser => {
                             console.log(dbUser);
@@ -321,7 +321,7 @@ class PrivateRecipeSpec extends Component {
                         })
                 })
                 .catch(err => console.log(err));
-//https://www.foodnetwork.com/recipes/food-network-kitchen/creamy-spinach-and-artichoke-chicken-skillet-3885792
+            //https://www.foodnetwork.com/recipes/food-network-kitchen/creamy-spinach-and-artichoke-chicken-skillet-3885792
         }
     }
 
@@ -333,12 +333,9 @@ class PrivateRecipeSpec extends Component {
 
                     this.state.editing ? (
                         <section className="recipeForm">
-                        <Row>
-                        <button className="btn btn-info stopEditBtn" onClick={this.stopEdit}>Stop Editing</button>
-                                    <Link to={"/userRecipes/" + this.state.loggedInUserID}>
-                                        <button className="btn btn-info backToRecipeBookEdit">Back to Your Recipe Book</button>
-                                    </Link>
-                                </Row>
+                            <Row>
+                                <button className="btn btn-info stopEditBtn" onClick={this.stopEdit}>Stop Editing</button>
+                            </Row>
                             <Row>
                                 <Col size="md-6">
                                     <h3 className="formInst">Editing <br /> {this.state.recipeName}</h3>
@@ -348,47 +345,47 @@ class PrivateRecipeSpec extends Component {
                             </Row>
                             <br />
                             <Row>
-                        <Col size="md-2">
-                            <label className="control-label tagLabel">Tags:</label>
-                            <select className="form-control tagList" size="1" value={this.state.tagField} onChange={this.addTag}>
-                                <option defaultValue=""></option>
-                                <option value="Chicken">Chicken</option>
-                                <option value="Beef">Beef</option>
-                                <option value="Salad">Salad</option>
-                                <option value="Soup">Soup</option>
-                                <option value="Sandwich">Sandwich</option>
-                                <option value="Pasta">Pasta</option>
-                                <option value="Rice">Rice</option>
-                                <option value="Seafood">Seafood</option>
-                                <option value="Breakfast">Breakfast</option>
-                                <option value="Brunch">Brunch</option>
-                                <option value="Dessert">Dessert</option>
-                                <option value="Baked Goods">Baked Goods</option>
-                                <option value="Cake">Cake</option>
-                                <option value="Pastry">Pastry</option>
-                                <option value="Cookie">Cookie</option>
-                                <option value="Eggs">Eggs</option>
-                                <option value="Vegetarian">Vegetarian</option>
-                                <option value="Vegan">Vegan</option>
-                                <option value="Fruit">Fruit</option>
-                                <option value="Asian">Asian</option>
-                                <option value="Mexican">Mexican</option>
-                                <option value="Potatoes">Potatoes</option>
-                                <option value="Side Dish">Side Dish</option>
-                                <option value="Poultry">Poultry</option>
-                                <option value="Casserole">Casserole</option>
-                                <option value="Drinks">Drinks</option>
-                                <option value="Appetizer">Appetizer</option>
-                            </select>
-                        </Col>
-                        <Col size="md-10">
-                            <div className="tagsAdded">
-                                {this.state.editTagBtnArray}
-                            </div>
-                        </Col>
+                                <Col size="md-2">
+                                    <label className="control-label tagLabel">Tags:</label>
+                                    <select className="form-control tagList" size="1" value={this.state.tagField} onChange={this.addTag}>
+                                        <option defaultValue=""></option>
+                                        <option value="Chicken">Chicken</option>
+                                        <option value="Beef">Beef</option>
+                                        <option value="Salad">Salad</option>
+                                        <option value="Soup">Soup</option>
+                                        <option value="Sandwich">Sandwich</option>
+                                        <option value="Pasta">Pasta</option>
+                                        <option value="Rice">Rice</option>
+                                        <option value="Seafood">Seafood</option>
+                                        <option value="Breakfast">Breakfast</option>
+                                        <option value="Brunch">Brunch</option>
+                                        <option value="Dessert">Dessert</option>
+                                        <option value="Baked Goods">Baked Goods</option>
+                                        <option value="Cake">Cake</option>
+                                        <option value="Pastry">Pastry</option>
+                                        <option value="Cookie">Cookie</option>
+                                        <option value="Eggs">Eggs</option>
+                                        <option value="Vegetarian">Vegetarian</option>
+                                        <option value="Vegan">Vegan</option>
+                                        <option value="Fruit">Fruit</option>
+                                        <option value="Asian">Asian</option>
+                                        <option value="Mexican">Mexican</option>
+                                        <option value="Potatoes">Potatoes</option>
+                                        <option value="Side Dish">Side Dish</option>
+                                        <option value="Poultry">Poultry</option>
+                                        <option value="Casserole">Casserole</option>
+                                        <option value="Drinks">Drinks</option>
+                                        <option value="Appetizer">Appetizer</option>
+                                    </select>
+                                </Col>
+                                <Col size="md-10">
+                                    <div className="tagsAdded">
+                                        {this.state.editTagBtnArray}
+                                    </div>
+                                </Col>
 
-                    </Row>
-                    <br />
+                            </Row>
+                            <br />
                             <div className="form-group">
                                 <Row>
                                     <Col size="md-4" id="infoFieldCol">
@@ -420,13 +417,9 @@ class PrivateRecipeSpec extends Component {
                             <div>
                                 <Row>
                                     <button className="btn btn-info editBtn" onClick={this.handleEdit}>Edit Recipe</button>
-                                    <Link to={"/userRecipes/" + this.state.loggedInUserID}>
-                                        <button className="btn btn-info backToRecipeBook">Back to Your Recipe Book</button>
-                                    </Link>
                                 </Row>
 
                                 <h2 className="specRecipeName">{this.state.recipeData.name}</h2>
-
 
                                 <p className="specCreator">{this.state.recipeData.edited ? "Original: " : ""}{this.state.recipeData.source === "Pinterest" ? `From <a href=${this.state.recipeData.creator} target='blank'>Pinterest</a>` : this.state.recipeData.otherSite ? this.state.recipeData.creator : this.state.recipeData.creatorID === this.state.loggedInUserID ? "Posted by You" : `Posted by ${this.state.recipeData.creator}`}</p>
 
@@ -434,24 +427,28 @@ class PrivateRecipeSpec extends Component {
                                 {this.state.recipeData.link ? <a href={this.state.recipeData.link} target="blank"><p className="origin">See Source</p></a> : ""}
                                 {this.state.recipeData.cooktime ? <p className="specCooktime">Takes {this.state.recipeData.cooktime}</p> : ""}
                                 <p className="specDescription">{this.state.recipeData.description}</p>
-                                {this.state.tagArray[0] !== undefined ? (
-                                <Row>
-                                    <div className="specBtns">
-                                    <span className="tagsSpecLabel">Tags:</span> {this.state.tagBtnArray}
-                                    </div>
-                                </Row>
-                                ): ""}
+                                {this.state.tagBtnArray[0] !== undefined ? (
+                                    <Row>
+
+                                        <div className="specBtns">
+                                            <p className="tagsSpecLabel">Tags:</p>
+                                            <div className="tagBtns">
+                                                {this.state.tagBtnArray}
+                                            </div>
+                                        </div>
+                                    </Row>
+                                ) : ""}
 
                                 <Row>
                                     <Col size="md-4 sm-12" id="ingrCol">
-                                    <h4 className="ingredientsTitle">Ingredients</h4>
+                                        <h4 className="ingredientsTitle">Ingredients</h4>
                                         <ul className="specIngredientList">
                                             {this.state.ingList}
                                         </ul>
                                         <br />
                                     </Col>
                                     <Col size="md-7 sm-12" id="dirCol">
-                                    <h4 className="directionsTitle">Directions</h4>
+                                        <h4 className="directionsTitle">Directions</h4>
                                         {this.state.recipeData.directions ? (
                                             <ol className="specDirectionList">
                                                 {this.state.dirList}

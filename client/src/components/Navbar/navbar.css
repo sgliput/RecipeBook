@@ -1,0 +1,59 @@
+.navbar{
+    background-color: darkblue;
+    border-top: 2px solid lightblue;
+    border-bottom: 2px solid lightblue;
+    color: white;
+}
+
+.toPrivateLink{
+    color: white;
+}
+
+.toHome, .toPrivate{
+    margin-top: 4px;
+}
+
+.toPrivateLink:hover{
+    color: white;
+    text-decoration: none;
+
+}
+
+@media screen and (max-width: 575px) {
+    .toPrivate{
+        margin-left: 80%;
+        margin-top: -23%;
+        margin-bottom: -3%;
+    }
+    #toPrivateCol{
+        height: 5px;
+    }
+    .welcome{
+        margin-bottom: 1rem;
+    }
+    .toHome{
+        margin-bottom: 0;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .toPrivate{
+        margin-left: 76%;
+    }
+}
+
+@media screen and (min-width: 991px) {
+    .MuiPaper-root-5, .MuiPaper-root-78, .MuiPaper-root-85, .MuiPaper-root-158,.MuiPaper-root-259{
+        margin-left: 30%;
+    }
+    .navContainer{
+        padding-right: 0;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    #searchCol > :first-child{
+        margin-left: 44%;
+    }
+}
+

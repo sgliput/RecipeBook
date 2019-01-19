@@ -1,27 +1,33 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../Grid";
+import Card from "../Card";
 import "./recipeBook.css";
+
+
 
 function RecipeBook(props) {
 
     const recipeCards = props.recipes.map((recipe, index) => (
         <Col size="md-4 sm-6">
-            <div className="card" key={recipe._id}>
+            <Card>
+            {/* <div className="card" key={recipe._id}> */}
                 <Row>
-                    <Col size="md-10">
+                    <Col size="md-11" id="recipeNameCol">
                         <Link to={"/users/" + props.userID + "/recipes/" + recipe._id}>
                             <h3 className="name">{recipe.name}</h3>
                         </Link>
                     </Col>
-                    <Col size="md-2">
+                    <Col size="md-1" id="xCol">
                         <span className="deleteRecipePrivate" data-id={recipe._id} onClick={() => props.deleteUserRecipe(recipe._id)}>&times;</span>
                     </Col>
                 </Row>
+                <br />
                 <p className="creator">{recipe.edited ? "Original: " : ""}{recipe.source === "Pinterest" && !recipe.edited ? "From Pinterest" : recipe.source === "Pinterest" && recipe.edited ? "Pinterest" : recipe.otherSite ? recipe.creator : recipe.creatorID === props.userID ? "By You" : `By ${recipe.creator}`}</p>
                 <hr />
                 {recipe.cooktime ? <p className="cooktime">Takes {recipe.cooktime}</p> : ""}
-            </div>
+            {/* </div> */}
+            </Card>
         </Col>
     ))
 
@@ -31,11 +37,11 @@ function RecipeBook(props) {
                 <Container className="topArea">
                     <Row>
                         <Col size="md-8">
-                            <h3 className="title">Latest Recipes:</h3>
+                            <h3 className="title">Your Recipes:</h3>
                         </Col>
                         <Col size="md-4">
                             <Link to={"/postRecipe"}>
-                                <button className="btn btn-success toRecipePost">Post a Recipe</button>
+                                <button className="btn btn-success toRecipePostFromPrivate">Post a Recipe</button>
                             </Link>
                         </Col>
                     </Row>
@@ -54,6 +60,7 @@ function RecipeBook(props) {
                         <Row>
                             {recipeCards}
                         </Row>
+                        <br />
                     </Container>
 
                 )}

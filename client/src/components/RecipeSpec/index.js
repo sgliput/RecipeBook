@@ -57,7 +57,7 @@ class RecipeSpec extends Component {
                 {tag}
                 <span className="deleteTag" data-name={tag} onClick={this.deleteTag}>&times;</span>
             </button>));
-            console.log(res.data);
+        console.log(res.data);
         this.setState({
             recipeData: res.data,
             recipeID: res.data._id,
@@ -278,7 +278,7 @@ class RecipeSpec extends Component {
             .then(res => {
                 console.log(res);
                 this.displayRecipe(res);
-                this.setState({editing: false});
+                this.setState({ editing: false });
             })
             .catch(err => console.log(err));
     }
@@ -308,47 +308,47 @@ class RecipeSpec extends Component {
                             </Row>
                             <br />
                             <Row>
-                        <Col size="md-2">
-                            <label className="control-label tagLabel">Tags:</label>
-                            <select className="form-control tagList" size="1" value={this.state.tagField} onChange={this.addTag}>
-                                <option defaultValue=""></option>
-                                <option value="Chicken">Chicken</option>
-                                <option value="Beef">Beef</option>
-                                <option value="Salad">Salad</option>
-                                <option value="Soup">Soup</option>
-                                <option value="Sandwich">Sandwich</option>
-                                <option value="Pasta">Pasta</option>
-                                <option value="Rice">Rice</option>
-                                <option value="Seafood">Seafood</option>
-                                <option value="Breakfast">Breakfast</option>
-                                <option value="Brunch">Brunch</option>
-                                <option value="Dessert">Dessert</option>
-                                <option value="Baked Goods">Baked Goods</option>
-                                <option value="Cake">Cake</option>
-                                <option value="Pastry">Pastry</option>
-                                <option value="Cookie">Cookie</option>
-                                <option value="Eggs">Eggs</option>
-                                <option value="Vegetarian">Vegetarian</option>
-                                <option value="Vegan">Vegan</option>
-                                <option value="Fruit">Fruit</option>
-                                <option value="Asian">Asian</option>
-                                <option value="Mexican">Mexican</option>
-                                <option value="Potatoes">Potatoes</option>
-                                <option value="Side Dish">Side Dish</option>
-                                <option value="Poultry">Poultry</option>
-                                <option value="Casserole">Casserole</option>
-                                <option value="Drinks">Drinks</option>
-                                <option value="Appetizer">Appetizer</option>
-                            </select>
-                        </Col>
-                        <Col size="md-10">
-                            <div className="tagsAdded">
-                                {this.state.editTagBtnArray}
-                            </div>
-                        </Col>
+                                <Col size="md-2">
+                                    <label className="control-label tagLabel">Tags:</label>
+                                    <select className="form-control tagList" size="1" value={this.state.tagField} onChange={this.addTag}>
+                                        <option defaultValue=""></option>
+                                        <option value="Chicken">Chicken</option>
+                                        <option value="Beef">Beef</option>
+                                        <option value="Salad">Salad</option>
+                                        <option value="Soup">Soup</option>
+                                        <option value="Sandwich">Sandwich</option>
+                                        <option value="Pasta">Pasta</option>
+                                        <option value="Rice">Rice</option>
+                                        <option value="Seafood">Seafood</option>
+                                        <option value="Breakfast">Breakfast</option>
+                                        <option value="Brunch">Brunch</option>
+                                        <option value="Dessert">Dessert</option>
+                                        <option value="Baked Goods">Baked Goods</option>
+                                        <option value="Cake">Cake</option>
+                                        <option value="Pastry">Pastry</option>
+                                        <option value="Cookie">Cookie</option>
+                                        <option value="Eggs">Eggs</option>
+                                        <option value="Vegetarian">Vegetarian</option>
+                                        <option value="Vegan">Vegan</option>
+                                        <option value="Fruit">Fruit</option>
+                                        <option value="Asian">Asian</option>
+                                        <option value="Mexican">Mexican</option>
+                                        <option value="Potatoes">Potatoes</option>
+                                        <option value="Side Dish">Side Dish</option>
+                                        <option value="Poultry">Poultry</option>
+                                        <option value="Casserole">Casserole</option>
+                                        <option value="Drinks">Drinks</option>
+                                        <option value="Appetizer">Appetizer</option>
+                                    </select>
+                                </Col>
+                                <Col size="md-10">
+                                    <div className="tagsAdded">
+                                        {this.state.editTagBtnArray}
+                                    </div>
+                                </Col>
 
-                    </Row>
-                    <br />
+                            </Row>
+                            <br />
                             <div className="form-group">
                                 <Row>
                                     <Col size="md-4" id="infoFieldCol">
@@ -384,11 +384,11 @@ class RecipeSpec extends Component {
                                         <button className="btn btn-info editBtn" onClick={this.handleEdit}>Edit Recipe</button>
                                         <button className="btn btn-info addBtn" onClick={this.addToPrivate}>Add to Your Recipe Book</button>
                                     </Row>
-                                ) : (
+                                ) : this.state.loggedInUserID ? (
                                         <Row>
                                             <button className="btn btn-info addBtn2" onClick={this.addToPrivate}>Add to Your Recipe Book</button>
                                         </Row>
-                                    )}
+                                    ) : ""}
 
 
                                 <h2 className="specRecipeName">{this.state.recipeData.name}</h2>
@@ -396,11 +396,13 @@ class RecipeSpec extends Component {
                                 {this.state.recipeData.link ? <a href={this.state.recipeData.link} target="blank"><p className="origin">See Source</p></a> : ""}
                                 {this.state.recipeData.cooktime ? <p className="specCooktime">Takes {this.state.recipeData.cooktime}</p> : ""}
                                 <p className="specDescription">{this.state.recipeData.description}</p>
-                                <Row>
-                                    <div className="specBtns">
-                                    <span className="tagsSpecLabel">Tags:</span> {this.state.tagBtnArray}
-                                    </div>
-                                </Row>
+                                {this.state.tagArray[0] !== undefined ? (
+                                    <Row>
+                                        <div className="specBtns">
+                                            <span className="tagsSpecLabel">Tags:</span> {this.state.tagBtnArray}
+                                        </div>
+                                    </Row>
+                                ) : ""}
                                 <Row>
                                     <Col size="md-4 sm-12" id="ingrCol">
                                         <h4 className="ingredientsTitle">Ingredients</h4>
