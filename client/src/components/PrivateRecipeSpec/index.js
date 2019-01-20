@@ -421,7 +421,7 @@ class PrivateRecipeSpec extends Component {
 
                                 <h2 className="specRecipeName">{this.state.recipeData.name}</h2>
 
-                                <p className="specCreator">{this.state.recipeData.edited ? "Original: " : ""}{this.state.recipeData.source === "Pinterest" ? `From <a href=${this.state.recipeData.creator} target='blank'>Pinterest</a>` : this.state.recipeData.otherSite ? this.state.recipeData.creator : this.state.recipeData.creatorID === this.state.loggedInUserID ? "Posted by You" : `Posted by ${this.state.recipeData.creator}`}</p>
+                                <p className="specCreator">{this.state.recipeData.edited ? "Original: " : ""}{this.state.recipeData.source === "Pinterest" ? <p>From <a href={this.state.recipeData.creator} target='blank'>Pinterest</a></p> : this.state.recipeData.otherSite ? this.state.recipeData.creator : this.state.recipeData.creatorID === this.state.loggedInUserID ? "Posted by You" : `Posted by ${this.state.recipeData.creator}`}</p>
 
 
                                 {this.state.recipeData.link ? <a href={this.state.recipeData.link} target="blank"><p className="origin">See Source</p></a> : ""}

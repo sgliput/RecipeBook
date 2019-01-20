@@ -69,6 +69,16 @@
     margin: 0 44%;
   }
 
+  .deleteModal-body{
+    padding-right: 0;
+  }
+
+  .deleteModalImg{
+    height: 40%;
+    width: 100%;
+    margin: 0 auto;
+  }
+
   @media screen and (max-width: 767px) {
     .deleteRecipeBtn{
       margin: 0 38%;

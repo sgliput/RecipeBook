@@ -5,7 +5,7 @@ import DeleteModal from "../Modal/deleteModal";
 import "./recipeBook.css";
 
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 
@@ -15,21 +15,23 @@ function RecipeBook(props) {
     const recipeCards = props.recipes.map((recipe, index) => (
         <div className="col-md-4 col-sm-6 cardCol">
             <Card>
-                <CardContent>
+                <CardContent className="cardContent">
             {/* <div className="card" key={recipe._id}> */}
                 <Row>
-                    <Col size="md-11" id="recipeNameCol">
+                    <Col size="md-10 sm-8" id="recipeNameCol">
                         <Link to={"/users/" + props.userID + "/recipes/" + recipe._id}>
                             <h3 className="name">{recipe.name}</h3>
                         </Link>
                     </Col>
-                    <Col size="md-1" id="xCol">
+                    <Col size="md-1 sm-2" id="xCol">
                         <span className="deleteRecipePrivate" data-id={recipe._id} onClick={() => props.showDeleteModal(recipe._id)}>&times;</span>
                     </Col>
                 </Row>
                 <br />
                 <p className="creator">{recipe.edited ? "Original: " : ""}{recipe.source === "Pinterest" && !recipe.edited ? "From Pinterest" : recipe.source === "Pinterest" && recipe.edited ? "Pinterest" : recipe.otherSite ? recipe.creator : recipe.creatorID === props.userID ? "By You" : `By ${recipe.creator}`}</p>
-                <hr />
+                {recipe.imgLink ? (
+                <CardMedia className="cardImage" image={recipe.imgLink} title={recipe.name} />
+                ) : <hr />}
                 {recipe.cooktime ? <p className="cooktime">Takes {recipe.cooktime}</p> : ""}
             {/* </div> */}
             </CardContent>
@@ -42,10 +44,10 @@ function RecipeBook(props) {
             <div className="top">
                 <Container className="topArea">
                     <Row>
-                        <Col size="md-8">
+                        <Col size="md-8 sm-9">
                             <h3 className="title">Your Recipes:</h3>
                         </Col>
-                        <Col size="md-4">
+                        <Col size="md-4 sm-3">
                             <Link to={"/postRecipe"}>
                                 <button className="btn btn-success toRecipePostFromPrivate">Post a Recipe</button>
                             </Link>

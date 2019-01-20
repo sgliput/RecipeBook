@@ -11,6 +11,7 @@ const recipeSchema = new Schema({
   directions: Object,
   cooktime: String,
   tags: Array,
+  imgLink: String,
   public: {type: Boolean, default: true},
   edited: {type: Boolean, default: false},
   deleted: {type: Boolean, default: false},

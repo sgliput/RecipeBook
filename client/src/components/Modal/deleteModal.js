@@ -40,7 +40,7 @@ class DeleteModal extends Component {
                     <div className="md-content">
 
                         {this.state.recipeData !== undefined ? (
-                            <div className="modal-body">
+                            <div className="modal-body deleteModal-body">
 
                                 <span className="close" onClick={this.props.closeModal}>&times;</span>
                                 {this.props.home ? (
@@ -52,10 +52,15 @@ class DeleteModal extends Component {
                                         <h3>Do you want to delete this recipe from your Recipe Book?</h3>
                                     )}
                                 <br />
-                                <br />
+                                
                                 <h4 className="deleteTitle">{this.state.recipeData.name}</h4>
                                 <p className="deleteCreator">{this.state.recipeData.source === "Pinterest" ? "From Pinterest" : this.state.recipeData.otherSite ? this.state.recipeData.creator : `By ${this.state.recipeData.creator}`}</p>
-
+                                
+                                {this.state.recipeData.imgLink ? (
+                                    <img className="deleteModalImg" alt={this.state.recipeData.name} src={this.state.recipeData.imgLink} />
+                                ) : ""}
+                                <br />
+                                <br />
                                 {this.state.recipeData.cooktime ? <p className="deleteCooktime">Takes {this.state.recipeData.cooktime}</p> : ""}
                                 {this.state.recipeData.description ? <p className="deleteDescription">Description: {this.state.recipeData.description}</p> : ""}
                                 <br />
