@@ -36,7 +36,7 @@ function CustomizedInputBase(props) {
       {props.private ?
         <InputBase className={classes.input} placeholder="Search Your Recipes" value={props.privateSearchTerms} onChange={props.handlePrivateSearchChange} /> :
         <InputBase className={classes.input} placeholder="Search Recipes" value={props.searchTerms} onChange={props.handleSearchChange} />}
-        
+
       {props.private ? (
         <IconButton className={classes.iconButton} aria-label="Search" onClick={props.onPrivateSearch}>
           <SearchIcon />
@@ -46,6 +46,12 @@ function CustomizedInputBase(props) {
             <SearchIcon />
           </IconButton>
         )}
+
+        {props.searched ? (
+          <IconButton className={classes.iconButton} aria-label="Get All Recipes" onClick={props.getAllRecipes}>
+          All
+          </IconButton>
+        ) : ""}
     </Paper>
   );
 }

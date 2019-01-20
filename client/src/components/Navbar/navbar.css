@@ -43,7 +43,7 @@
 }
 
 @media screen and (min-width: 991px) {
-    .MuiPaper-root-5, .MuiPaper-root-78, .MuiPaper-root-85, .MuiPaper-root-158,.MuiPaper-root-259{
+    #searchCol > :first-child{
         margin-left: 30%;
     }
     .navContainer{

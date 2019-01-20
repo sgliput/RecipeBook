@@ -10,7 +10,10 @@ class privateRecipes extends Component {
         userID: this.props.match.params.userID,
         recipes: [],
         loggedInUserID: "",
-        privateSearchTerms: ""
+        privateSearchTerms: "",
+        searched: "",
+        deleteModal: "none",
+        recipeToRemove: ""
     }
 
     componentDidMount() {
@@ -39,9 +42,30 @@ class privateRecipes extends Component {
             .then(dbRecipes => {
                 console.log(dbRecipes.data);
                 this.setState({
-                    recipes: dbRecipes.data
+                    recipes: dbRecipes.data,
+                    searched: "searched"
                 })
             })
+    }
+
+    getAllRecipes = () => {
+        API.getUserByID(this.state.userID)
+            .then(res => {
+                this.setState({
+                    recipes: res.data.recipes,
+                    searched: ""
+                });
+            })
+            .catch(err => console.log(err));
+    }
+
+    showDeleteModal = id => {
+        this.setState({deleteModal: "block"});
+        this.setState({recipeToRemove: id});
+    }
+
+    closeModal = () => {
+        this.setState({ deleteModal: "none"});       
     }
 
     deleteUserRecipe = id => {
@@ -61,11 +85,14 @@ class privateRecipes extends Component {
                             API.getUserByID(this.state.userID)
                                 .then(res => {
                                     console.log(res.data.recipes);
-                                    this.setState({ recipes: res.data.recipes });
+                                    this.setState({ 
+                                        recipes: res.data.recipes,
+                                        deleteModal: "none"
+                                    });
                                 })
                                 .catch(err => console.log(err));
                         })
-                //If the recipe is private, meaning it's been scraped by the user or edited to make it the user's own (a whole separate record)
+                    //If the recipe is private, meaning it's been scraped by the user or edited to make it the user's own (a whole separate record)
                 } else {
                     //The recipe is deleted from the database
                     API.deleteRecipe(id)
@@ -79,10 +106,13 @@ class privateRecipes extends Component {
                                     console.log(dbUser);
                                     //And their Recipe Book is updated accordingly
                                     API.getUserByID(this.state.loggedInUserID)
-                                    .then(res => {
-                                        console.log(res.data.recipes);
-                                        this.setState({ recipes: res.data.recipes });
-                                    })
+                                        .then(res => {
+                                            console.log(res.data.recipes);
+                                            this.setState({ 
+                                                recipes: res.data.recipes,
+                                                deleteModal: "none"
+                                            });
+                                        })
                                 }).catch(err => console.log(err));
                         })
                 }
@@ -94,6 +124,7 @@ class privateRecipes extends Component {
     //     { _id: ObjectId("5c37f9b4358f962f9829a1b6") },
     //     { $pull: { 'recipes': ObjectId("5c3ac273b23037148cf7cbc7") } }
     //   );
+    //onClick={() => props.deleteUserRecipe(recipe._id)}
 
 
 
@@ -102,8 +133,8 @@ class privateRecipes extends Component {
             <div>
                 <Header />
                 <br />
-                <Navbar userID={this.state.userID} handlePrivateSearchChange={this.handlePrivateSearchChange} privateSearchTerms={this.state.privateSearchTerms} onPrivateSearch={this.onPrivateSearch} private="private" />
-                <RecipeBook userID={this.state.userID} recipes={this.state.recipes} deleteUserRecipe={this.deleteUserRecipe} />
+                <Navbar userID={this.state.userID} handlePrivateSearchChange={this.handlePrivateSearchChange} privateSearchTerms={this.state.privateSearchTerms} onPrivateSearch={this.onPrivateSearch} getAllRecipes={this.getAllRecipes} private="private" searched={this.state.searched} />
+                <RecipeBook userID={this.state.userID} recipes={this.state.recipes} deleteUserRecipe={this.deleteUserRecipe} recipeToRemove={this.state.recipeToRemove} showDeleteModal={this.showDeleteModal} deleteModal={this.state.deleteModal} closeModal={this.closeModal} />
             </div >
         );
     }

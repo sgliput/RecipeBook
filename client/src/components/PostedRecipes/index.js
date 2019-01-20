@@ -48,7 +48,7 @@ function PostedRecipes(props) {
                                 </Link>
                             </Col>) : ""}
                     </Row>
-                    <DeleteModal recipeToRemove={props.recipeToRemove} show={props.deleteModal} closeModal={props.closeModal} removeFromPublic={props.removeFromPublic} />
+                    <DeleteModal recipeToRemove={props.recipeToRemove} show={props.deleteModal} closeModal={props.closeModal} removeFromPublic={props.removeFromPublic} home={props.home} />
                 </Container>
             </div>
             {recipeCards}

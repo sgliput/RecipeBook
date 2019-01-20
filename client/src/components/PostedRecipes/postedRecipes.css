@@ -47,16 +47,17 @@
     width: 10px;
     margin-top: -0.6rem;
     cursor: pointer;
+    margin-right: -1.7rem;
 }
 
 
-.toRecipePostUnlogged{
-    
-}
 
 @media screen and (max-width: 767px) {
     .title, .toRecipePost {
         margin-top: 0;
+    }
+    .deleteRecipeMaster{
+        margin-top: -4.8rem;
     }
 }
 

@@ -33,9 +33,9 @@ class NavBar extends Component {
 
                         <Col size="md-5 sm-6" id="searchCol">
                             {this.props.home ? (
-                                <SearchField handleSearchChange={this.props.handleSearchChange} searchTerms={this.props.searchTerms} onSearch={this.props.onSearch} />
+                                <SearchField handleSearchChange={this.props.handleSearchChange} searchTerms={this.props.searchTerms} onSearch={this.props.onSearch} getAllRecipes={this.props.getAllRecipes} searched={this.props.searched} />
                             ) : this.props.private ? (
-                                <SearchField handlePrivateSearchChange={this.props.handlePrivateSearchChange} privateSearchTerms={this.props.privateSearchTerms} onPrivateSearch={this.props.onPrivateSearch} private="private" />
+                                <SearchField handlePrivateSearchChange={this.props.handlePrivateSearchChange} privateSearchTerms={this.props.privateSearchTerms} onPrivateSearch={this.props.onPrivateSearch} getAllRecipes={this.props.getAllRecipes} private="private" searched={this.props.searched} />
                             ) : ""}
                         </Col>
                         <Col size="md-2 sm-3" id="toPrivateCol">

@@ -24,14 +24,14 @@ const styles = {
   },
 };
 
-function SimpleCard(props, {children}) {
+function SimpleCard(props) {
   const { classes } = props;
   const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <Card className={classes.card}>
       <CardContent>
-        {children}
+        
       </CardContent>
       <CardActions>
         <Button size="small">Learn More</Button>

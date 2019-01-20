@@ -16,7 +16,9 @@ class Home extends Component {
         deleteModal: "none",
         userID: "",
         recipeToRemove: "",
-        searchTerms: ""
+        searchTerms: "",
+        searched: "",
+        home: "home"
     }
 
     componentDidMount() {
@@ -47,10 +49,23 @@ class Home extends Component {
             .then(dbRecipes => {
                 console.log(dbRecipes.data);
                 this.setState({
-                    recipes: dbRecipes.data
+                    recipes: dbRecipes.data,
+                    searched: "searched"
                 })
             })
     }
+
+    getAllRecipes = () => {
+        API.getRecipes()
+            .then(res => {
+                console.log(res.data);
+                this.setState({ 
+                    recipes: res.data,
+                    searched: ""
+                });
+            })
+    }
+
 
     showSignInModal = () => {
         this.setState({signInModal: "block"});
@@ -99,7 +114,7 @@ class Home extends Component {
             <div>
                 <Header />
                 <br />
-                <Navbar userID={this.state.userID} handleSearchChange={this.handleSearchChange} searchTerms={this.state.searchTerms} onSearch={this.onSearch} home="home" />
+                <Navbar userID={this.state.userID} handleSearchChange={this.handleSearchChange} searchTerms={this.state.searchTerms} onSearch={this.onSearch} getAllRecipes={this.getAllRecipes} home="home" searched={this.state.searched} />
                 <Container className="mainContainer">
                     <Row>
                         <Col size="md-6 sm-12">
@@ -108,7 +123,7 @@ class Home extends Component {
 
                         </Col>
                         <Col size="md-6 sm-12">
-                            <PostedRecipes recipes={this.state.recipes} userID={this.state.userID} removeFromPublic={this.removeFromPublic} recipeToRemove={this.state.recipeToRemove} showDeleteModal={this.showDeleteModal} deleteModal={this.state.deleteModal} closeModal={this.closeModal}  />
+                            <PostedRecipes recipes={this.state.recipes} userID={this.state.userID} removeFromPublic={this.removeFromPublic} recipeToRemove={this.state.recipeToRemove} showDeleteModal={this.showDeleteModal} deleteModal={this.state.deleteModal} closeModal={this.closeModal} home={this.state.home}  />
                             
                         </Col>
                         <br />

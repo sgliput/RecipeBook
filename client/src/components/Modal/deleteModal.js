@@ -41,10 +41,16 @@ class DeleteModal extends Component {
 
                         {this.state.recipeData !== undefined ? (
                             <div className="modal-body">
-                            
-                            <span className="close" onClick={this.props.closeModal}>&times;</span>
-                                <h3 className="deleteModalQ">As the original poster, you can remove your recipe from being public.</h3>
-                                <h3>Do you want to delete it from the home page?</h3>
+
+                                <span className="close" onClick={this.props.closeModal}>&times;</span>
+                                {this.props.home ? (
+                                    <h3 className="deleteModalQ">As the original poster, you can remove your recipe from being public.</h3>
+                                ) : ""}
+                                {this.props.home ? (
+                                    <h3>Do you want to delete it from the home page?</h3>
+                                ) : (
+                                        <h3>Do you want to delete this recipe from your Recipe Book?</h3>
+                                    )}
                                 <br />
                                 <br />
                                 <h4 className="deleteTitle">{this.state.recipeData.name}</h4>
@@ -53,8 +59,12 @@ class DeleteModal extends Component {
                                 {this.state.recipeData.cooktime ? <p className="deleteCooktime">Takes {this.state.recipeData.cooktime}</p> : ""}
                                 {this.state.recipeData.description ? <p className="deleteDescription">Description: {this.state.recipeData.description}</p> : ""}
                                 <br />
-                                <button className="btn btn-danger deleteRecipeBtn" onClick={() => this.props.removeFromPublic(this.state.recipeData._id)}>Delete</button>
-                                
+                                {this.props.home ? (
+                                    <button className="btn btn-danger deleteRecipeBtn" onClick={() => this.props.removeFromPublic(this.state.recipeData._id)}>Delete</button>
+                                ) : (
+                                        <button className="btn btn-danger deleteRecipeBtn" onClick={() => this.props.deleteUserRecipe(this.state.recipeData._id)}>Delete</button>
+                                    )}
+
                             </div>
                         ) : ""}
 

@@ -3,6 +3,13 @@
     min-height: 220px;
 }
 
+.cardCol > :first-child{
+    margin-bottom: 2rem;
+    min-height: 230px;
+    border: 2px outset orange;
+    border-radius: 0;
+}
+
 .deleteRecipePrivate{
     color: black;
     float: right;

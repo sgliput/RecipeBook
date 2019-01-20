@@ -1,16 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../Grid";
-import Card from "../Card";
+import DeleteModal from "../Modal/deleteModal";
 import "./recipeBook.css";
 
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
 
 
 function RecipeBook(props) {
 
     const recipeCards = props.recipes.map((recipe, index) => (
-        <Col size="md-4 sm-6">
+        <div className="col-md-4 col-sm-6 cardCol">
             <Card>
+                <CardContent>
             {/* <div className="card" key={recipe._id}> */}
                 <Row>
                     <Col size="md-11" id="recipeNameCol">
@@ -19,7 +24,7 @@ function RecipeBook(props) {
                         </Link>
                     </Col>
                     <Col size="md-1" id="xCol">
-                        <span className="deleteRecipePrivate" data-id={recipe._id} onClick={() => props.deleteUserRecipe(recipe._id)}>&times;</span>
+                        <span className="deleteRecipePrivate" data-id={recipe._id} onClick={() => props.showDeleteModal(recipe._id)}>&times;</span>
                     </Col>
                 </Row>
                 <br />
@@ -27,8 +32,9 @@ function RecipeBook(props) {
                 <hr />
                 {recipe.cooktime ? <p className="cooktime">Takes {recipe.cooktime}</p> : ""}
             {/* </div> */}
+            </CardContent>
             </Card>
-        </Col>
+        </div>
     ))
 
     return (
@@ -64,7 +70,7 @@ function RecipeBook(props) {
                     </Container>
 
                 )}
-
+                <DeleteModal recipeToRemove={props.recipeToRemove} show={props.deleteModal} closeModal={props.closeModal} deleteUserRecipe={props.deleteUserRecipe} />
         </div >
     );
 }
