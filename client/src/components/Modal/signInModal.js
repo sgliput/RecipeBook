@@ -56,6 +56,7 @@ class SignInModal extends Component {
                  });
                 // Save user to sessionStorage
                 sessionStorage.setItem('userID', res.data._id);
+                sessionStorage.setItem('userName', res.data.name);
             })
             .catch(err => {
                 console.log(err);

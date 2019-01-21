@@ -5,7 +5,7 @@ const db = require("../models");
 module.exports = {
   findAll: function (req, res) {
     db.Recipe
-      .find({public: true})
+      .find({ public: true })
       .sort({ dateSaved: -1 })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
@@ -28,7 +28,7 @@ module.exports = {
   },
   update: function (req, res) {
     db.Recipe
-      .findOneAndUpdate({ _id: req.params.id }, req.body, {new: true})
+      .findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
       .then(dbModel => {
         console.log(dbModel);
         res.json(dbModel)
@@ -48,8 +48,16 @@ module.exports = {
       .find(
         { public: true, $text: { $search: req.params.searchTerms } },
         { score: { $meta: "textScore" } }
-      ).sort( { score: { $meta: "textScore" } } )
-        .then(dbModel => res.json(dbModel))
+      ).sort({ score: { $meta: "textScore" } })
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
+  tagSearch: function (req, res) {
+    console.log("Tag: " + req.params.tag);
+    db.Recipe
+      .find({ public: true, tags: req.params.tag })
+      .sort({ dateSaved: -1 })
+      .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   }
 };

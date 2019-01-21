@@ -157,7 +157,6 @@ class PrivateRecipeSpec extends Component {
 
     handleEdit = event => {
         event.preventDefault();
-
         this.setState({ editing: true, tagField: "" });
     };
 

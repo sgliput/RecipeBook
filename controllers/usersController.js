@@ -62,6 +62,34 @@ module.exports = {
         res.status(422).json(err)
       });
   },
+  tagSearch: function (req, res) {
+    console.log("ID: " + req.params.userID);
+    console.log("Tag: " + req.params.tag);
+    db.User
+      .findById(req.params.userID)
+      .then(dbModel => {
+        console.log("Is this working?");
+        console.log(dbModel);
+        db.Recipe
+          .find({ tags: req.params.tag })
+          .sort({ dateSaved: -1 })
+          .then(dbRecipes => {
+            console.log(dbRecipes);
+            const matchRecipes = [];
+            for (i = 0; i < dbRecipes.length; i++) {
+              if (dbModel.recipes.indexOf(dbRecipes[i]._id) > -1) {
+                matchRecipes.push(dbRecipes[i]);
+              }
+            }
+            res.json(matchRecipes);
+          })
+      })
+      .catch(err => {
+        console.log("Goodbye");
+        console.log(err);
+        res.status(422).json(err)
+      });
+  },
   findOneAndUpdate: function (req, res) {
     db.User
       .findOneAndUpdate({ _id: req.params.userID }, { $addToSet: { recipes: req.params.recipeID } }, { new: true })

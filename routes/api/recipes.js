@@ -14,7 +14,7 @@ router
 router
   .route("/update/:id")
   .put(recipesController.update);
-  
+
 router
   .route("/delete/:id")
   .delete(recipesController.remove);
@@ -22,5 +22,9 @@ router
 router
   .route("/search/:searchTerms")
   .get(recipesController.search);
+
+router
+  .route("/tagSearch/:tag")
+  .get(recipesController.tagSearch);
 
 module.exports = router;

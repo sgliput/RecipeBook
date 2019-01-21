@@ -45,7 +45,7 @@ function RecipeBook(props) {
                 <Container className="topArea">
                     <Row>
                         <Col size="md-8 sm-9">
-                            <h3 className="title">Your Recipes:</h3>
+                            <h3 className="title">Your {props.currentTag ? props.currentTag : ""} Recipes:</h3>
                         </Col>
                         <Col size="md-4 sm-3">
                             <Link to={"/postRecipe"}>
@@ -57,13 +57,19 @@ function RecipeBook(props) {
 
             </div>
 
-            {recipeCards[0] === undefined ? (
+            {props.currentTag && recipeCards[0] === undefined ? (
+                <Container className="mainContainer">
+                    <Row>
+                        <h3 className="noMatch">Sorry, no matches.</h3>
+                    </Row>
+                </Container>
+            ) : recipeCards[0] === undefined ? (
                 <Container className="mainContainer">
                     <Row>
                         <h3 className="startPosting">Start posting to fill your own personal Recipe Book!</h3>
                     </Row>
                 </Container>
-            ) : (
+            ) : (                
                     <Container className="mainComponent">
                         <Row>
                             {recipeCards}

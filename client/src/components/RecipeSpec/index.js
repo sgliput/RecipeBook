@@ -158,9 +158,12 @@ class RecipeSpec extends Component {
 
     handleEdit = event => {
         event.preventDefault();
+        this.setState({ editing: true, tagField: "" });
+    };
 
-        this.setState({ editing: true });
-        console.log(this.IngredientChange);
+    stopEdit = event => {
+        event.preventDefault();
+        this.setState({ editing: false });
     };
 
     addIngredient = () => {
@@ -299,6 +302,9 @@ class RecipeSpec extends Component {
 
                     this.state.editing ? (
                         <section className="recipeForm">
+                             <Row>
+                                <button className="btn btn-info stopEditBtn" onClick={this.stopEdit}>Stop Editing</button>
+                            </Row>
                             <Row>
                                 <Col size="md-6">
                                     <h3 className="formInst">Editing <br /> {this.state.recipeName}</h3>
@@ -399,7 +405,10 @@ class RecipeSpec extends Component {
                                 {this.state.tagArray[0] !== undefined ? (
                                     <Row>
                                         <div className="specBtns">
-                                            <span className="tagsSpecLabel">Tags:</span> {this.state.tagBtnArray}
+                                            <p className="tagsSpecLabel">Tags:</p>
+                                            <div className="tagBtns">
+                                                {this.state.tagBtnArray}
+                                            </div>
                                         </div>
                                     </Row>
                                 ) : ""}

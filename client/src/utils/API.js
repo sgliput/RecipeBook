@@ -31,6 +31,9 @@ export default {
   searchRecipes: function(searchTerms) {
     return axios.get("/api/recipes/search/" + searchTerms)
   },
+  searchRecipesByTag: function(tag) {
+    return axios.get("/api/recipes/tagSearch/" + tag)
+  },
 
 
 getUser: function(password) {
@@ -53,5 +56,8 @@ getUser: function(password) {
   },
   searchPrivateRecipes: function(id, searchTerms) {
     return axios.get("/api/users/userSearch/" + id + "/search/" + searchTerms);
+  },
+  searchPrivateRecipesByTag: function(id, tag) {
+    return axios.get("/api/users/privateTagSearch/" + id + "/search/" + tag);
   }
 };

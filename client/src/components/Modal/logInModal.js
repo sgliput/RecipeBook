@@ -34,6 +34,7 @@ class LogInModal extends Component {
                 if (res.data !== null) {
                     // Save user to sessionStorage
                     sessionStorage.setItem('userID', res.data._id);
+                    sessionStorage.setItem("userName", res.data.name);
                     this.setState({ notSignedIn: false });
                 } else {
                     this.setState({ validPassword: false });

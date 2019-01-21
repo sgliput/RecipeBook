@@ -1,5 +1,5 @@
 body{
-    background-color: royalblue;
+    background-color: royalblue !important;
 }
 
 .row{
@@ -10,4 +10,9 @@ body{
     border: 4px solid black;
     margin-bottom: 20px;
     background-color: beige;
+}
+
+.rbIntro{
+    line-height: 2rem;
+    margin: 1rem 2rem 2rem 2rem;
 }

@@ -39,7 +39,7 @@ function PostedRecipes(props) {
                 <Container className="topArea">
                     <Row>
                         <Col size="md-8 sm-10" id="recipeTop">
-                            <h3 className="title">Latest Recipes:</h3>
+                            <h3 className="title">Latest {props.currentTag ? props.currentTag : ""} Recipes:</h3>
                         </Col>
                         {props.userID ? (
                             <Col size="md-4 sm-2" id="toRecipePostCol">
@@ -51,8 +51,13 @@ function PostedRecipes(props) {
                     <DeleteModal recipeToRemove={props.recipeToRemove} show={props.deleteModal} closeModal={props.closeModal} removeFromPublic={props.removeFromPublic} home={props.home} />
                 </Container>
             </div>
-            {recipeCards}
+            {props.recipes.length === 0 ?
 
+                <h3>Sorry, no matches.</h3> : (
+                <div>
+                { recipeCards }
+               </div>
+                )}
         </div>
     );
 }

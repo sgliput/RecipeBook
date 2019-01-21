@@ -13,8 +13,6 @@ router
   .put(usersController.update)
   .delete(usersController.remove);
 
-
-
 router
   .route("/update/:userID/recipe/:recipeID")
   .get(usersController.findOneAndUpdate)
@@ -24,9 +22,12 @@ router
   .route("/userRecipes/:id")
   .get(usersController.findID);
 
-  router
-    .route("/userSearch/:userID/search/:searchTerms")
-    .get(usersController.search);
+router
+  .route("/userSearch/:userID/search/:searchTerms")
+  .get(usersController.search);
 
+router
+  .route("/privateTagSearch/:userID/search/:tag")
+  .get(usersController.tagSearch);
 
 module.exports = router;

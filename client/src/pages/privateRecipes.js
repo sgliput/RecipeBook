@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
+import Drawer from "../components/Drawer";
 import RecipeBook from "../components/RecipeBook";
 import API from "../utils/API";
 
@@ -10,14 +11,19 @@ class privateRecipes extends Component {
         userID: this.props.match.params.userID,
         recipes: [],
         loggedInUserID: "",
+        userName: "",
         privateSearchTerms: "",
         searched: "",
         deleteModal: "none",
-        recipeToRemove: ""
+        recipeToRemove: "",
+        currentTag: ""
     }
 
     componentDidMount() {
-        this.setState({ loggedInUserID: sessionStorage.getItem('userID') });
+        this.setState({ 
+            loggedInUserID: sessionStorage.getItem('userID'),
+            userName: sessionStorage.getItem("userName")
+        });
         console.log("UserID: " + this.state.userID);
 
         API.getUserByID(this.state.userID)
@@ -43,7 +49,21 @@ class privateRecipes extends Component {
                 console.log(dbRecipes.data);
                 this.setState({
                     recipes: dbRecipes.data,
-                    searched: "searched"
+                    searched: "searched",
+                    currentTag: ""
+                })
+            })
+    }
+
+    privateTagSearch = text => {
+        console.log("Tag: " + text);
+        API.searchPrivateRecipesByTag(this.state.userID, text)
+            .then(dbRecipes => {
+                console.log(dbRecipes.data);
+                this.setState({
+                    recipes: dbRecipes.data,
+                    searched: "searched",
+                    currentTag: text
                 })
             })
     }
@@ -53,7 +73,8 @@ class privateRecipes extends Component {
             .then(res => {
                 this.setState({
                     recipes: res.data.recipes,
-                    searched: ""
+                    searched: "",
+                    currentTag: ""
                 });
             })
             .catch(err => console.log(err));
@@ -133,8 +154,9 @@ class privateRecipes extends Component {
             <div>
                 <Header />
                 <br />
+                {this.state.userName ? <Drawer userName={this.state.userName} tagSearch={this.privateTagSearch} private="private" /> : ""}
                 <Navbar userID={this.state.userID} handlePrivateSearchChange={this.handlePrivateSearchChange} privateSearchTerms={this.state.privateSearchTerms} onPrivateSearch={this.onPrivateSearch} getAllRecipes={this.getAllRecipes} private="private" searched={this.state.searched} />
-                <RecipeBook userID={this.state.userID} recipes={this.state.recipes} deleteUserRecipe={this.deleteUserRecipe} recipeToRemove={this.state.recipeToRemove} showDeleteModal={this.showDeleteModal} deleteModal={this.state.deleteModal} closeModal={this.closeModal} />
+                <RecipeBook userID={this.state.userID} recipes={this.state.recipes} deleteUserRecipe={this.deleteUserRecipe} recipeToRemove={this.state.recipeToRemove} showDeleteModal={this.showDeleteModal} deleteModal={this.state.deleteModal} closeModal={this.closeModal} currentTag={this.state.currentTag} />
             </div >
         );
     }
