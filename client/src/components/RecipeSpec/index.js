@@ -15,6 +15,7 @@ class RecipeSpec extends Component {
         creatorID: "",
         cooktime: "",
         description: "",
+        imgLink: "",
         tagField: "",
         tagArray: [],
         tagBtnArray: [],
@@ -75,8 +76,10 @@ class RecipeSpec extends Component {
                 source: res.data.source,
                 otherSite: res.data.otherSite
             });
-
         };
+        if (res.data.imgLink) {
+            this.setState({imgLink: res.data.imgLink});
+        }
         this.getIngredientList();
         this.getDirectionsList();
         console.log("Hello, sir!");
@@ -235,6 +238,7 @@ class RecipeSpec extends Component {
         const recipeName = this.state.recipeName;
         const cooktime = this.state.cooktime;
         const description = this.state.description;
+        const imgLink = this.state.imgLink;
         const tagArray = this.state.tagArray;
         console.log(this.state.tagArray);
         let ingredients = this.state.ingredients;
@@ -308,7 +312,7 @@ class RecipeSpec extends Component {
                             <Row>
                                 <Col size="md-6">
                                     <h3 className="formInst">Editing <br /> {this.state.recipeName}</h3>
-                                    {this.state.source === "Pinterest" ? <h4 className="editCreator">From Pinterest</h4> : this.state.otherSite ? <h4 className="editCreator">{this.state.creator}</h4> : <h4 className="editCreator">By {this.state.creator}</h4>}
+                                    {this.state.source === "Pinterest" ? <h4 className="editCreator">From Pinterest</h4> : this.state.otherSite ? <h4 className="editCreator">{this.state.creator}</h4> : this.state.creator ? <h4 className="editCreator">By {this.state.creator}</h4> : <h4 className="editCreator">By Anonymous (a.k.a. You)</h4>}
 
                                 </Col>
                             </Row>
@@ -398,7 +402,7 @@ class RecipeSpec extends Component {
 
 
                                 <h2 className="specRecipeName">{this.state.recipeData.name}</h2>
-                                {this.state.recipeData.source === "Pinterest" ? <p>From <a href={this.state.recipeData.creator} target="blank">Pinterest</a></p> : this.state.recipeData.otherSite ? <p className="specCreator">{this.state.recipeData.creator}</p> : <p className="specCreator">Posted by {this.state.recipeData.creator}</p>}
+                                {this.state.recipeData.source === "Pinterest" ? <p>From <a href={this.state.recipeData.creator} target="blank">Pinterest</a></p> : this.state.recipeData.otherSite ? <p className="specCreator">{this.state.recipeData.creator}</p> : this.state.recipeData.creator ? <p className="specCreator">Posted by {this.state.recipeData.creator}</p> : <p className="specCreator">Posted by Anonymous</p>}
                                 {this.state.recipeData.link ? <a href={this.state.recipeData.link} target="blank"><p className="origin">See Source</p></a> : ""}
                                 {this.state.recipeData.cooktime ? <p className="specCooktime">Takes {this.state.recipeData.cooktime}</p> : ""}
                                 <p className="specDescription">{this.state.recipeData.description}</p>

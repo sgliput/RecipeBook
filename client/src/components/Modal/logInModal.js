@@ -28,7 +28,7 @@ class LogInModal extends Component {
         const userName = this.state.userName;
         const userPassword = this.state.userPassword;
         console.log("User: " + userName);
-        API.getUser(userPassword)
+        API.getUser(userName, userPassword)
             .then(res => {
                 console.log(res);
                 if (res.data !== null) {
@@ -71,7 +71,7 @@ class LogInModal extends Component {
                     <div className="modal-content">
                     <div className="md-content">
                         <div className="modal-header">
-                            {this.state.validPassword ? <h2>Enter your name and password to sign in.</h2> : <h2>Oops, try another password.</h2>}
+                            {this.state.validPassword ? <h2>Enter your name and password to sign in.</h2> : <h2>Oops, try another user name or password.</h2>}
                             <span className="close" onClick={this.closeModal}>&times;</span>
                         </div>
                         <div className="modal-body">

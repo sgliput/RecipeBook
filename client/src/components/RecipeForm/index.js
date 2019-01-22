@@ -481,161 +481,236 @@ class RecipeForm extends Component {
                 }
 
             })
+        } else if (this.state.siteToScrape === "Allrecipes") {
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            console.log("url: " + this.state.urlToScrape);
+            axios.get(proxyurl + this.state.urlToScrape).then(response => {
+
+                const $ = cheerio.load(response.data);
+
+                let ingredients = [];
+                const steps = [];
+
+
+                const recipeName = $("#recipe-main-content").text().trim();
+                const creator = $(".submitter__name").text().trim();
+                const creatorID = this.state.loggedInUserID;
+                const description = $(".submitter__description").text().trim();
+                const cooktime = $("time").last().children("span").text().trim();
+                const imageSrc = $(".rec-photo").attr("src");
+                const link = this.state.urlToScrape;
+
+
+                $(".recipe-ingred_txt").each((i, element) => {
+                    const ingredient = $(element).text().trim();
+                    if (ingredient !== "" && ingredient !== "Add all ingredients to list") {
+                        ingredients.push(ingredient);
+                    }
+                });
+
+                $(".recipe-directions__list--item").each((i, element) => {
+                    const step = $(element).text().trim();
+                    if (step !== "") {
+                        steps.push(step);
+                    }
+                });
+
+                const ingObject = Object.assign({}, ingredients);
+                let keys = Object.keys(ingObject);
+                for (var i = 0; i < keys.length; i++) {
+                    var key = keys[i].replace(i, "ingredient" + i);
+                    ingObject[key] = ingObject[keys[i]];
+                    delete ingObject[i];
+                }
+
+
+                const scrapedRecipe = {
+                    name: recipeName,
+                    creator: "By " + creator + " / Allrecipes",
+                    creatorID: creatorID,
+                    description: description,
+                    cooktime: cooktime.split("h").join("hr").split("m").join("min"),
+                    imgLink: imageSrc,
+                    ingredients: ingredients,
+                    directions: steps,
+                    tags: this.state.tagArray,
+                    link: link,
+                    otherSite: true,
+                    source: "Allrecipes",
+                    public: false
+                };
+                console.log(scrapedRecipe);
+                if (this.state.loggedInUserID) {
+                    API.saveRecipe(scrapedRecipe)
+                        .then(dbRecipe => {
+                            console.log(dbRecipe);
+                            //
+                            API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
+                                .then(dbUser => {
+                                    console.log(dbUser);
+                                })
+                        })
+                        .catch(err => console.log(err));
+                } else {
+                    console.log("Sorry");
+                }
+
+            })
         }
     }
 
-        render() {
-            return (
-                <Container className="mainContainer">
-                    <section className="recipeForm">
-                        <Row>
-                            <Col size="md-3">
-                                <h3 className="formInst">Input Your Recipe Below</h3>
-                            </Col>
-                            <Col size="md-9" id="dropdownCol">
-                                <form className="form-horizontal">
-                                    <Row>
-                                        <h5 className="siteToScrapeIntro">Or enter the URL from one of the below sites to import the recipe into your personal Recipe Book</h5>
-                                    </Row>
-                                    <Row>
-                                        <Col size="md-4" id="dropdown">
-                                            <div className="form-group">
-                                                <label className="control-label siteToScrapeLabel">Website:</label>
-                                                <select className="form-control siteToScrape" size="1" onChange={this.scrapeChange}>
-                                                    <option defaultValue="Food Network">Food Network</option>
-                                                    <option value="Epicurious">Epicurious</option>
-                                                    <option value="All Recipes">All Recipes</option>
-                                                    <option value="Food.com">Food.com</option>
-                                                    <option value="MyRecipes.com">MyRecipes.com</option>
-                                                    <option value="Tastee">Tastee</option>
-                                                    <option value="Yummly">Yummly</option>
-                                                    <option value="Simply Recipes">Simply Recipes</option>
-                                                    <option value="SeriousEats.com">SeriousEats.com</option>
-                                                    <option value="Pinterest">Pinterest</option>
-                                                </select>
-                                            </div>
-                                        </Col>
-                                        <Col size="md-5">
-                                            <label className="control-label urlToScrapeLabel">URL:</label>
-                                            <input className="form-control urlToScrape" value={this.state.url} onChange={this.handleURLChange} />
-                                        </Col>
-                                        <Col size="md-3">
-                                            <button className="btn btn-success submitURL" onClick={this.handleURLSubmit}>Submit</button>
-                                        </Col>
+    render() {
+        return (
+            <Container className="mainContainer">
+                <section className="recipeForm">
+                    <Row>
+                        <Col size="md-3">
+                            <h3 className="formInst">Input Your Recipe Below</h3>
+                        </Col>
+                        <Col size="md-9" id="dropdownCol">
+                            <form className="form-horizontal">
+                                <Row>
+                                    <h5 className="siteToScrapeIntro">Or enter the URL from one of the below sites to import the recipe into your personal Recipe Book</h5>
+                                </Row>
+                                <Row>
+                                    <Col size="md-4" id="dropdown">
+                                        <div className="form-group">
+                                            <label className="control-label siteToScrapeLabel">Website:</label>
+                                            <select className="form-control siteToScrape" size="1" onChange={this.scrapeChange}>
+                                                <option defaultValue="Food Network">Food Network</option>
+                                                <option value="Epicurious">Epicurious</option>
+                                                <option value="Allrecipes">Allrecipes</option>
+                                                <option value="Food.com">Food.com</option>
+                                                <option value="MyRecipes.com">MyRecipes.com</option>
+                                                <option value="Tastee">Tastee</option>
+                                                <option value="Yummly">Yummly</option>
+                                                <option value="Simply Recipes">Simply Recipes</option>
+                                                <option value="SeriousEats.com">SeriousEats.com</option>
+                                                <option value="Pinterest">Pinterest</option>
+                                            </select>
+                                        </div>
+                                    </Col>
+                                    <Col size="md-5">
+                                        <label className="control-label urlToScrapeLabel">URL:</label>
+                                        <input className="form-control urlToScrape" value={this.state.url} onChange={this.handleURLChange} />
+                                    </Col>
+                                    <Col size="md-3">
+                                        <button className="btn btn-success submitURL" onClick={this.handleURLSubmit}>Submit</button>
+                                    </Col>
 
-                                    </Row>
+                                </Row>
+                            </form>
+                        </Col>
+                    </Row>
+                    <br />
+                    <Row>
+                        <Col size="md-2">
+                            <label className="control-label tagLabel">Tags:</label>
+                            <select className="form-control tagList" size="1" value={this.state.tagField} onChange={this.addTag}>
+                                <option defaultValue=""></option>
+                                <option value="Asian">Asian</option>
+                                <option value="Appetizer">Appetizer</option>
+                                <option value="Baked Goods">Baked Goods</option>
+                                <option value="Beans">Beans</option>
+                                <option value="Beef">Beef</option>
+                                <option value="Bread">Bread</option>
+                                <option value="Breakfast">Breakfast</option>
+                                <option value="Brunch">Brunch</option>
+                                <option value="Cake">Cake</option>
+                                <option value="Casserole">Casserole</option>
+                                <option value="Chicken">Chicken</option>
+                                <option value="Cookie">Cookie</option>
+                                <option value="Corn">Corn</option>
+                                <option value="Dessert">Dessert</option>
+                                <option value="Drinks">Drinks</option>
+                                <option value="Eggs">Eggs</option>
+                                <option value="Fish">Fish</option>
+                                <option value="Fruit">Fruit</option>
+                                <option value="Holiday">Holiday</option>
+                                <option value="Lamb">Lamb</option>
+                                <option value="Meat">Meat</option>
+                                <option value="Mediterranean">Mediterranean</option>
+                                <option value="Mexican">Mexican</option>
+                                <option value="Pasta">Pasta</option>
+                                <option value="Pastry">Pastry</option>
+                                <option value="Pizza">Pizza</option>
+                                <option value="Pork">Pork</option>
+                                <option value="Potato">Potato</option>
+                                <option value="Poultry">Poultry</option>
+                                <option value="Rice">Rice</option>
+                                <option value="Salad">Salad</option>
+                                <option value="Sandwich">Sandwich</option>
+                                <option value="Seafood">Seafood</option>
+                                <option value="Side Dish">Side Dish</option>
+                                <option value="Soup">Soup</option>
+                                <option value="Vegan">Vegan</option>
+                                <option value="Vegetarian">Vegetarian</option>
+                            </select>
+                        </Col>
+                        <Col size="md-10">
+                            <div className="tagsAdded">
+                                {this.state.tagBtnArray}
+                            </div>
+                        </Col>
+
+                    </Row>
+                    <br />
+                    <div className="form-group">
+                        <Row>
+                            <Col size="md-4" id="firstFields">
+                                <label>Name of Recipe:</label>
+                                <input className="form-control recipeNameField" value={this.state.recipeName} onChange={this.handleRecipeNameChange} />
+                                <br />
+                                <label>Your Name:</label>
+                                <input className="form-control nameField" value={this.state.name} onChange={this.handleNameChange} />
+                                <br />
+                                <label>Cook Time:</label>
+                                <input className="form-control cooktimeField" value={this.state.cooktime} onChange={this.handleCooktimeChange} />
+                                <br />
+                                <label>Description:</label>
+                                <textarea className="form-control descriptionField" rows="3" value={this.state.description} onChange={this.handleDescriptionChange} />
+                                <br />
+                            </Col>
+                            <Col size="md-4" id="firstIngrCol">
+                                <IngredientFields addIngredient={this.addIngredient} IngFields={this.IngFields} />
+                            </Col>
+                            <Col size="md-4" id="firstDirCol">
+                                <DirectionFields addStep={this.addStep} DirFields={this.DirFields} />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <br />
+                            <Col size="md-2 sm-3">
+                                <button className="btn btn-success recipeSubmit" onClick={this.handleSubmit}>Submit</button>
+                            </Col>
+                            <Col size="md-5 sm-6">
+                                <form>
+
+                                    <label className="radio-inline publicRadio">
+                                        <input type="radio" value="public"
+                                            checked={this.state.selectedOption === 'public'}
+                                            onChange={this.handleRadioChange} />
+                                        Public
+      </label>
+
+
+                                    <label className="radio-inline">
+                                        <input type="radio" value="private"
+                                            checked={this.state.selectedOption === 'private'}
+                                            onChange={this.handleRadioChange} />
+                                        Private
+      </label>
+
                                 </form>
                             </Col>
-                        </Row>
-                        <br />
-                        <Row>
-                            <Col size="md-2">
-                                <label className="control-label tagLabel">Tags:</label>
-                                <select className="form-control tagList" size="1" value={this.state.tagField} onChange={this.addTag}>
-                                    <option defaultValue=""></option>
-                                    <option value="Asian">Asian</option>
-                                    <option value="Appetizer">Appetizer</option>
-                                    <option value="Baked Goods">Baked Goods</option>
-                                    <option value="Beans">Beans</option>
-                                    <option value="Beef">Beef</option>
-                                    <option value="Bread">Bread</option>
-                                    <option value="Breakfast">Breakfast</option>
-                                    <option value="Brunch">Brunch</option>
-                                    <option value="Cake">Cake</option>
-                                    <option value="Casserole">Casserole</option>
-                                    <option value="Chicken">Chicken</option>
-                                    <option value="Cookie">Cookie</option>
-                                    <option value="Corn">Corn</option>
-                                    <option value="Dessert">Dessert</option>
-                                    <option value="Drinks">Drinks</option>
-                                    <option value="Eggs">Eggs</option>
-                                    <option value="Fish">Fish</option>
-                                    <option value="Fruit">Fruit</option>
-                                    <option value="Holiday">Holiday</option>
-                                    <option value="Lamb">Lamb</option>
-                                    <option value="Meat">Meat</option>
-                                    <option value="Mediterranean">Mediterranean</option>
-                                    <option value="Mexican">Mexican</option>
-                                    <option value="Pasta">Pasta</option>
-                                    <option value="Pastry">Pastry</option>
-                                    <option value="Pizza">Pizza</option>
-                                    <option value="Pork">Pork</option>
-                                    <option value="Potato">Potato</option>
-                                    <option value="Poultry">Poultry</option>
-                                    <option value="Rice">Rice</option>
-                                    <option value="Salad">Salad</option>
-                                    <option value="Sandwich">Sandwich</option>
-                                    <option value="Seafood">Seafood</option>
-                                    <option value="Side Dish">Side Dish</option>
-                                    <option value="Soup">Soup</option>
-                                    <option value="Vegan">Vegan</option>
-                                    <option value="Vegetarian">Vegetarian</option>
-                                </select>
-                            </Col>
-                            <Col size="md-10">
-                                <div className="tagsAdded">
-                                    {this.state.tagBtnArray}
-                                </div>
-                            </Col>
 
                         </Row>
-                        <br />
-                        <div className="form-group">
-                            <Row>
-                                <Col size="md-4" id="firstFields">
-                                    <label>Name of Recipe:</label>
-                                    <input className="form-control recipeNameField" value={this.state.recipeName} onChange={this.handleRecipeNameChange} />
-                                    <br />
-                                    <label>Your Name:</label>
-                                    <input className="form-control nameField" value={this.state.name} onChange={this.handleNameChange} />
-                                    <br />
-                                    <label>Cook Time:</label>
-                                    <input className="form-control cooktimeField" value={this.state.cooktime} onChange={this.handleCooktimeChange} />
-                                    <br />
-                                    <label>Description:</label>
-                                    <textarea className="form-control descriptionField" rows="3" value={this.state.description} onChange={this.handleDescriptionChange} />
-                                    <br />
-                                </Col>
-                                <Col size="md-4" id="firstIngrCol">
-                                    <IngredientFields addIngredient={this.addIngredient} IngFields={this.IngFields} />
-                                </Col>
-                                <Col size="md-4" id="firstDirCol">
-                                    <DirectionFields addStep={this.addStep} DirFields={this.DirFields} />
-                                </Col>
-                            </Row>
-                            <Row>
-                                <br />
-                                <Col size="md-2 sm-3">
-                                    <button className="btn btn-success recipeSubmit" onClick={this.handleSubmit}>Submit</button>
-                                </Col>
-                                <Col size="md-5 sm-6">
-                                    <form>
+                    </div>
+                </section>
 
-                                        <label className="radio-inline publicRadio">
-                                            <input type="radio" value="public"
-                                                checked={this.state.selectedOption === 'public'}
-                                                onChange={this.handleRadioChange} />
-                                            Public
-      </label>
+            </Container >
+        );
+    };
+}
 
-
-                                        <label className="radio-inline">
-                                            <input type="radio" value="private"
-                                                checked={this.state.selectedOption === 'private'}
-                                                onChange={this.handleRadioChange} />
-                                            Private
-      </label>
-
-                                    </form>
-                                </Col>
-
-                            </Row>
-                        </div>
-                    </section>
-
-                </Container >
-            );
-        };
-    }
-
-    export default RecipeForm;
+export default RecipeForm;

@@ -23,7 +23,7 @@ function PostedRecipes(props) {
                 </Row>
                 <br />
                 <Row>
-                    {recipe.source === "Pinterest" ? <p className="creator">From Pinterest</p> : recipe.otherSite ? <p className="creator">{recipe.creator}</p> : <p className="creator">By {recipe.creator}</p>}
+                    {recipe.source === "Pinterest" ? <p className="creator">From Pinterest</p> : recipe.otherSite ? <p className="creator">{recipe.creator}</p> : recipe.creator ? <p className="creator">By {recipe.creator}</p> : <p className="creator">By Anonymous</p>}
                 </Row>
             </Container>
             <hr />

@@ -1,11 +1,11 @@
-.card{
-    margin-bottom: 1rem;
-    min-height: 220px;
+
+.cardContent{
+    margin-bottom: -1.3rem;
 }
 
 .cardCol > :first-child{
     margin-bottom: 2rem;
-    min-height: 230px;
+    min-height: 90%;
     border: 2px outset orange;
     border-radius: 0;
 }

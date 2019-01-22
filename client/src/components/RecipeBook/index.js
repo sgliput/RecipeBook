@@ -14,7 +14,7 @@ function RecipeBook(props) {
 
     const recipeCards = props.recipes.map((recipe, index) => (
         <div className="col-md-4 col-sm-6 cardCol">
-            <Card>
+            <Card className="card">
                 <CardContent className="cardContent">
             {/* <div className="card" key={recipe._id}> */}
                 <Row>

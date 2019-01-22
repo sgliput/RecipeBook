@@ -73,8 +73,10 @@ class PrivateRecipeSpec extends Component {
                 source: res.data.source,
                 otherSite: res.data.otherSite
             });
-
         };
+        if (res.data.imgLink) {
+            this.setState({imgLink: res.data.imgLink});
+        }
         this.getIngredientList();
         this.getDirectionsList();
         console.log(res.data.ingredients);
@@ -235,6 +237,7 @@ class PrivateRecipeSpec extends Component {
         const recipeName = this.state.recipeName;
         const cooktime = this.state.cooktime;
         const description = this.state.description;
+        const imgLink = this.state.imgLink;
         const tagArray = this.state.tagArray;
         let ingredients = this.state.ingredients;
         //forEach loop removes any empty values in the ingredients array
@@ -273,6 +276,7 @@ class PrivateRecipeSpec extends Component {
                 description: description,
                 ingredients: ingObjects,
                 directions: dirObjects,
+                imgLink: imgLink,
                 tags: tagArray
             };
 
@@ -293,6 +297,7 @@ class PrivateRecipeSpec extends Component {
                 creatorID: this.state.loggedInUserID,
                 cooktime: cooktime,
                 description: description,
+                imgLink: imgLink,
                 ingredients: ingObjects,
                 directions: dirObjects,
                 tags: tagArray,

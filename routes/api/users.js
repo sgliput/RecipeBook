@@ -9,9 +9,12 @@ router.route("/")
 // Matches with "/api/users/:id"
 router
   .route("/user/:id")
-  .get(usersController.findOne)
   .put(usersController.update)
   .delete(usersController.remove);
+
+router
+  .route("/userLogin/:userName/:pwd")
+  .get(usersController.findOne)
 
 router
   .route("/update/:userID/recipe/:recipeID")

@@ -36,8 +36,8 @@ export default {
   },
 
 
-getUser: function(password) {
-    return axios.get("/api/users/user/" + password);
+getUser: function(userName, password) {
+    return axios.get("/api/users/userLogin/" + userName + "/" + password);
   },
   getUserByID: function(id) {
     return axios.get("/api/users/userRecipes/" + id);
