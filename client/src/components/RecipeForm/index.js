@@ -17,6 +17,7 @@ class RecipeForm extends Component {
         name: "",
         cooktime: "",
         description: "",
+        imgLink: "",
         tagField: "",
         tagArray: [],
         tagBtnArray: [],
@@ -62,6 +63,14 @@ class RecipeForm extends Component {
         //Changes this.state.description to the content of the input box
         this.setState({
             description: event.target.value
+        });
+        console.log(this.state);
+    };
+
+    handleImgLinkChange = event => {
+        //Changes this.state.description to the content of the input box
+        this.setState({
+            imgLink: event.target.value
         });
         console.log(this.state);
     };
@@ -201,6 +210,10 @@ class RecipeForm extends Component {
         const creatorID = this.state.loggedInUserID;
         const cooktime = this.state.cooktime;
         const description = this.state.description;
+        let imgLink = "";
+        if (this.state.imgLink.endsWith(".jpg") || this.state.imgLink.endsWith(".png")) {
+            imgLink = this.state.imgLink;
+        };
         const ingredients = this.state.ingredients;
         const directions = this.state.directions;
         const tagArray = this.state.tagArray;
@@ -210,6 +223,7 @@ class RecipeForm extends Component {
             creatorID: creatorID,
             cooktime: cooktime,
             description: description,
+            imgLink: imgLink,
             ingredients: ingredients,
             directions: directions,
             tags: tagArray
@@ -672,6 +686,9 @@ class RecipeForm extends Component {
                                 <br />
                                 <label>Description:</label>
                                 <textarea className="form-control descriptionField" rows="3" value={this.state.description} onChange={this.handleDescriptionChange} />
+                                <br />
+                                <label>Have an image? Copy its URL below:</label>
+                                <input className="form-control imgLinkField" value={this.state.imgLink} onChange={this.handleImgLinkChange} />
                                 <br />
                             </Col>
                             <Col size="md-4" id="firstIngrCol">
