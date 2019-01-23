@@ -329,6 +329,7 @@ class RecipeSpec extends Component {
                                         <option value="Asian">Asian</option>
                                         <option value="Appetizer">Appetizer</option>
                                         <option value="Baked Goods">Baked Goods</option>
+                                        <option value="BBQ">BBQ</option>
                                         <option value="Beans">Beans</option>
                                         <option value="Beef">Beef</option>
                                         <option value="Bread">Bread</option>
@@ -344,6 +345,7 @@ class RecipeSpec extends Component {
                                         <option value="Eggs">Eggs</option>
                                         <option value="Fish">Fish</option>
                                         <option value="Fruit">Fruit</option>
+                                        <option value="Gluten-Free">Gluten-Free</option>
                                         <option value="Holiday">Holiday</option>
                                         <option value="Lamb">Lamb</option>
                                         <option value="Meat">Meat</option>

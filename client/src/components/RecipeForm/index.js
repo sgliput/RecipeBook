@@ -573,6 +573,80 @@ class RecipeForm extends Component {
                 }
 
             })
+        } else if (this.state.siteToScrape === "MyRecipes") {
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            console.log("url: " + this.state.urlToScrape);
+            axios.get(proxyurl + this.state.urlToScrape).then(response => {
+
+                const $ = cheerio.load(response.data);
+
+                let ingredients = [];
+                const steps = [];
+
+                const recipeName = $("h1.headline").text().trim();
+                const creator = $(".author-name").text().trim();
+                const creatorID = this.state.loggedInUserID;
+                const description = $(".recipe-summary").children().children("p").text().trim();
+                const cooktime = $(".recipe-meta-item").first().next().children(".recipe-meta-item-body").text().trim();
+                const imageSrc = $(".lead-media").attr("data-src");
+                const link = this.state.urlToScrape;
+
+
+                $(".ingredients ul li").each((i, element) => {
+                    const ingredient = $(element).text().trim();
+                    if (ingredient !== "") {
+                        ingredients.push(ingredient);
+                    }
+                });
+
+                $(".step").each((i, element) => {
+                    const step = $(element).children("p").text().trim();
+                    if (step !== "") {
+                        steps.push(step);
+                    }
+                });
+
+                const ingObject = Object.assign({}, ingredients);
+                let keys = Object.keys(ingObject);
+                for (var i = 0; i < keys.length; i++) {
+                    var key = keys[i].replace(i, "ingredient" + i);
+                    ingObject[key] = ingObject[keys[i]];
+                    delete ingObject[i];
+                }
+
+
+                const scrapedRecipe = {
+                    name: recipeName,
+                    creator: "By " + creator + " / MyRecipes",
+                    creatorID: creatorID,
+                    description: description,
+                    cooktime: cooktime,
+                    imgLink: imageSrc,
+                    ingredients: ingredients,
+                    directions: steps,
+                    tags: this.state.tagArray,
+                    link: link,
+                    otherSite: true,
+                    source: "MyRecipes",
+                    public: false
+                };
+                console.log(scrapedRecipe);
+                if (this.state.loggedInUserID) {
+                    API.saveRecipe(scrapedRecipe)
+                        .then(dbRecipe => {
+                            console.log(dbRecipe);
+                            this.props.showAddModal(dbRecipe.data._id);
+                            API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
+                                .then(dbUser => {
+                                    console.log(dbUser);
+                                })
+                        })
+                        .catch(err => console.log(err));
+                } else {
+                    console.log("Sorry");
+                }
+
+            })
         }
     }
 
@@ -598,7 +672,7 @@ class RecipeForm extends Component {
                                                 <option value="Epicurious">Epicurious</option>
                                                 <option value="Allrecipes">Allrecipes</option>
                                                 <option value="Food.com">Food.com</option>
-                                                <option value="MyRecipes.com">MyRecipes.com</option>
+                                                <option value="MyRecipes">MyRecipes</option>
                                                 <option value="Yummly">Yummly</option>
                                                 <option value="Simply Recipes">Simply Recipes</option>
                                                 <option value="SeriousEats.com">SeriousEats.com</option>
@@ -627,6 +701,7 @@ class RecipeForm extends Component {
                                 <option value="Asian">Asian</option>
                                 <option value="Appetizer">Appetizer</option>
                                 <option value="Baked Goods">Baked Goods</option>
+                                <option value="BBQ">BBQ</option>
                                 <option value="Beans">Beans</option>
                                 <option value="Beef">Beef</option>
                                 <option value="Bread">Bread</option>
@@ -642,6 +717,7 @@ class RecipeForm extends Component {
                                 <option value="Eggs">Eggs</option>
                                 <option value="Fish">Fish</option>
                                 <option value="Fruit">Fruit</option>
+                                <option value="Gluten-Free">Gluten-Free</option>
                                 <option value="Holiday">Holiday</option>
                                 <option value="Lamb">Lamb</option>
                                 <option value="Meat">Meat</option>
