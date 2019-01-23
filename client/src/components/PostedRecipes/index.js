@@ -20,8 +20,8 @@ function PostedRecipes(props) {
                     <Col size="md-2">
                         {props.userID === recipe.creatorID ? (
                             <IconButton className="deleteRecipeMaster">
-                            <DeleteIcon  data-id={recipe._id} onClick={() => props.showDeleteModal(recipe._id)} />
-                        </IconButton>
+                                <DeleteIcon data-id={recipe._id} onClick={() => props.showDeleteModal(recipe._id)} />
+                            </IconButton>
                         ) : ""}
                     </Col>
                 </Row>
@@ -58,9 +58,9 @@ function PostedRecipes(props) {
             {props.recipes.length === 0 ?
 
                 <h3>Sorry, no matches.</h3> : (
-                <div>
-                { recipeCards }
-               </div>
+                    <div>
+                        {recipeCards}
+                    </div>
                 )}
         </div>
     );
