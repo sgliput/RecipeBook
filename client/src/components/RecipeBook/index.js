@@ -7,7 +7,8 @@ import "./recipeBook.css";
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 function RecipeBook(props) {
@@ -16,25 +17,27 @@ function RecipeBook(props) {
         <div className="col-md-4 col-sm-6 cardCol">
             <Card className="card">
                 <CardContent className="cardContent">
-            {/* <div className="card" key={recipe._id}> */}
-                <Row>
-                    <Col size="md-10 sm-8" id="recipeNameCol">
-                        <Link to={"/users/" + props.userID + "/recipes/" + recipe._id}>
-                            <h3 className="name">{recipe.name}</h3>
-                        </Link>
-                    </Col>
-                    <Col size="md-1 sm-2" id="xCol">
-                        <span className="deleteRecipePrivate" data-id={recipe._id} onClick={() => props.showDeleteModal(recipe._id)}>&times;</span>
-                    </Col>
-                </Row>
-                <br />
-                <p className="creator">{recipe.edited ? "Original: " : ""}{recipe.source === "Pinterest" && !recipe.edited ? "From Pinterest" : recipe.source === "Pinterest" && recipe.edited ? "Pinterest" : recipe.otherSite ? recipe.creator : recipe.creatorID === props.userID ? "By You" : `By ${recipe.creator}`}</p>
-                {recipe.imgLink ? (
-                <CardMedia className="cardImage" image={recipe.imgLink} title={recipe.name} />
-                ) : <hr />}
-                {recipe.cooktime ? <p className="cooktime">Takes {recipe.cooktime}</p> : ""}
-            {/* </div> */}
-            </CardContent>
+                    {/* <div className="card" key={recipe._id}> */}
+                    <Row>
+                        <Col size="md-10 sm-8" id="recipeNameCol">
+                            <Link to={"/users/" + props.userID + "/recipes/" + recipe._id}>
+                                <h3 className="name">{recipe.name}</h3>
+                            </Link>
+                        </Col>
+                        <Col size="md-1 sm-2" id="xCol">
+                            <IconButton className="deleteRecipePrivate">
+                                <DeleteIcon  data-id={recipe._id} onClick={() => props.showDeleteModal(recipe._id)} />
+                            </IconButton>
+                        </Col>
+                    </Row>
+                    <br />
+                    <p className="creator">{recipe.edited ? "Original: " : ""}{recipe.source === "Pinterest" && !recipe.edited ? "From Pinterest" : recipe.source === "Pinterest" && recipe.edited ? "Pinterest" : recipe.otherSite ? recipe.creator : recipe.creatorID === props.userID ? "By You" : `By ${recipe.creator}`}</p>
+                    {recipe.imgLink ? (
+                        <CardMedia className="cardImage" image={recipe.imgLink} title={recipe.name} />
+                    ) : <hr />}
+                    {recipe.cooktime ? <p className="cooktime">Takes {recipe.cooktime}</p> : ""}
+                    {/* </div> */}
+                </CardContent>
             </Card>
         </div>
     ))
@@ -69,16 +72,16 @@ function RecipeBook(props) {
                         <h3 className="startPosting">Start posting to fill your own personal Recipe Book!</h3>
                     </Row>
                 </Container>
-            ) : (                
-                    <Container className="mainComponent">
-                        <Row>
-                            {recipeCards}
-                        </Row>
-                        <br />
-                    </Container>
+            ) : (
+                        <Container className="mainComponent">
+                            <Row>
+                                {recipeCards}
+                            </Row>
+                            <br />
+                        </Container>
 
-                )}
-                <DeleteModal recipeToRemove={props.recipeToRemove} show={props.deleteModal} closeModal={props.closeModal} deleteUserRecipe={props.deleteUserRecipe} />
+                    )}
+            <DeleteModal recipeToRemove={props.recipeToRemove} show={props.deleteModal} closeModal={props.closeModal} deleteUserRecipe={props.deleteUserRecipe} />
         </div >
     );
 }

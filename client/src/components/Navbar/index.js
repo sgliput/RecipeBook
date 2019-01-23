@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../Grid";
 import SearchField from "../SearchField";
+import IconButton from '@material-ui/core/IconButton';
+import HomeIcon from '@material-ui/icons/Home';
+import Tooltip from '@material-ui/core/Tooltip';
 import "./navbar.css";
 
 class NavBar extends Component {
@@ -26,7 +29,14 @@ class NavBar extends Component {
                             </Col>) : (
                                 <Col size="md-5 sm-3" id="homeBtnCol">
                                     <Link to={"/"}>
-                                        <button className="btn btn-info toHome">Home Page</button>
+                                        <Tooltip title="Home Page">
+                                            <IconButton className="toHome">
+                                                <HomeIcon />
+                                            </IconButton>
+                                        </Tooltip>
+
+
+                                        {/* <button className="btn btn-info toHome">Home Page</button> */}
                                     </Link>
                                 </Col>
                             )}
@@ -44,7 +54,7 @@ class NavBar extends Component {
                                 <button className="btn btn-success toPrivate">
                                     <Link to={"/userRecipes/" + this.props.userID} className="toPrivateLink">
                                         Your RecipeBook
-                        </Link>
+                                    </Link>
                                 </button>
 
                             ) : ""}

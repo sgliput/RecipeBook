@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../Grid";
 import IngredientFields from "../IngredientFields";
 import DirectionFields from "../DirectionFields";
+import AddModal from "../Modal/addModal";
 import API from "../../utils/API";
 import "./recipeForm.css";
 
@@ -217,6 +218,7 @@ class RecipeForm extends Component {
             API.saveRecipe(fullRecipe)
                 .then(dbRecipe => {
                     console.log(dbRecipe);
+                    this.props.showAddModal(dbRecipe.data._id);
                     API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
                         .then(dbUser => {
                             console.log(dbUser);
@@ -314,7 +316,7 @@ class RecipeForm extends Component {
                     API.saveRecipe(scrapedRecipe)
                         .then(dbRecipe => {
                             console.log(dbRecipe);
-                            //
+                            this.props.showAddModal(dbRecipe.data._id);
                             API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
                                 .then(dbUser => {
                                     console.log(dbUser);
@@ -396,6 +398,7 @@ class RecipeForm extends Component {
                     API.saveRecipe(scrapedRecipe)
                         .then(dbRecipe => {
                             console.log(dbRecipe);
+                            this.props.showAddModal(dbRecipe.data._id);
                             API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
                                 .then(dbUser => {
                                     console.log(dbUser);
@@ -469,7 +472,7 @@ class RecipeForm extends Component {
                     API.saveRecipe(scrapedRecipe)
                         .then(dbRecipe => {
                             console.log(dbRecipe);
-                            //
+                            this.props.showAddModal(dbRecipe.data._id);
                             API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
                                 .then(dbUser => {
                                     console.log(dbUser);
@@ -544,7 +547,7 @@ class RecipeForm extends Component {
                     API.saveRecipe(scrapedRecipe)
                         .then(dbRecipe => {
                             console.log(dbRecipe);
-                            //
+                            this.props.showAddModal(dbRecipe.data._id);
                             API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
                                 .then(dbUser => {
                                     console.log(dbUser);
@@ -582,7 +585,6 @@ class RecipeForm extends Component {
                                                 <option value="Allrecipes">Allrecipes</option>
                                                 <option value="Food.com">Food.com</option>
                                                 <option value="MyRecipes.com">MyRecipes.com</option>
-                                                <option value="Tastee">Tastee</option>
                                                 <option value="Yummly">Yummly</option>
                                                 <option value="Simply Recipes">Simply Recipes</option>
                                                 <option value="SeriousEats.com">SeriousEats.com</option>
@@ -633,6 +635,7 @@ class RecipeForm extends Component {
                                 <option value="Mexican">Mexican</option>
                                 <option value="Pasta">Pasta</option>
                                 <option value="Pastry">Pastry</option>
+                                <option value="Pie">Pie</option>
                                 <option value="Pizza">Pizza</option>
                                 <option value="Pork">Pork</option>
                                 <option value="Potato">Potato</option>
@@ -707,7 +710,7 @@ class RecipeForm extends Component {
                         </Row>
                     </div>
                 </section>
-
+                <AddModal userID={this.state.loggedInUserID} addedRecipe={this.props.addedRecipe} show={this.props.addModal} closeModal={this.props.closeModal} />
             </Container >
         );
     };

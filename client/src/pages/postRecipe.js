@@ -8,7 +8,9 @@ import RecipeForm from "../components/RecipeForm";
 class postRecipe extends Component {
     state = {
         userID: "",
-        userName: ""
+        userName: "",
+        addModal: "none",
+        addedRecipe: ""
     }
 
     componentDidMount() {
@@ -18,15 +20,32 @@ class postRecipe extends Component {
         this.setState({ userID, userName });
     }
 
+    showAddModal = id => {
+        this.setState({
+            addModal: "block",
+            addedRecipe: id
+        });
+    }
+
+    closeModal = () => {
+        this.setState({addModal: "none"});
+    }
+
+    logout = () => {
+        this.setState({ userID: "", userName: ""});
+        sessionStorage.setItem("userID", "");
+        sessionStorage.setItem("userName", "");
+    }
+
     render() {
         return (
             <div>
                 <Header />
                 <br />
-                {this.state.userName ? <Drawer userName={this.state.userName} /> : ""}
+                {this.state.userName ? <Drawer userName={this.state.userName} logout={this.logout} /> : ""}
                 <Navbar userID={this.state.userID} />
                 <br />
-                <RecipeForm />
+                <RecipeForm addedRecipe={this.state.addedRecipe} showAddModal={this.showAddModal} addModal={this.state.addModal} closeModal={this.closeModal} />
             </div>
         )
 

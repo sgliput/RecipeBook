@@ -54,7 +54,7 @@ class DeleteModal extends Component {
                                 <br />
                                 
                                 <h4 className="deleteTitle">{this.state.recipeData.name}</h4>
-                                <p className="deleteCreator">{this.state.recipeData.source === "Pinterest" ? "From Pinterest" : this.state.recipeData.otherSite ? this.state.recipeData.creator : `By ${this.state.recipeData.creator}`}</p>
+                                <p className="deleteCreator">{this.state.recipeData.source === "Pinterest" ? "From Pinterest" : this.state.recipeData.otherSite ? this.state.recipeData.creator : this.state.recipeData.creator ? `By ${this.state.recipeData.creator}` : "By Anonymous (a.k.a. You)"}</p>
                                 
                                 {this.state.recipeData.imgLink ? (
                                     <img className="deleteModalImg" alt={this.state.recipeData.name} src={this.state.recipeData.imgLink} />

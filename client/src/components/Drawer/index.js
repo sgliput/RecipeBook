@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -12,8 +13,10 @@ import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import CancelPresentation from '@material-ui/icons/CancelPresentation';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 const drawerWidth = 260;
@@ -72,6 +75,13 @@ const styles = theme => ({
     h6noBtn: {
         marginTop: -20,
         marginLeft: "18%"
+    },
+    logout: {
+        marginTop: -7,
+        marginLeft: 4
+    },
+    logoutBtn: {
+        color: "white"
     },
     instrP: {
         marginTop: "1rem"
@@ -134,6 +144,7 @@ class PersistentDrawerLeft extends React.Component {
 
                     <Toolbar disableGutters={!open}>
                         {this.props.home || this.props.private ? (
+                            <Tooltip title="Tag Search">
                             <IconButton
                                 color="inherit"
                                 aria-label="Open drawer"
@@ -142,15 +153,39 @@ class PersistentDrawerLeft extends React.Component {
                             >
                                 <MenuIcon />
                             </IconButton>
+                            </Tooltip>
                         ) : <span>&nbsp;&nbsp;&nbsp;</span>}
 
                         {this.props.userName && (this.props.home || this.props.private) ? (
                             <Typography variant="h6" color="inherit" noWrap className={classes.h6}>
                                 Logged in as {this.props.userName}
+                                <Tooltip title="Log Out?">
+                                <IconButton
+                                color="inherit"
+                                aria-label="Log out"
+                                className={classes.logout}
+                                onClick={this.props.logout}>
+                                <Link to={"/"} className={classes.logoutBtn}>
+                                <CancelPresentation />
+                                </Link>
+                            </IconButton>
+                                </Tooltip>
                             </Typography>
+
                         ) : this.props.userName ? (
                             <Typography variant="h6" color="inherit" noWrap className={classes.h6noBtn}>
                                 Logged in as {this.props.userName}
+                                <Tooltip title="Log Out?">
+                                <IconButton
+                                color="inherit"
+                                aria-label="Log out"
+                                className={classes.logout}
+                                onClick={this.props.logout}>
+                                <Link to={"/"} className={classes.logoutBtn}>
+                                <CancelPresentation />
+                                </Link>
+                            </IconButton>
+                            </Tooltip>
                             </Typography>
                         ) : ""}
                     </Toolbar>

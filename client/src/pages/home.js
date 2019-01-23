@@ -97,8 +97,10 @@ class Home extends Component {
     }
 
     showDeleteModal = id => {
-        this.setState({ deleteModal: "block" });
-        this.setState({ recipeToRemove: id });
+        this.setState({
+            deleteModal: "block",
+            recipeToRemove: id
+        });
     }
 
     //Handles hiding modal when its X is clicked
@@ -112,6 +114,12 @@ class Home extends Component {
             userID,
             userName
         });
+    }
+
+    logout = () => {
+        this.setState({ userID: "", userName: "" });
+        sessionStorage.setItem("userID", "");
+        sessionStorage.setItem("userName", "");
     }
 
 
@@ -139,7 +147,8 @@ class Home extends Component {
                 <Header />
                 <br />
                 <Navbar userID={this.state.userID} handleSearchChange={this.handleSearchChange} searchTerms={this.state.searchTerms} onSearch={this.onSearch} getAllRecipes={this.getAllRecipes} home="home" searched={this.state.searched} />
-                {this.state.userName ? <Drawer userName={this.state.userName} home={this.state.home} tagSearch={this.tagSearch} /> : ""}
+                {this.state.userName ? <Drawer userName={this.state.userName} home={this.state.home} tagSearch={this.tagSearch} logout={this.logout} /> : ""}
+                <br />
                 <Container className="mainContainer">
                     <Row>
                         <Col size="md-6 sm-12">

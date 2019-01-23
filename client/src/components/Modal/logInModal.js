@@ -78,7 +78,7 @@ class LogInModal extends Component {
                             <label>Name:</label>
                             <input className="form-control newUserField newUserName" value={this.state.userName} onChange={this.nameChange} />
                             <label>Password:</label>
-                            <input className="form-control newUserField newUserPassword" value={this.state.userPassword} onChange={this.passwordChange} />
+                            <input className="form-control newUserField newUserPassword" type="password" value={this.state.userPassword} onChange={this.passwordChange} />
                             <br />
                             <button className="btn btn-success userSubmit" disabled={!this.state.userName || !this.state.userPassword} onClick={this.handleLogin}>Submit</button>
 

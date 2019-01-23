@@ -3,7 +3,11 @@
     margin: 2rem;
 }
 
-.editBtn, .stopEditBtn{
+.editBtn{
+    margin-left: 97% !important;
+}
+
+.stopEditBtn{
     margin-left: 88%;
     margin-top: 10px;
     margin-bottom: -40px;
@@ -36,7 +40,7 @@ p{
 }
 
 .specDescription{
-    border-bottom: 3px solid black;
+    border-bottom: 1px solid grey;
     width: 85%;
     margin: 0 auto;
     padding-bottom: 2rem;
@@ -48,7 +52,7 @@ p{
 }
 
 .specBtns{
-    border-bottom: 3px solid black;
+    border-bottom: 2px solid grey;
     width: 85%;
     padding: 0.5rem 0 0 18%;
     margin: 0 auto;
@@ -67,7 +71,7 @@ p{
 
 #infoFieldCol, #ingrFieldCol, #dirFieldCol, #ingrCol{
     padding-right: 2px;
-    border-right: 2px solid black;
+    border-right: 1px solid grey;
 }
 
 
@@ -77,7 +81,7 @@ p{
 }
 
 .col-md-7{
-    border-left: 2px solid black;
+    border-left: 1px solid grey;
     margin-right: 2px;
 }
 
@@ -106,7 +110,8 @@ ol li{
     
 }
 
-.submit{
+.privateEditSubmit{
+    margin-bottom: 1rem;
     margin-left: 1rem;
 }
 

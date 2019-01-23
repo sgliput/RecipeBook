@@ -79,6 +79,24 @@
     margin: 0 auto;
   }
 
+  .addTitle, .addCreator, .addCooktime, .addDescription {
+    text-align: center;
+  }
+
+  .addRecipeBtn{
+    margin: 0 35%;
+  }
+
+  .addModal-body{
+    padding-right: 0;
+  }
+
+  .addModalImg{
+    height: 40%;
+    width: 100%;
+    margin: 0 auto;
+  }
+
   @media screen and (max-width: 767px) {
     .deleteRecipeBtn{
       margin: 0 38%;

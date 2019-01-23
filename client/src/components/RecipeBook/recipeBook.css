@@ -6,19 +6,23 @@
 .cardCol > :first-child{
     margin-bottom: 2rem;
     min-height: 90%;
-    border: 2px outset orange;
+    box-shadow: 1px 1px;
     border-radius: 0;
 }
 
+.cardCol > :first-child:hover{
+    opacity: .9;
+}
+
 .deleteRecipePrivate{
-    color: black;
+    color: grey;
     float: right;
     font-size: 28px;
     font-weight: bold;
     width: 10px;
-    margin-top: -0.6rem;
+    margin-top: -1.5rem !important;
     cursor: pointer;
-    margin-right: -1.3rem;
+    margin-right: -2.8rem !important;
 }
 
 .cardImage{

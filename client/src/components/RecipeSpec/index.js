@@ -4,6 +4,10 @@ import API from "../../utils/API";
 import { Col, Row, Container } from "../Grid";
 import EditIngredientFields from "../EditIngredientFields";
 import EditDirectionFields from "../EditDirectionFields";
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import Tooltip from '@material-ui/core/Tooltip';
 import "./recipeSpec.css";
 
 class RecipeSpec extends Component {
@@ -78,7 +82,7 @@ class RecipeSpec extends Component {
             });
         };
         if (res.data.imgLink) {
-            this.setState({imgLink: res.data.imgLink});
+            this.setState({ imgLink: res.data.imgLink });
         }
         this.getIngredientList();
         this.getDirectionsList();
@@ -306,7 +310,7 @@ class RecipeSpec extends Component {
 
                     this.state.editing ? (
                         <section className="recipeForm">
-                             <Row>
+                            <Row>
                                 <button className="btn btn-info stopEditBtn" onClick={this.stopEdit}>Stop Editing</button>
                             </Row>
                             <Row>
@@ -322,33 +326,44 @@ class RecipeSpec extends Component {
                                     <label className="control-label tagLabel">Tags:</label>
                                     <select className="form-control tagList" size="1" value={this.state.tagField} onChange={this.addTag}>
                                         <option defaultValue=""></option>
-                                        <option value="Chicken">Chicken</option>
+                                        <option value="Asian">Asian</option>
+                                        <option value="Appetizer">Appetizer</option>
+                                        <option value="Baked Goods">Baked Goods</option>
+                                        <option value="Beans">Beans</option>
                                         <option value="Beef">Beef</option>
-                                        <option value="Salad">Salad</option>
-                                        <option value="Soup">Soup</option>
-                                        <option value="Sandwich">Sandwich</option>
-                                        <option value="Pasta">Pasta</option>
-                                        <option value="Rice">Rice</option>
-                                        <option value="Seafood">Seafood</option>
+                                        <option value="Bread">Bread</option>
                                         <option value="Breakfast">Breakfast</option>
                                         <option value="Brunch">Brunch</option>
-                                        <option value="Dessert">Dessert</option>
-                                        <option value="Baked Goods">Baked Goods</option>
                                         <option value="Cake">Cake</option>
-                                        <option value="Pastry">Pastry</option>
-                                        <option value="Cookie">Cookie</option>
-                                        <option value="Eggs">Eggs</option>
-                                        <option value="Vegetarian">Vegetarian</option>
-                                        <option value="Vegan">Vegan</option>
-                                        <option value="Fruit">Fruit</option>
-                                        <option value="Asian">Asian</option>
-                                        <option value="Mexican">Mexican</option>
-                                        <option value="Potatoes">Potatoes</option>
-                                        <option value="Side Dish">Side Dish</option>
-                                        <option value="Poultry">Poultry</option>
                                         <option value="Casserole">Casserole</option>
+                                        <option value="Chicken">Chicken</option>
+                                        <option value="Cookie">Cookie</option>
+                                        <option value="Corn">Corn</option>
+                                        <option value="Dessert">Dessert</option>
                                         <option value="Drinks">Drinks</option>
-                                        <option value="Appetizer">Appetizer</option>
+                                        <option value="Eggs">Eggs</option>
+                                        <option value="Fish">Fish</option>
+                                        <option value="Fruit">Fruit</option>
+                                        <option value="Holiday">Holiday</option>
+                                        <option value="Lamb">Lamb</option>
+                                        <option value="Meat">Meat</option>
+                                        <option value="Mediterranean">Mediterranean</option>
+                                        <option value="Mexican">Mexican</option>
+                                        <option value="Pasta">Pasta</option>
+                                        <option value="Pastry">Pastry</option>
+                                        <option value="Pie">Pie</option>
+                                        <option value="Pizza">Pizza</option>
+                                        <option value="Pork">Pork</option>
+                                        <option value="Potato">Potato</option>
+                                        <option value="Poultry">Poultry</option>
+                                        <option value="Rice">Rice</option>
+                                        <option value="Salad">Salad</option>
+                                        <option value="Sandwich">Sandwich</option>
+                                        <option value="Seafood">Seafood</option>
+                                        <option value="Side Dish">Side Dish</option>
+                                        <option value="Soup">Soup</option>
+                                        <option value="Vegan">Vegan</option>
+                                        <option value="Vegetarian">Vegetarian</option>
                                     </select>
                                 </Col>
                                 <Col size="md-10">
@@ -381,7 +396,7 @@ class RecipeSpec extends Component {
                                 </Row>
                                 <Row>
                                     <br />
-                                    <button className="btn btn-success submit" onClick={this.handleEditSubmit}>Submit</button>
+                                    <button className="btn btn-success editSubmit" onClick={this.handleEditSubmit}>Submit</button>
                                 </Row>
                             </div>
                         </section>
@@ -391,14 +406,30 @@ class RecipeSpec extends Component {
 
                                 {this.state.creatorID === this.state.loggedInUserID ? (
                                     <Row>
-                                        <button className="btn btn-info editBtn" onClick={this.handleEdit}>Edit Recipe</button>
-                                        <button className="btn btn-info addBtn" onClick={this.addToPrivate}>Add to Your Recipe Book</button>
+                                        <Tooltip title="Edit Recipe">
+                                            <IconButton className="editBtn">
+                                                <EditIcon className="editInner" onClick={this.handleEdit} />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip title="Add to Your Recipe Book">
+                                            <Link to={"/userRecipes/" + this.state.loggedInUserID} className="toPrivateLink">
+                                                <IconButton className="addBtn">
+                                                    <AddCircleIcon className="editInner" onClick={this.addToPrivate} />
+                                                </IconButton>
+                                            </Link>
+                                        </Tooltip>
                                     </Row>
                                 ) : this.state.loggedInUserID ? (
-                                        <Row>
-                                            <button className="btn btn-info addBtn2" onClick={this.addToPrivate}>Add to Your Recipe Book</button>
-                                        </Row>
-                                    ) : ""}
+                                    <Row>
+                                        <Tooltip title="Add to Your Recipe Book">
+                                            <Link to={"/userRecipes/" + this.state.loggedInUserID} className="toPrivateLink">
+                                                <IconButton className="addBtn2">
+                                                    <AddCircleIcon className="editInner" onClick={this.addToPrivate} />
+                                                </IconButton>
+                                            </Link>
+                                        </Tooltip>
+                                    </Row>
+                                ) : ""}
 
 
                                 <h2 className="specRecipeName">{this.state.recipeData.name}</h2>

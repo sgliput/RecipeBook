@@ -89,6 +89,12 @@ class privateRecipes extends Component {
         this.setState({ deleteModal: "none"});       
     }
 
+    logout = () => {
+        this.setState({ userID: "", userName: ""});
+        sessionStorage.setItem("userID", "");
+        sessionStorage.setItem("userName", "");
+    }
+
     deleteUserRecipe = id => {
         console.log("ID: " + id);
         //Gets the recipe data to delete
@@ -154,7 +160,7 @@ class privateRecipes extends Component {
             <div>
                 <Header />
                 <br />
-                {this.state.userName ? <Drawer userName={this.state.userName} tagSearch={this.privateTagSearch} private="private" /> : ""}
+                {this.state.userName ? <Drawer userName={this.state.userName} tagSearch={this.privateTagSearch} private="private" logout={this.logout} /> : ""}
                 <Navbar userID={this.state.userID} handlePrivateSearchChange={this.handlePrivateSearchChange} privateSearchTerms={this.state.privateSearchTerms} onPrivateSearch={this.onPrivateSearch} getAllRecipes={this.getAllRecipes} private="private" searched={this.state.searched} />
                 <RecipeBook userID={this.state.userID} recipes={this.state.recipes} deleteUserRecipe={this.deleteUserRecipe} recipeToRemove={this.state.recipeToRemove} showDeleteModal={this.showDeleteModal} deleteModal={this.state.deleteModal} closeModal={this.closeModal} currentTag={this.state.currentTag} />
             </div >

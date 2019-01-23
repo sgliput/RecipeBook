@@ -13,6 +13,10 @@
     margin-top: 4px;
 }
 
+.toHome{
+    color: white !important;
+}
+
 .toPrivateLink:hover{
     color: white;
     text-decoration: none;

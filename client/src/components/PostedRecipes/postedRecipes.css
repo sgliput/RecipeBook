@@ -5,9 +5,10 @@
 
 .card{
     width: 100%;
-    background-color: tan;
+    background-color: blanchedalmond;
     margin-bottom: 5px;
     padding: 10px;
+    box-shadow: 1px 1px;
 }
 
 .title{
@@ -40,14 +41,14 @@
 }
 
 .deleteRecipeMaster{
-    color: black;
+    color: grey;
     float: right;
     font-size: 28px;
     font-weight: bold;
     width: 10px;
-    margin-top: -0.6rem;
+    margin-top: -0.7rem !important;
     cursor: pointer;
-    margin-right: -1.7rem;
+    margin-right: -2.3rem !important;
 }
 
 

@@ -106,7 +106,7 @@ class SignInModal extends Component {
                             <label>Name:</label>
                             <input className="form-control newUserField newUserName" value={this.state.newUserName} onChange={this.nameChange} />
                             <label>Password:</label>
-                            <input className="form-control newUserField newUserPassword" value={this.state.newUserPassword} onChange={this.passwordChange} />
+                            <input className="form-control newUserField newUserPassword" type="password" value={this.state.newUserPassword} onChange={this.passwordChange} />
                             <label>State:</label>
                             <select className="form-control newUserField newUserState" size="1" onChange={this.stateChange}>
                                 <option>AK</option>
@@ -159,6 +159,7 @@ class SignInModal extends Component {
                                 <option>WI</option>
                                 <option>WV</option>
                                 <option>WY</option>
+                                <option>Outside US</option>
                             </select>
                             <label>Email:</label>
                             <input className="form-control newUserField newUserEmail" value={this.state.newUserEmail} onChange={this.emailChange} />

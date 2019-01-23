@@ -3,6 +3,10 @@
    margin: 2rem 0 2rem 1.5rem;
 }
 
+.recipeSubmit{
+    margin-bottom: 1rem;
+}
+
 .siteToScrape{
     width: 65%;
     margin: 0 0 0 30%;

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import Drawer from "../components/Drawer";
@@ -20,14 +19,21 @@ class Recipe extends Component {
         this.setState({ userID, userName });
     }
 
+    logout = () => {
+        this.setState({ userID: "", userName: ""});
+        sessionStorage.setItem("userID", "");
+        sessionStorage.setItem("userName", "");
+    }
+
 
     render() {
         return (
             <div>
                 <Header />
                 <br />
-                {this.state.userName ? <Drawer userName={this.state.userName} /> : ""}
+                {this.state.userName ? <Drawer userName={this.state.userName} logout={this.logout} /> : ""}
                 <Navbar userID={this.state.userID} />
+                <br />
                 <RecipeSpec params={this.state.params} />
             </div>
         );

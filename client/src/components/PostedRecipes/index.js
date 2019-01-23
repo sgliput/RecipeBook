@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../Grid";
 import DeleteModal from "../Modal/deleteModal";
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import "./postedRecipes.css";
 
 function PostedRecipes(props) {
@@ -17,7 +19,9 @@ function PostedRecipes(props) {
                     </Col>
                     <Col size="md-2">
                         {props.userID === recipe.creatorID ? (
-                            <span className="deleteRecipeMaster" data-id={recipe._id} onClick={() => props.showDeleteModal(recipe._id)}>&times;</span>
+                            <IconButton className="deleteRecipeMaster">
+                            <DeleteIcon  data-id={recipe._id} onClick={() => props.showDeleteModal(recipe._id)} />
+                        </IconButton>
                         ) : ""}
                     </Col>
                 </Row>

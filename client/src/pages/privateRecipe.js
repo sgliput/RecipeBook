@@ -20,13 +20,19 @@ class PrivateRecipe extends Component {
         this.setState({ userID, userName });
     }
 
+    logout = () => {
+        this.setState({ userID: "", userName: ""});
+        sessionStorage.setItem("userID", "");
+        sessionStorage.setItem("userName", "");
+    }
+
 
     render() {
         return (
             <div>
                 <Header />
                 <br />
-                {this.state.userName ? <Drawer userName={this.state.userName} /> : ""}
+                {this.state.userName ? <Drawer userName={this.state.userName} logout={this.logout} /> : ""}
                 <Navbar userID={this.state.userID} />
                 <br />
                 <PrivateRecipeSpec recipeID={this.state.recipeID} />
