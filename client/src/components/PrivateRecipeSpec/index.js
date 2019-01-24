@@ -17,6 +17,7 @@ class PrivateRecipeSpec extends Component {
         creatorID: "",
         cooktime: "",
         description: "",
+        imgLink: "",
         tagArray: [],
         tagBtnArray: [],
         editTagBtnArray: [],
@@ -137,7 +138,13 @@ class PrivateRecipeSpec extends Component {
         console.log("Description: " + this.state.description);
     };
 
-
+    handleImgLinkChange = event => {
+        //Changes this.state.description to the content of the input box
+        this.setState({
+            imgLink: event.target.value
+        });
+        console.log(this.state);
+    };
 
 
 
@@ -417,6 +424,9 @@ class PrivateRecipeSpec extends Component {
                                         <br />
                                         <label>Description:</label>
                                         <textarea className="form-control descriptionField" rows="3" value={this.state.description} onChange={this.handleDescriptionChange} />
+                                        <br />
+                                        <label>Image URL:</label>
+                                        <input className="form-control imgLinkField" value={this.state.imgLink} onChange={this.handleImgLinkChange} />
                                         <br />
                                     </Col>
                                     <Col size="md-4" id="ingrFieldCol">
