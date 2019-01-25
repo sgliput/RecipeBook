@@ -21,8 +21,8 @@ function PostedRecipes(props) {
                     </Col>
                     <Col size="md-2">
                         {props.userID === recipe.creatorID ? (
-                            <IconButton className="deleteRecipeMaster">
-                                <DeleteIcon data-id={recipe._id} onClick={() => props.showDeleteModal(recipe._id)} />
+                            <IconButton className="deleteRecipeMaster" data-id={recipe._id} onClick={() => props.showDeleteModal(recipe._id)}>
+                                <DeleteIcon />
                             </IconButton>
                         ) : ""}
                     </Col>

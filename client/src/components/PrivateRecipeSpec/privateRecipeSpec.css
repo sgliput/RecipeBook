@@ -181,6 +181,9 @@ ol li{
     .submit{
         margin-top: 1rem;
     }
+    .editRadio{
+        margin-top: 0;
+    }
 }
 
 @media screen and (max-width: 510px) {

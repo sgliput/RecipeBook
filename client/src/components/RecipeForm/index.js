@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import cheerio from "cheerio";
-import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../Grid";
 import IngredientFields from "../IngredientFields";
 import DirectionFields from "../DirectionFields";
@@ -102,7 +101,7 @@ class RecipeForm extends Component {
     IngFields = [
         <div id="ingredient1" key="1">
             <label>Ingredient 1:</label>
-            <input className="form-control ingredient1" id="ingredient1" rows="3" value={this.state.ingredients.ingredient1} onChange={this.IngredientChange} />
+            <input className="form-control ingredient1" id="ingredient1" rows="3" value={this.state.ingredients.ingredient1} onChange={this.IngredientChange} autocomplete="off" />
             <br />
         </div>
     ]
@@ -110,17 +109,22 @@ class RecipeForm extends Component {
     addIngredient = () => {
         const newID = "ingredient" + (this.state.IngNumberOfFields + 1);
         const newFieldClass = "ingredient" + (this.state.IngNumberOfFields + 1) + "Field form-control";
+        console.log(document.activeElement);
 
         this.IngFields.push(
-            <div id={newID} key={this.state.IngNumberOfFields + 1}>
+            <div key={this.state.IngNumberOfFields + 1}>
                 <label>Ingredient {this.state.IngNumberOfFields + 1}:</label>
                 <br />
-                <input className={newFieldClass} rows="3" id={newID} value={this.state.ingredients[newID]} onChange={this.IngredientChange} />
+                <input className={newFieldClass} id={newID} value={this.state.ingredients[newID]} onChange={this.IngredientChange} autocomplete="off" />
                 <br />
             </div>);
         this.setState({
             IngNumberOfFields: this.state.IngNumberOfFields + 1
         });
+        setTimeout(function () {
+            console.log(document.getElementById(newID));
+            document.getElementById(newID).focus();
+        }, 100);
     }
 
     ///////  Direction Fields Column  ////////////////////////
@@ -142,7 +146,7 @@ class RecipeForm extends Component {
     DirFields = [
         <div id="step1" key="1">
             <label>Step 1:</label>
-            <textarea className="form-control step1Field" id="step1" rows="3" value={this.state.directions.step1} onChange={this.StepChange} />
+            <textarea className="form-control step1Field" id="step1" rows="3" value={this.state.directions.step1} onChange={this.StepChange} autocomplete="off" />
             <br />
         </div>
     ]
@@ -152,17 +156,20 @@ class RecipeForm extends Component {
         const newFieldClass = "step" + (this.state.DirNumberOfFields + 1) + "Field form-control";
 
         this.DirFields.push(
-            <div id={newID} key={this.state.DirNumberOfFields + 1}>
+            <div key={this.state.DirNumberOfFields + 1}>
                 <label>Step {this.state.DirNumberOfFields + 1}:</label>
                 <br />
-                <textarea className={newFieldClass} id={newID} rows="3" value={this.state.directions[newID]} onChange={this.StepChange} />
+                <textarea className={newFieldClass} id={newID} rows="3" value={this.state.directions[newID]} onChange={this.StepChange} autocomplete="off" />
                 <br />
             </div>);
         this.setState({
             DirNumberOfFields: this.state.DirNumberOfFields + 1
         });
         console.log(this.state.directions);
-
+        setTimeout(function () {
+            console.log(document.getElementById(newID));
+            document.getElementById(newID).focus();
+        }, 100);
     }
 
     //////////////// For dealing with tags ////////////////////
@@ -217,6 +224,12 @@ class RecipeForm extends Component {
         const ingredients = this.state.ingredients;
         const directions = this.state.directions;
         const tagArray = this.state.tagArray;
+        let isPublic;
+        if(this.state.selectedOption === "public") {
+            isPublic = true;
+        } else {
+            isPublic = false;
+        }
         const fullRecipe = {
             name: recipeName,
             creator: userName,
@@ -226,7 +239,8 @@ class RecipeForm extends Component {
             imgLink: imgLink,
             ingredients: ingredients,
             directions: directions,
-            tags: tagArray
+            tags: tagArray,
+            public: isPublic
         };
         if (this.state.loggedInUserID) {
             API.saveRecipe(fullRecipe)
@@ -647,6 +661,81 @@ class RecipeForm extends Component {
                 }
 
             })
+        } else if (this.state.siteToScrape === "Yummly") {
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            console.log("url: " + this.state.urlToScrape);
+            axios.get(proxyurl + this.state.urlToScrape).then(response => {
+
+                const $ = cheerio.load(response.data);
+
+                let ingredients = [];
+                const steps = [];
+
+                const recipeName = $(".recipe-title").text().trim();
+                let creator = $(".attribution").text().trim();
+                const creatorID = this.state.loggedInUserID;
+                const description = $(".recipe-description").children("p").text().trim();
+                const cooktime = $(".recipe-summary-item").first().next().children(".value").text().trim() + " " + $(".recipe-summary-item").first().next().children(".unit").text().trim();
+                //const imageSrc = $(".recipe-image").attr("src");
+                const link = this.state.urlToScrape;
+
+                $(".IngredientLine").each((i, element) => {
+                    const ingredient = $(element).text().trim();
+                    if (ingredient !== "") {
+                        ingredients.push(ingredient);
+                    }
+                });
+
+                $(".step").each((i, element) => {
+                    const step = $(element).text().trim();
+                    if (step !== "") {
+                        steps.push(step);
+                    }
+                });
+
+                const ingObject = Object.assign({}, ingredients);
+                let keys = Object.keys(ingObject);
+                for (var i = 0; i < keys.length; i++) {
+                    var key = keys[i].replace(i, "ingredient" + i);
+                    ingObject[key] = ingObject[keys[i]];
+                    delete ingObject[i];
+                }
+                if (!creator.includes("YUMMLY")) {
+                    creator = creator + " / Yummly";
+                };
+
+                const scrapedRecipe = {
+                    name: recipeName,
+                    creator: "By " + creator,
+                    creatorID: creatorID,
+                    description: description,
+                    cooktime: cooktime,
+                    //imgLink: imageSrc,
+                    ingredients: ingredients,
+                    directions: steps,
+                    tags: this.state.tagArray,
+                    link: link,
+                    otherSite: true,
+                    source: "Yummly",
+                    public: false
+                };
+                console.log(scrapedRecipe);
+                if (this.state.loggedInUserID) {
+                    API.saveRecipe(scrapedRecipe)
+                        .then(dbRecipe => {
+                            console.log(dbRecipe);
+                            this.props.showAddModal(dbRecipe.data._id);
+                            API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
+                                .then(dbUser => {
+                                    console.log(dbUser);
+                                })
+                        })
+                        .catch(err => console.log(err));
+                } else {
+                    console.log("Sorry");
+                }
+
+            })
         }
     }
 
@@ -752,19 +841,19 @@ class RecipeForm extends Component {
                         <Row>
                             <Col size="md-4" id="firstFields">
                                 <label>Name of Recipe:</label>
-                                <input className="form-control recipeNameField" value={this.state.recipeName} onChange={this.handleRecipeNameChange} />
+                                <input className="form-control recipeNameField" value={this.state.recipeName} onChange={this.handleRecipeNameChange} autocomplete="off" />
                                 <br />
                                 <label>Your Name:</label>
-                                <input className="form-control nameField" value={this.state.name} onChange={this.handleNameChange} />
+                                <input className="form-control nameField" value={this.state.name} onChange={this.handleNameChange} autocomplete="off" />
                                 <br />
                                 <label>Cook Time:</label>
-                                <input className="form-control cooktimeField" value={this.state.cooktime} onChange={this.handleCooktimeChange} />
+                                <input className="form-control cooktimeField" value={this.state.cooktime} onChange={this.handleCooktimeChange} autocomplete="off" />
                                 <br />
                                 <label>Description:</label>
-                                <textarea className="form-control descriptionField" rows="3" value={this.state.description} onChange={this.handleDescriptionChange} />
+                                <textarea className="form-control descriptionField" rows="3" value={this.state.description} onChange={this.handleDescriptionChange} autocomplete="off" />
                                 <br />
                                 <label>Have an image? Copy its URL below:</label>
-                                <input className="form-control imgLinkField" value={this.state.imgLink} onChange={this.handleImgLinkChange} />
+                                <input className="form-control imgLinkField" value={this.state.imgLink} onChange={this.handleImgLinkChange} autocomplete="off" />
                                 <br />
                             </Col>
                             <Col size="md-4" id="firstIngrCol">

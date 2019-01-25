@@ -26,6 +26,7 @@ class PrivateRecipeSpec extends Component {
         ingFields: [],
         directions: [],
         dirList: [],
+        selectedOption: "",
         source: "",
         otherSite: false,
         dateSaved: "",
@@ -70,7 +71,8 @@ class PrivateRecipeSpec extends Component {
             dateSaved: res.data.dateSaved,
             tagArray: res.data.tags,
             tagBtnArray: tagBtnArray,
-            editTagBtnArray: editTagBtnArray
+            editTagBtnArray: editTagBtnArray,
+            isPublic: res.data.public
         });
         if (res.data.otherSite) {
             this.setState({
@@ -81,10 +83,20 @@ class PrivateRecipeSpec extends Component {
         if (res.data.imgLink) {
             this.setState({ imgLink: res.data.imgLink });
         }
-        this.getIngredientList();
-        this.getDirectionsList();
+        if (res.data.public) {
+            this.setState({ selectedOption: "public" });
+        } else {
+            this.setState({ selectedOption: "private" });
+        }
+        if (res.data.ingredients) {
+            this.getIngredientList();
+        }
+        if (res.data.directions) {
+            this.getDirectionsList();
+        }
         console.log(res.data.ingredients);
         console.log(this.state.ingredients);
+        console.log(res.data);
         console.log(this.state.tagArray);
     }
 
@@ -146,7 +158,12 @@ class PrivateRecipeSpec extends Component {
         console.log(this.state);
     };
 
-
+    handleRadioChange = event => {
+        this.setState({
+            selectedOption: event.target.value
+        });
+        console.log(this.state);
+    }
 
 
     IngredientChange = event => {
@@ -249,6 +266,12 @@ class PrivateRecipeSpec extends Component {
         const description = this.state.description;
         const imgLink = this.state.imgLink;
         const tagArray = this.state.tagArray;
+        let isPublic;
+        if (this.state.selectedOption === "public") {
+            isPublic = true;
+        } else {
+            isPublic = false;
+        }
         let ingredients = this.state.ingredients;
         //forEach loop removes any empty values in the ingredients array
         ingredients.forEach(function (element, index) {
@@ -287,7 +310,8 @@ class PrivateRecipeSpec extends Component {
                 ingredients: ingObjects,
                 directions: dirObjects,
                 imgLink: imgLink,
-                tags: tagArray
+                tags: tagArray,
+                public: isPublic
             };
 
             API.updateRecipe(id, editedRecipe)
@@ -311,7 +335,7 @@ class PrivateRecipeSpec extends Component {
                 ingredients: ingObjects,
                 directions: dirObjects,
                 tags: tagArray,
-                public: false,
+                public: isPublic,
                 edited: true,
                 deleted: false,
                 otherSite: this.state.otherSite,
@@ -348,7 +372,7 @@ class PrivateRecipeSpec extends Component {
                     this.state.editing ? (
                         <section className="recipeForm">
                             <Row>
-                                <button className="btn btn-info stopEditBtn" onClick={this.stopEdit}>Stop Editing</button>
+                                <button className="btn btn-info stopEditBtn" onClick={this.stopEdit}>Cancel Edit</button>
                             </Row>
                             <Row>
                                 <Col size="md-6">
@@ -436,10 +460,36 @@ class PrivateRecipeSpec extends Component {
                                         <EditDirectionFields addStep={this.addStep} StepChange={this.StepChange} directions={this.state.directions} />
                                     </Col>
                                 </Row>
-                                <Row>
-                                    <br />
-                                    <button className="btn btn-success privateEditSubmit" onClick={this.handlePrivateEdit}>Submit</button>
-                                </Row>
+                                {this.state.otherSite ? "" : <br />}
+                                <br />
+                                {this.state.otherSite ? (
+                                    <Row>
+                                        <button className="btn btn-success privateEditSubmit" onClick={this.handlePrivateEdit}>Submit</button>
+                                    </Row>) : (
+                                        <Row>
+                                            <Col size="md-2 sm-3">
+                                                <button className="btn btn-success privateEditSubmit" onClick={this.handlePrivateEdit}>Submit</button>
+                                            </Col>
+                                            {!this.state.isPublic ? (
+                                                <Col size="md-5 sm-6">
+                                                    <form>
+
+                                                        <label className="radio-inline editRadio publicRadio">
+                                                            <input type="radio" value="public"
+                                                                checked={this.state.selectedOption === 'public'}
+                                                                onChange={this.handleRadioChange} />
+                                                            Public
+                                                    </label>
+                                                        <label className="radio-inline editRadio">
+                                                            <input type="radio" value="private"
+                                                                checked={this.state.selectedOption === 'private'}
+                                                                onChange={this.handleRadioChange} />
+                                                            Private
+                                            </label>
+                                                    </form>
+                                                </Col>) : ""}
+                                        </Row>
+                                    )}
                             </div>
                         </section>
 
@@ -483,7 +533,7 @@ class PrivateRecipeSpec extends Component {
                                     </Col>
                                     <Col size="md-7 sm-12" id="dirCol">
                                         <h4 className="directionsTitle">Directions</h4>
-                                        {this.state.recipeData.directions ? (
+                                        {this.state.directions.length > 0 ? (
                                             <ol className="specDirectionList">
                                                 {this.state.dirList}
                                             </ol>

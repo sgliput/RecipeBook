@@ -1,4 +1,7 @@
 import React from "react";
+import IconButton from '@material-ui/core/IconButton';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import Tooltip from '@material-ui/core/Tooltip';
 import "./directionFields.css";
 
 // This file exports the DirectionFields component
@@ -10,7 +13,12 @@ function DirectionFields(props) {
                     {props.DirFields}
                 </div>
                 <br />
-                <button className="btn btn-info addStep" onClick={props.addStep}>Add a Step</button>
+                <Tooltip title="Add a Step">  
+                    <IconButton className="addStep">
+                        <AddCircleIcon onClick={props.addStep} />
+                    </IconButton>
+            </Tooltip>
+                {/* <button className="btn btn-info addStep" onClick={props.addStep}>Add a Step</button> */}
             </div>
         );
     };

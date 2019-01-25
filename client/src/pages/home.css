@@ -11,6 +11,10 @@ body{
     background-color: beige;
 }
 
+.homeContainer{
+    margin-bottom: 20px;
+}
+
 .rbIntro{
     line-height: 2rem;
     margin: 1rem 2rem 2rem 2rem;
@@ -18,4 +22,16 @@ body{
 
 a:hover{
     text-decoration: none;
+}
+
+#signInCard{
+    background-color: beige;
+    padding: 0 1rem 1rem 1rem;
+    margin-bottom: 1rem;
+}
+
+#publicRecipesCard{
+    background-color: beige;
+    padding: 1rem;
+    padding-top: -2rem;
 }

@@ -193,7 +193,7 @@ class RecipeSpec extends Component {
         steps[id] = value;
         console.log("steps[id]: " + steps[id]);
 
-        //Changes this.state.ingredients to the current ingredients array
+        //Changes this.state.directions to the current directions array
         this.setState({
             directions: steps
         });
@@ -286,7 +286,8 @@ class RecipeSpec extends Component {
             description: description,
             ingredients: ingObjects,
             directions: dirObjects,
-            tags: tagArray
+            tags: tagArray,
+            imgLink: imgLink
         };
         console.log("Editedd Recipe");
         console.log(editedRecipe);
@@ -317,7 +318,7 @@ class RecipeSpec extends Component {
                     this.state.editing ? (
                         <section className="recipeForm">
                             <Row>
-                                <button className="btn btn-info stopEditBtn" onClick={this.stopEdit}>Stop Editing</button>
+                                <button className="btn btn-info stopEditBtn" onClick={this.stopEdit}>Cancel Edit</button>
                             </Row>
                             <Row>
                                 <Col size="md-6">
@@ -443,7 +444,7 @@ class RecipeSpec extends Component {
                                 ) : ""}
 
 
-                                <h2 className="specRecipeName">{this.state.recipeData.name}</h2>
+                                {this.state.loggedInUserID ? <h2 className="specRecipeNamePublic">{this.state.recipeData.name}</h2> : <h2 className="specRecipeNameUnlogged">{this.state.recipeData.name}</h2>}
                                 {this.state.recipeData.source === "Pinterest" ? <p>From <a href={this.state.recipeData.creator} target="blank">Pinterest</a></p> : this.state.recipeData.otherSite ? <p className="specCreator">{this.state.recipeData.creator}</p> : this.state.recipeData.creator ? <p className="specCreator">Posted by {this.state.recipeData.creator}</p> : <p className="specCreator">Posted by Anonymous</p>}
                                 {this.state.recipeData.link ? <a href={this.state.recipeData.link} target="blank"><p className="origin">See Source</p></a> : ""}
                                 {this.state.recipeData.cooktime ? <p className="specCooktime">Takes {this.state.recipeData.cooktime}</p> : ""}

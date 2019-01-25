@@ -17,9 +17,12 @@ import CancelPresentation from '@material-ui/icons/CancelPresentation';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Tooltip from '@material-ui/core/Tooltip';
+import "./drawer.css";
 
 
 const drawerWidth = 260;
+let headerWidth = 0;
+
 
 const styles = theme => ({
     root: {
@@ -30,7 +33,7 @@ const styles = theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        width: "40%",
+        maxHeight: "18%",
         position: "fixed",
         left: 0,
         borderRadius: 20,
@@ -38,20 +41,6 @@ const styles = theme => ({
         borderStyle: "solid",
         borderColor: "orange",
         textAlign: "center",
-    },
-    appBarLong: {
-        transition: theme.transitions.create(['margin', 'width'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        width: "70%",
-        position: "fixed",
-        left: 0,
-        borderRadius: 20,
-        border: 1,
-        borderStyle: "solid",
-        borderColor: "orange",
-        textAlign: "center"
     },
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -63,8 +52,7 @@ const styles = theme => ({
     },
     menuButton: {
         marginLeft: 12,
-        marginRight: 20,
-        marginTop: -20
+        marginRight: 20
     },
     hide: {
         display: 'none',
@@ -84,29 +72,26 @@ const styles = theme => ({
         justifyContent: 'flex-end'
     },
     h6: {
-        marginTop: -20,
         whiteSpace: "initial",
         display: "inline-block",
-    },
-    h6Long: {
-        whiteSpace: "initial",
-        display: "inline-block"
+        fontSize: "1rem"
     },
     h6noBtn: {
-        marginTop: -20,
-        marginLeft: "18%",
-        whiteSpace: "initial"
+        marginLeft: "11%",
+        whiteSpace: "initial",
+        fontSize: "1rem"
     },
     h6noBtnLong: {
-        marginLeft: "18%",
-        whiteSpace: "initial"
+        marginLeft: "7%",
+        whiteSpace: "initial",
+        fontSize: "1rem"
     },
     logout: {
-        marginTop: -20,
         marginLeft: 4
     },
     logoutBtn: {
-        color: "white"
+        color: "white",
+        fontSize: "1rem"
     },
     instrP: {
         marginTop: "1rem"
@@ -143,10 +128,18 @@ const styles = theme => ({
 class PersistentDrawerLeft extends React.Component {
     state = {
         open: false,
+        headerWidth: "",
+        windowWidth: window.innerWidth
     };
+
+    componentDidMount() {
+        headerWidth = document.getElementById('loggedIn').offsetWidth;
+        this.setState({headerWidth});
+    }
 
     handleDrawerOpen = () => {
         this.setState({ open: true });
+        console.log(this.state.headerWidth);
     };
 
     handleDrawerClose = text => {
@@ -167,11 +160,10 @@ class PersistentDrawerLeft extends React.Component {
                 <CssBaseline />
                 <AppBar
                     position="fixed"
-                    className={this.props.userName.length > 20 ? classNames(classes.appBarLong, {
-                        [classes.appBarShift]: open,
-                    }) : classNames(classes.appBar, {
-                        [classes.appBarShift]: open,
-                    })}
+                   className={
+                            classNames(classes.appBar, {
+                            [classes.appBarShift]: open,
+                        })} style={{width: `calc(115% - (100% - ${this.state.headerWidth + 150}px))`}}
                 >
 
                     <Toolbar disableGutters={!open}>
@@ -189,12 +181,12 @@ class PersistentDrawerLeft extends React.Component {
                         ) : <span>&nbsp;&nbsp;&nbsp;</span>}
 
                         {this.props.userName && (this.props.home || this.props.private) ? (
-                            <Typography variant="h6" color="inherit" noWrap className={this.props.userName.length > 20 ? classes.h6Long : classes.h6}>
+                            <Typography id="loggedIn" variant="h6" color="inherit" noWrap className={classes.h6}>
                                 Logged in as {this.props.userName}  
                             </Typography>
 
                         ) : this.props.userName ? (
-                            <Typography variant="h6" color="inherit" noWrap className={this.props.userName.length > 20 ? classes.h6noBtnLong : classes.h6noBtn}>
+                            <Typography id="loggedIn" variant="h6" color="inherit" noWrap className={this.props.userName.length > 20 ? classes.h6noBtnLong : classes.h6noBtn}>
                                 Logged in as {this.props.userName}
                             </Typography>
                         ) : ""}

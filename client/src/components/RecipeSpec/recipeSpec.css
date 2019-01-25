@@ -20,9 +20,14 @@
     width: 20%;
 }
 
-.specRecipeName{
+.specRecipeNamePublic{
     text-align: center;
-    margin-top: 1rem;
+    margin-top: -1rem;
+}
+
+.specRecipeNameUnlogged{
+    text-align: center;
+    padding-top: 2rem;
 }
 
 p{

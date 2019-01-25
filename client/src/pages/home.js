@@ -5,9 +5,11 @@ import { Col, Row, Container } from "../components/Grid";
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import PostedRecipes from "../components/PostedRecipes";
-
 import Drawer from "../components/Drawer";
 import Collapsible from "../components/Collapsible";
+
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import "./home.css";
 
 class Home extends Component {
@@ -149,20 +151,22 @@ class Home extends Component {
                 <Navbar userID={this.state.userID} handleSearchChange={this.handleSearchChange} searchTerms={this.state.searchTerms} onSearch={this.onSearch} getAllRecipes={this.getAllRecipes} home="home" searched={this.state.searched} />
                 {this.state.userName ? <Drawer userName={this.state.userName} home={this.state.home} tagSearch={this.tagSearch} logout={this.logout} /> : ""}
                 <br />
-                <Container className="mainContainer">
+                <Container className="homeContainer">
                     <Row>
                         <Col size="md-6 sm-12">
+                        <Card id="signInCard">
                             <Collapsible showSignInModal={this.showSignInModal} showLogInModal={this.showLogInModal} signInModal={this.state.signInModal} logInModal={this.state.logInModal} closeModal={this.closeModal} />
                             <br />
                             <p className="rbIntro"><strong>Recipe Book</strong> is the one place you can keep all of your favorite recipes and share them with the world. Here, you can view and search recipes others have posted and, once signed in, save them to your personal <strong>Recipe Book</strong>, where you can edit them as you wish.</p>
                             <p className="rbIntro">You can even import recipes from sites like Food Network, Pinterest, Epicurious, and AllRecipes and add them to your private collection.</p>
-                            <p className="rbIntro">And of course, if you have any family favorites or special creations of your own, you can post them publicly and let other readers enjoy them too.</p>
+                            <p className="rbIntro">And of course, if you have any family favorites or special creations of your own, you can compile them in your own private culinary treasury or post them publicly and let other readers enjoy them too.</p>
                             <p className="rbIntro">With <strong>Recipe Book</strong>, it's easier than ever to store your favorite recipes at the tip of your fingers.</p>
-
+                        </Card>
                         </Col>
                         <Col size="md-6 sm-12">
+                        <Card id="publicRecipesCard">
                             <PostedRecipes recipes={this.state.recipes} userID={this.state.userID} removeFromPublic={this.removeFromPublic} recipeToRemove={this.state.recipeToRemove} showDeleteModal={this.showDeleteModal} deleteModal={this.state.deleteModal} closeModal={this.closeModal} home={this.state.home} currentTag={this.state.currentTag} />
-
+                        </Card>
                         </Col>
                         <br />
 
