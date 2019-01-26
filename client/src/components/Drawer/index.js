@@ -17,6 +17,7 @@ import CancelPresentation from '@material-ui/icons/CancelPresentation';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Tooltip from '@material-ui/core/Tooltip';
+import ChartModal from "../Modal/chartModal.js";
 import "./drawer.css";
 
 
@@ -33,9 +34,11 @@ const styles = theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        maxHeight: "18%",
+        maxHeight: "40px",
+        
         position: "fixed",
         left: 0,
+        backgroundColor: "brown",
         borderRadius: 20,
         border: 1,
         borderStyle: "solid",
@@ -52,7 +55,8 @@ const styles = theme => ({
     },
     menuButton: {
         marginLeft: 12,
-        marginRight: 20
+        marginRight: 20,
+        marginTop: "-6%",
     },
     hide: {
         display: 'none',
@@ -72,12 +76,15 @@ const styles = theme => ({
         justifyContent: 'flex-end'
     },
     h6: {
+        marginTop: "-6%",
         whiteSpace: "initial",
         display: "inline-block",
-        fontSize: "1rem"
+        fontSize: "1rem",
+
     },
     h6noBtn: {
         marginLeft: "11%",
+        marginTop: "-6%",
         whiteSpace: "initial",
         fontSize: "1rem"
     },
@@ -87,6 +94,7 @@ const styles = theme => ({
         fontSize: "1rem"
     },
     logout: {
+        marginTop: "-6%",
         marginLeft: 4
     },
     logoutBtn: {
@@ -117,10 +125,8 @@ const styles = theme => ({
     },
     chip: {
         margin: theme.spacing.unit,
-        backgroundColor: "orange",
-        border: 1,
-        borderStyle: "solid",
-        borderColor: "blue",
+        backgroundColor: "brown",
+        color: "white",
         cursor: "pointer"
     },
 });
@@ -134,7 +140,21 @@ class PersistentDrawerLeft extends React.Component {
 
     componentDidMount() {
         headerWidth = document.getElementById('loggedIn').offsetWidth;
-        this.setState({headerWidth});
+        this.setState({ headerWidth });
+
+        var appbar = document.getElementById('appbar');
+        // var loggedIn = document.getElementById("loggedIn");
+        // appbar.style.width = "30%";
+        //console.log(loggedIn.offsetWidth);
+        window.onscroll = function (ev) {
+            if (this.pageYOffset > 100) {
+                appbar.style.opacity = '0.6';
+                //appbar.style.width = "20%"
+            } else {
+                appbar.style.opacity = '1';
+                //appbar.style.width = loggedIn.offsetWidth + "px";
+            }
+        };
     }
 
     handleDrawerOpen = () => {
@@ -142,7 +162,7 @@ class PersistentDrawerLeft extends React.Component {
         console.log(this.state.headerWidth);
     };
 
-    handleDrawerClose = text => {
+    handleDrawerClose = () => {
         this.setState({ open: false });
     };
 
@@ -150,6 +170,11 @@ class PersistentDrawerLeft extends React.Component {
         this.setState({ open: false });
         this.props.tagSearch(text);
     };
+
+    showChart = () => {
+        this.props.showChartModal();
+        this.handleDrawerClose();
+    }
 
     render() {
         const { classes, theme } = this.props;
@@ -160,11 +185,11 @@ class PersistentDrawerLeft extends React.Component {
                 <CssBaseline />
                 <AppBar
                     position="fixed"
-                   className={
-                            classNames(classes.appBar, {
+                    id="appbar"
+                    className={
+                        classNames(classes.appBar, {
                             [classes.appBarShift]: open,
-                        })} style={{width: `calc(115% - (100% - ${this.state.headerWidth + 150}px))`}}
-                >
+                        })}>
 
                     <Toolbar disableGutters={!open}>
                         {this.props.home || this.props.private ? (
@@ -182,7 +207,7 @@ class PersistentDrawerLeft extends React.Component {
 
                         {this.props.userName && (this.props.home || this.props.private) ? (
                             <Typography id="loggedIn" variant="h6" color="inherit" noWrap className={classes.h6}>
-                                Logged in as {this.props.userName}  
+                                Logged in as {this.props.userName}
                             </Typography>
 
                         ) : this.props.userName ? (
@@ -191,17 +216,17 @@ class PersistentDrawerLeft extends React.Component {
                             </Typography>
                         ) : ""}
                         {this.props.userName ? (
-                             <Tooltip title="Log Out?">
-                             <IconButton
-                                 color="inherit"
-                                 aria-label="Log out"
-                                 className={classes.logout}
-                                 onClick={this.props.logout}>
-                                 <Link to={"/"} className={classes.logoutBtn}>
-                                     <CancelPresentation />
-                                 </Link>
-                             </IconButton>
-                         </Tooltip>
+                            <Tooltip title="Log Out?">
+                                <IconButton
+                                    color="inherit"
+                                    aria-label="Log out"
+                                    className={classes.logout}
+                                    onClick={this.props.logout}>
+                                    <Link to={"/"} className={classes.logoutBtn}>
+                                        <CancelPresentation />
+                                    </Link>
+                                </IconButton>
+                            </Tooltip>
                         ) : ""}
                     </Toolbar>
                 </AppBar>
@@ -215,6 +240,7 @@ class PersistentDrawerLeft extends React.Component {
                     }}
                 >
                     <div className={classes.drawerHeader}>
+                    <button className="btn openChartBtn" onClick={this.showChart}>See Graph</button>
                         <IconButton onClick={this.handleDrawerClose}>
                             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                         </IconButton>
@@ -230,7 +256,7 @@ class PersistentDrawerLeft extends React.Component {
                     <Divider />
 
                 </Drawer>
-
+                <ChartModal show={this.props.chartModal} closeModal={this.props.closeModal} />
             </div>
         );
     }

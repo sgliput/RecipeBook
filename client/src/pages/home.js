@@ -7,9 +7,7 @@ import Navbar from "../components/Navbar";
 import PostedRecipes from "../components/PostedRecipes";
 import Drawer from "../components/Drawer";
 import Collapsible from "../components/Collapsible";
-
 import Card from '@material-ui/core/Card';
-import TagChart from '../components/Chart';
 import "./home.css";
 
 class Home extends Component {
@@ -18,6 +16,7 @@ class Home extends Component {
         signInModal: "none",
         logInModal: "none",
         deleteModal: "none",
+        chartModal: "none",
         userID: "",
         userName: "",
         recipeToRemove: "",
@@ -105,6 +104,10 @@ class Home extends Component {
         });
     }
 
+    showChartModal = () => {
+        this.setState({ chartModal: "block" });
+    }
+
     //Handles hiding modal when its X is clicked
     closeModal = () => {
         const userID = sessionStorage.getItem("userID");
@@ -113,6 +116,7 @@ class Home extends Component {
             signInModal: "none",
             logInModal: "none",
             deleteModal: "none",
+            chartModal: "none",
             userID,
             userName
         });
@@ -148,8 +152,8 @@ class Home extends Component {
             <div>
                 <Header />
                 <br />
-                <Navbar userID={this.state.userID} handleSearchChange={this.handleSearchChange} searchTerms={this.state.searchTerms} onSearch={this.onSearch} getAllRecipes={this.getAllRecipes} home="home" searched={this.state.searched} />
-                {this.state.userName ? <Drawer userName={this.state.userName} home={this.state.home} tagSearch={this.tagSearch} logout={this.logout} /> : ""}
+                <Navbar userID={this.state.userID} handleSearchChange={this.handleSearchChange} searchTerms={this.state.searchTerms} onSearch={this.onSearch} getAllRecipes={this.getAllRecipes} home="home" withSearch="withSearch" searched={this.state.searched} />
+                {this.state.userName ? <Drawer userName={this.state.userName} home={this.state.home} tagSearch={this.tagSearch} logout={this.logout} chartModal={this.state.chartModal} showChartModal={this.showChartModal} closeModal={this.closeModal} /> : ""}
                 <br />
                 <Container className="homeContainer">
                     <Row>
@@ -161,7 +165,7 @@ class Home extends Component {
                             <p className="rbIntro">You can even import recipes from sites like Food Network, Pinterest, Epicurious, and AllRecipes and add them to your private collection.</p>
                             <p className="rbIntro">And of course, if you have any family favorites or special creations of your own, you can compile them in your own private culinary treasury or post them publicly and let other readers enjoy them too.</p>
                             <p className="rbIntro">With <strong>Recipe Book</strong>, it's easier than ever to store your favorite recipes at the tip of your fingers.</p>
-                        <TagChart tagProportionArray={this.state.tagProportionArray} />
+                        
                         </Card>
                         </Col>
                         <Col size="md-6 sm-12">

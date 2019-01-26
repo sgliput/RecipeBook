@@ -14,8 +14,8 @@ function DirectionFields(props) {
                 </div>
                 <br />
                 <Tooltip title="Add a Step">  
-                    <IconButton className="addStep">
-                        <AddCircleIcon onClick={props.addStep} />
+                    <IconButton className="addStep" onClick={props.addStep}>
+                        <AddCircleIcon />
                     </IconButton>
             </Tooltip>
                 {/* <button className="btn btn-info addStep" onClick={props.addStep}>Add a Step</button> */}

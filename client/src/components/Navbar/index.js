@@ -49,8 +49,13 @@ class NavBar extends Component {
                             ) : ""}
                         </Col>
                         <Col size="md-2 sm-3" id="toPrivateCol">
-                            {this.props.userID ? (
-
+                            {this.props.userID && this.props.withSearch ? (
+                                <button className="btn btn-success toPrivateWithSearch">
+                                <Link to={"/userRecipes/" + this.props.userID} className="toPrivateLink">
+                                    Your RecipeBook
+                                </Link>
+                            </button>
+                            ) : this.props.userID ? (
                                 <button className="btn btn-success toPrivate">
                                     <Link to={"/userRecipes/" + this.props.userID} className="toPrivateLink">
                                         Your RecipeBook

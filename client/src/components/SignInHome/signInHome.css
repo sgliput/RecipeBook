@@ -4,16 +4,19 @@
 
 .newTitle, .alreadyTitle{
     text-align: center;
+    margin-top: 1.3rem;
 }
 
 .announceBtn1{
     margin-left: 15%;
     width: 70%;
+    border-radius: 20px;  
 }
 
 .announceBtn2{
     margin-left: 15%;
     width: 70%;
+    border-radius: 20px;
 }
 
 

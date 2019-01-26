@@ -467,11 +467,11 @@ class PrivateRecipeSpec extends Component {
                                         <button className="btn btn-success privateEditSubmit" onClick={this.handlePrivateEdit}>Submit</button>
                                     </Row>) : (
                                         <Row>
-                                            <Col size="md-2 sm-3">
+                                            <Col size="md-2 sm-3" id="recipeSubmitCol">
                                                 <button className="btn btn-success privateEditSubmit" onClick={this.handlePrivateEdit}>Submit</button>
                                             </Col>
                                             {!this.state.isPublic ? (
-                                                <Col size="md-5 sm-6">
+                                                <Col size="md-5 sm-6" id="publicPrivateCol">
                                                     <form>
 
                                                         <label className="radio-inline editRadio publicRadio">

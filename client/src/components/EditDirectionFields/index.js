@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-
-//import { Col, Row, Container } from "../Grid";
-//import "./stepField.css";
+import IconButton from '@material-ui/core/IconButton';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import Tooltip from '@material-ui/core/Tooltip';
 
 // This file exports the EditDirectionFields component
 
@@ -23,13 +23,17 @@ render(){
         {this.props.directions.map((ingr, index) =>
     <div id={"step" + index + "Div"} key={index}>
         <label>Step {index + 1}:</label>
-        <textarea className="form-control step" id={"step" + index} rows="5" value={this.props.directions[index]} onChange={this.props.StepChange} />
+        <textarea autofocus="autofocus" className="form-control step" id={"step" + index} rows="5" value={this.props.directions[index]} onChange={this.props.StepChange} />
         <br />
     </div>
 )}
     </div>
     <br />
-    <button className="btn btn-info addStep" onClick={this.addField}>Add a Step</button>
+    <Tooltip title="Add a Step">  
+                    <IconButton className="addStep" onClick={this.addField}>
+                        <AddCircleIcon />
+                    </IconButton>
+            </Tooltip>
     </div >
     );
   }

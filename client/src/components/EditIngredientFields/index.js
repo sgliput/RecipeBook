@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import IconButton from '@material-ui/core/IconButton';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import Tooltip from '@material-ui/core/Tooltip';
 
-//import { Col, Row, Container } from "../Grid";
-//import "./ingredientField.css";
 
 // This file exports the EditIngredientFields component
 
@@ -29,7 +30,11 @@ render(){
 )}
     </div>
     <br />
-    <button className="btn btn-info addIngredient" onClick={this.addField}>Add an Ingredient</button>
+    <Tooltip title="Add an Ingredient">  
+                    <IconButton className="addIngredient" onClick={this.addField}>
+                        <AddCircleIcon />
+                    </IconButton>
+            </Tooltip>
     </div >
     );
   }

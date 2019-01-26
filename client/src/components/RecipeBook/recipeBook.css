@@ -5,9 +5,11 @@
 
 .cardCol > :first-child{
     margin-bottom: 2rem;
-    min-height: 90%;
+    
     box-shadow: 1px 1px;
     border-radius: 0;
+    max-height: 410px;
+    min-height: 410px;
 }
 
 .cardCol > :first-child:hover{
@@ -30,6 +32,14 @@
     width: 100%;
     margin: 1rem 0;
     padding: 0;
+}
+
+.cardDefaultImage{
+    height: 150px;
+    width: 100%;
+    margin: 1rem 0;
+    padding: 0;
+    background-image: url("./recipeCardDefault.jpg");
 }
 
 .startPosting{
@@ -65,7 +75,13 @@
 
 @media screen and (max-width: 575px) {
     .deleteRecipePrivate{
-        margin-right: 0;
-        margin-top: -3.4rem;
+        margin-right: -2rem !important;
+        margin-top: -3.4rem !important;
+    }
+    #privateTitleCol{
+        width: 60%;
+    }
+    #privateBtnCol{
+        width: 40%;
     }
 }

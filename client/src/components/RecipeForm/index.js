@@ -187,7 +187,7 @@ class RecipeForm extends Component {
         const tagArray = this.state.tagArray;
         const tagBtnArray = this.state.tagBtnArray;
         console.log("Index: " + tagArray.indexOf(tag));
-        if (tagArray.indexOf(tag) === -1) {
+        if (tagArray.indexOf(tag) === -1 && tag !== "") {
             tagArray.push(tag);
             tagBtnArray.push(
                 <button className="btn btn-info tagBtn" data-name={tag}>
@@ -749,7 +749,7 @@ class RecipeForm extends Component {
 
     render() {
         return (
-            <Container className="mainContainer">
+            <Container className="mainContainer recipeFormContainer">
                 <section className="recipeForm">
                     <Row>
                         <Col size="md-3">
@@ -794,7 +794,8 @@ class RecipeForm extends Component {
                         <Col size="md-2">
                             <label className="control-label tagLabel">Tags:</label>
                             <select className="form-control tagList" size="1" value={this.state.tagField} onChange={this.addTag}>
-                                <option defaultValue=""></option>
+                            <option className="defaultBlank" defaultValue=""></option>
+                                <option value disabled>--Choose a Tag--</option>
                                 <option value="Asian">Asian</option>
                                 <option value="Appetizer">Appetizer</option>
                                 <option value="Baked Goods">Baked Goods</option>
@@ -873,10 +874,10 @@ class RecipeForm extends Component {
                         </Row>
                         <Row>
                             <br />
-                            <Col size="md-2 sm-3">
+                            <Col size="md-2 sm-3" id="recipeSubmitCol">
                                 <button className="btn btn-success recipeSubmit" onClick={this.handleSubmit}>Submit</button>
                             </Col>
-                            <Col size="md-5 sm-6">
+                            <Col size="md-5 sm-6" id="publicPrivateCol">
                                 <form>
 
                                     <label className="radio-inline publicRadio">

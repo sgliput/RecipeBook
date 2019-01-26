@@ -161,7 +161,7 @@ class privateRecipes extends Component {
                 <Header />
                 <br />
                 {this.state.userName ? <Drawer userName={this.state.userName} tagSearch={this.privateTagSearch} private="private" logout={this.logout} /> : ""}
-                <Navbar userID={this.state.userID} handlePrivateSearchChange={this.handlePrivateSearchChange} privateSearchTerms={this.state.privateSearchTerms} onPrivateSearch={this.onPrivateSearch} getAllRecipes={this.getAllRecipes} private="private" searched={this.state.searched} />
+                <Navbar userID={this.state.userID} handlePrivateSearchChange={this.handlePrivateSearchChange} privateSearchTerms={this.state.privateSearchTerms} onPrivateSearch={this.onPrivateSearch} getAllRecipes={this.getAllRecipes} private="private" withSearch="withSearch" searched={this.state.searched} />
                 <RecipeBook userID={this.state.userID} recipes={this.state.recipes} deleteUserRecipe={this.deleteUserRecipe} recipeToRemove={this.state.recipeToRemove} showDeleteModal={this.showDeleteModal} deleteModal={this.state.deleteModal} closeModal={this.closeModal} currentTag={this.state.currentTag} />
             </div >
         );

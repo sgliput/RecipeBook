@@ -68,13 +68,8 @@
     cursor: pointer;
   } 
 
-.addIngredient{
-    margin-left: 130px !important;
-    margin-top: -4.8rem !important
-}
-
-.addStep{
-    margin-left: 130px !important;
+.addIngredient, .addStep{
+    margin-left: 140px !important;
     margin-top: -4.8rem !important
 }
 
@@ -87,15 +82,31 @@
     height: 4%;
 }
 
+.defaultBlank{
+    display: none;
+}
+
+@media screen and (max-width: 1199px) {
+    .addIngredient, .addStep{
+        margin-left: 120px !important;
+    }
+}
+
 @media screen and (max-width: 991px) {
     .addDegree{
         width: 6%;
     }
+    .addIngredient, .addStep{
+        margin-left: 78px !important;
+    }
 }
 
 @media screen and (max-width: 767px) {
+    .recipeFormContainer{
+        padding-right: 0;
+    }
 #dropdownCol, #firstFields, #firstIngrCol, #firstDirCol{
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid grey;
     padding-bottom: 8px;
 }
 #firstFields, #firstIngrCol, #firstDirCol{
@@ -128,5 +139,20 @@
     margin-left: 220px !important;
     margin-top: -4.8rem !important
 }
+.tagBtn{
+    background-color: brown;
+    margin-right: 1rem;
+    margin-top: 1rem;
+}
+.tagList{
+    width: 50%;
+}
+#recipeSubmitCol{
+    width: 30%;
+}
+#publicPrivateCol{
+    width: 70%;
+}
+
 
 }

@@ -1,7 +1,7 @@
 .navbar{
-    background-color: darkblue;
-    border-top: 2px solid lightblue;
-    border-bottom: 2px solid lightblue;
+    background-color: brown;
+    border-top: 2px solid yellow;
+    border-bottom: 2px solid yellow;
     color: white;
 }
 
@@ -9,7 +9,7 @@
     color: white;
 }
 
-.toHome, .toPrivate{
+.toHome, .toPrivate, .toPrivateWithSearch{
     margin-top: 4px;
 }
 
@@ -24,9 +24,9 @@
 }
 
 @media screen and (max-width: 575px) {
-    .toPrivate{
-        margin-left: 80%;
-        margin-top: -23%;
+    .toPrivate, .toPrivateWithSearch{
+        margin-left: 76%;
+        margin-top: -90px;
         margin-bottom: -3%;
     }
     #toPrivateCol{
@@ -41,8 +41,21 @@
 }
 
 @media screen and (max-width: 550px) {
+    .toPrivate, .toPrivateWithSearch{
+        margin-left: 70%;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    .toPrivateWithSearch{
+        margin-left: 60%;
+        margin-top: -185px;
+    }
+}
+
+@media screen and (max-width: 380px) {
     .toPrivate{
-        margin-left: 76%;
+        margin-left: 60%;
     }
 }
 

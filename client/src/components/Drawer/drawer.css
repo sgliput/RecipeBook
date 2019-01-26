@@ -1,3 +1,88 @@
-header{
-    width: 40%;
+.openChartBtn{
+    position: absolute;
+    left: 13%;
+    border-radius: 20px;
+    background-color: #fcb10d;
+}
+
+#appbar{
+    width: 25% !important
+}
+
+@media screen and (max-width: 1233px) {
+    #appbar{
+        width: 30% !important
+    }
+}
+
+@media screen and (max-width: 1028px) {
+    #appbar{
+        width: 35% !important
+    }
+}
+
+@media screen and (max-width: 881px) {
+    #appbar{
+        width: 40% !important
+    }
+}
+
+@media screen and (max-width: 771px) {
+    #appbar{
+        width: 45% !important
+    }
+}
+
+@media screen and (max-width: 685px) {
+    #appbar{
+        width: 50% !important
+    }
+}
+
+@media screen and (max-width: 616px) {
+    #appbar{
+        width: 55% !important
+    }
+}
+
+@media screen and (max-width: 560px) {
+    #appbar{
+        width: 60% !important
+    }
+}
+
+@media screen and (max-width: 514px) {
+    #appbar{
+        width: 65% !important
+    }
+}
+
+@media screen and (max-width: 474px) {
+    #appbar{
+        width: 70% !important
+    }
+}
+
+@media screen and (max-width: 440px) {
+    #appbar{
+        width: 75% !important
+    }
+}
+
+@media screen and (max-width: 411px) {
+    #appbar{
+        width: 80% !important
+    }
+}
+
+@media screen and (max-width: 385px) {
+    #appbar{
+        width: 85% !important
+    }
+}
+
+@media screen and (max-width: 362px) {
+    #appbar{
+        width: 100% !important
+    }
 }

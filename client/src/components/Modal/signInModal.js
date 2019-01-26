@@ -9,12 +9,17 @@ class SignInModal extends Component {
         newUserPassword: "",
         newUserState: "VA",
         newUserEmail: "",
-        notRegistered: true
+        notRegistered: true,
+        tooLong: false
     }
 
     nameChange = event => {
         const newUserName = event.target.value;
-        this.setState({ newUserName });
+        if(newUserName.length < 11){
+        this.setState({ newUserName, tooLong: false });
+        } else{
+            this.setState({tooLong: true});
+        }
         console.log(this.state);
     }
 
@@ -103,7 +108,7 @@ class SignInModal extends Component {
                         </div>
                         <br />
                         <div className="modal-body">
-                            <label>Name:</label>
+                            <label>Name: {this.state.tooLong ? "Must be 10 characters or less" : ""}</label>
                             <input className="form-control newUserField newUserName" value={this.state.newUserName} onChange={this.nameChange} />
                             <label>Password:</label>
                             <input className="form-control newUserField newUserPassword" type="password" value={this.state.newUserPassword} onChange={this.passwordChange} />

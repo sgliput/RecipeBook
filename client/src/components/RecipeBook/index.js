@@ -14,10 +14,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 function RecipeBook(props) {
 
     const recipeCards = props.recipes.map((recipe, index) => (
-        <div className="col-md-4 col-sm-6 cardCol">
+        <div className="col-md-4 col-sm-6 cardCol" key={recipe._id}>
             <Card className="card">
                 <CardContent className="cardContent">
-                    {/* <div className="card" key={recipe._id}> */}
                     <Row>
                         <Col size="md-10 sm-8" id="recipeNameCol">
                             <Link to={"/users/" + props.userID + "/recipes/" + recipe._id}>
@@ -34,9 +33,8 @@ function RecipeBook(props) {
                     <p className="creator">{recipe.edited ? "Original: " : ""}{recipe.source === "Pinterest" && !recipe.edited ? "From Pinterest" : recipe.source === "Pinterest" && recipe.edited ? "Pinterest" : recipe.otherSite ? recipe.creator : recipe.creatorID === props.userID ? "By You" : `By ${recipe.creator}`}</p>
                     {recipe.imgLink ? (
                         <CardMedia className="cardImage" image={recipe.imgLink} title={recipe.name} />
-                    ) : <hr />}
+                    ) : <CardMedia className="cardDefaultImage" title={recipe.name} />}
                     {recipe.cooktime ? <p className="cooktime">Takes {recipe.cooktime}</p> : ""}
-                    {/* </div> */}
                 </CardContent>
             </Card>
         </div>
@@ -47,10 +45,10 @@ function RecipeBook(props) {
             <div className="top">
                 <Container className="topArea">
                     <Row>
-                        <Col size="md-8 sm-9">
+                        <Col size="md-8 sm-9" id="privateTitleCol">
                             <h3 className="title">Your {props.currentTag ? props.currentTag : ""} Recipes:</h3>
                         </Col>
-                        <Col size="md-4 sm-3">
+                        <Col size="md-4 sm-3" id="privateBtnCol">
                             <Link to={"/postRecipe"}>
                                 <button className="btn btn-success toRecipePostFromPrivate">Post a Recipe</button>
                             </Link>
