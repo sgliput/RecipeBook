@@ -24,6 +24,8 @@ class RecipeForm extends Component {
         IngNumberOfFields: 1,
         directions: {},
         DirNumberOfFields: 1,
+        cursorLocation: "",
+        currentFieldID: "",
         siteToScrape: "Food Network",
         urlToScrape: "",
         loggedInUserID: "",
@@ -133,19 +135,25 @@ class RecipeForm extends Component {
         const value = event.target.value;
         const id = event.target.id;
         console.log("Step : " + id);
+        const cursorLocation = event.target.selectionStart;
+        console.log(cursorLocation);
         const steps = this.state.directions;
         steps[id] = value;
 
         //Changes this.state.ingredient1 to the content of the input box
         this.setState({
-            directions: steps
+            directions: steps,
+            cursorLocation,
+            currentFieldID: id
         });
         console.log(this.state.directions);
     };
 
+    //<button className="btn btn-info addDegree" onClick={this.addDegree}>&deg;</button>
+
     DirFields = [
         <div id="step1" key="1">
-            <label>Step 1:</label>
+            <label>Step 1: </label>
             <textarea className="form-control step1Field" id="step1" rows="3" value={this.state.directions.step1} onChange={this.StepChange} autocomplete="off" />
             <br />
         </div>

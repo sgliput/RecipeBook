@@ -78,7 +78,20 @@
     margin-top: -4.8rem !important
 }
 
+.addDegree{
+    position: absolute;
+    right: 6%;
+    top: 0;
+    padding: 0;
+    width: 5%;
+    height: 4%;
+}
 
+@media screen and (max-width: 991px) {
+    .addDegree{
+        width: 6%;
+    }
+}
 
 @media screen and (max-width: 767px) {
 #dropdownCol, #firstFields, #firstIngrCol, #firstDirCol{
@@ -100,6 +113,20 @@
 }
 .radio-inline{
     margin-top: 2rem;
+}
+.addDegree{
+    top: 11%;
+    width: 5%;
+    height: 9%;
+}
+.addIngredient{
+    margin-left: 220px !important;
+    margin-top: -4.8rem !important
+}
+
+.addStep{
+    margin-left: 220px !important;
+    margin-top: -4.8rem !important
 }
 
 }

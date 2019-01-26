@@ -27,4 +27,8 @@ router
   .route("/tagSearch/:tag")
   .get(recipesController.tagSearch);
 
+router
+  .route("/tagProportions")
+  .get(recipesController.tagProportions); 
+
 module.exports = router;

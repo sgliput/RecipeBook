@@ -9,7 +9,7 @@ import Drawer from "../components/Drawer";
 import Collapsible from "../components/Collapsible";
 
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import TagChart from '../components/Chart';
 import "./home.css";
 
 class Home extends Component {
@@ -39,7 +39,7 @@ class Home extends Component {
                     userID,
                     userName
                 });
-
+                
             })
     }
 
@@ -161,6 +161,7 @@ class Home extends Component {
                             <p className="rbIntro">You can even import recipes from sites like Food Network, Pinterest, Epicurious, and AllRecipes and add them to your private collection.</p>
                             <p className="rbIntro">And of course, if you have any family favorites or special creations of your own, you can compile them in your own private culinary treasury or post them publicly and let other readers enjoy them too.</p>
                             <p className="rbIntro">With <strong>Recipe Book</strong>, it's easier than ever to store your favorite recipes at the tip of your fingers.</p>
+                        <TagChart tagProportionArray={this.state.tagProportionArray} />
                         </Card>
                         </Col>
                         <Col size="md-6 sm-12">

@@ -34,6 +34,9 @@ export default {
   searchRecipesByTag: function(tag) {
     return axios.get("/api/recipes/tagSearch/" + tag)
   },
+  getTagProportions: function() {
+    return axios.get("/api/recipes/tagProportions");
+  },
 
 
 getUser: function(userName, password) {
