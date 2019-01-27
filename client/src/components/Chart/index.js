@@ -28,7 +28,7 @@ class TagChart extends Component {
                     var myChart = new Chart(ctx, {
                         type: 'pie',
                         data: {
-                            labels: ["Asian", "Appetizer", "Baked Goods", "BBQ", "Beans", "Beef", "Bread", "Breakfast", "Brunch", "Cake", "Casserole", "Chicken", "Cookie", "Corn", "Dessert", "Drinks", "Eggs", "Fish", "Fruit", "Gluten-Free", "Holiday", "Lamb", "Meat", "Mediterranean", "Mexican", "Pasta", "Pastry", "Pizza", "Pork", "Potato", "Poultry", "Rice", "Salad", "Sandwich", "Seafood", "Side Dish", "Soup", "Vegan", "Vegetarian"],
+                            labels: ["Asian", "Appetizer", "Baked Goods", "BBQ", "Beans", "Beef", "Bread", "Breakfast", "Brunch", "Cake", "Casserole", "Cheese", "Chicken", "Cookie", "Corn", "Dessert", "Drinks", "Eggs", "Fish", "Fruit", "Gluten-Free", "Holiday", "Lamb", "Meat", "Mediterranean", "Mexican", "Pasta", "Pastry", "Pizza", "Pork", "Potato", "Poultry", "Rice", "Salad", "Sandwich", "Seafood", "Side Dish", "Soup", "Vegan", "Vegetarian"],
                             datasets: [{
                                 label: '% of Tags',
                                 data: res.data,
@@ -78,8 +78,8 @@ class TagChart extends Component {
                                     'rgba(5, 83, 132, 0.8)',
                                     'rgba(234, 182, 65, 0.8)',
                                     'rgba(245, 106, 126, 0.8)',
+                                    'rgba(76, 222, 42, 0.8)',
 
-                                    // 'rgba(76, 222, 42, 0.8)',
                                     // 'rgba(183, 202, 255, 0.8)',
                                     // 'rgba(255, 19, 94, 0.8)',
 
@@ -136,6 +136,7 @@ class TagChart extends Component {
                                     'rgba(5, 83, 132, 1)',
                                     'rgba(234, 182, 65, 1)',
                                     'rgba(245, 106, 126, 1)',
+                                    'rgba(76, 222, 42, 1)',
                                 ],
                                 borderWidth: 0.2
                             }]

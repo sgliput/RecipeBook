@@ -1,7 +1,10 @@
+.postedRecipes{
+    padding: 1rem;
+}
+
 .topArea{
     border: none;
 }
-
 
 .card{
     width: 100%;
@@ -49,6 +52,11 @@
     margin-top: -0.7rem !important;
     cursor: pointer;
     margin-right: -2.3rem !important;
+}
+
+.noMatch{
+    text-align: center;
+    margin: 2rem 0;
 }
 
 

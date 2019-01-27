@@ -344,6 +344,7 @@ class RecipeSpec extends Component {
                                         <option value="Brunch">Brunch</option>
                                         <option value="Cake">Cake</option>
                                         <option value="Casserole">Casserole</option>
+                                        <option value="Cheese">Cheese</option>
                                         <option value="Chicken">Chicken</option>
                                         <option value="Cookie">Cookie</option>
                                         <option value="Corn">Corn</option>

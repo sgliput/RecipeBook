@@ -151,7 +151,7 @@ class Home extends Component {
         return (
             <div>
                 <Header />
-                <br />
+                
                 <Navbar userID={this.state.userID} handleSearchChange={this.handleSearchChange} searchTerms={this.state.searchTerms} onSearch={this.onSearch} getAllRecipes={this.getAllRecipes} home="home" withSearch="withSearch" searched={this.state.searched} />
                 {this.state.userName ? <Drawer userName={this.state.userName} home={this.state.home} tagSearch={this.tagSearch} logout={this.logout} chartModal={this.state.chartModal} showChartModal={this.showChartModal} closeModal={this.closeModal} /> : ""}
                 <br />

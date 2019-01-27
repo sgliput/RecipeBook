@@ -59,7 +59,7 @@ function PostedRecipes(props) {
             </div>
             {props.recipes.length === 0 ?
 
-                <h3>Sorry, no matches.</h3> : (
+                <h3 class="noMatch">Sorry, no matches.</h3> : (
                     <div>
                         {recipeCards}
                     </div>
