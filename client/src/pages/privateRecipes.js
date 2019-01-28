@@ -15,6 +15,7 @@ class privateRecipes extends Component {
         privateSearchTerms: "",
         searched: "",
         deleteModal: "none",
+        chartModal: "none",
         recipeToRemove: "",
         currentTag: ""
     }
@@ -85,8 +86,12 @@ class privateRecipes extends Component {
         this.setState({recipeToRemove: id});
     }
 
+    showChartModal = () => {
+        this.setState({ chartModal: "block" });
+    }
+
     closeModal = () => {
-        this.setState({ deleteModal: "none"});       
+        this.setState({ deleteModal: "none", chartModal: "none"});       
     }
 
     logout = () => {
@@ -159,8 +164,8 @@ class privateRecipes extends Component {
         return (
             <div>
                 <Header />
-                <br />
-                {this.state.userName ? <Drawer userName={this.state.userName} tagSearch={this.privateTagSearch} private="private" logout={this.logout} /> : ""}
+            
+                {this.state.userName ? <Drawer userName={this.state.userName} tagSearch={this.privateTagSearch} home="private" logout={this.logout} chartModal={this.state.chartModal} showChartModal={this.showChartModal} closeModal={this.closeModal} /> : ""}
                 <Navbar userID={this.state.userID} handlePrivateSearchChange={this.handlePrivateSearchChange} privateSearchTerms={this.state.privateSearchTerms} onPrivateSearch={this.onPrivateSearch} getAllRecipes={this.getAllRecipes} private="private" withSearch="withSearch" searched={this.state.searched} />
                 <RecipeBook userID={this.state.userID} recipes={this.state.recipes} deleteUserRecipe={this.deleteUserRecipe} recipeToRemove={this.state.recipeToRemove} showDeleteModal={this.showDeleteModal} deleteModal={this.state.deleteModal} closeModal={this.closeModal} currentTag={this.state.currentTag} />
             </div >

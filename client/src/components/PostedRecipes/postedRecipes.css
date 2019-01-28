@@ -8,10 +8,12 @@
 
 .card{
     width: 100%;
-    background-color: blanchedalmond;
+    background-color: brown;
     margin-bottom: 8px;
     padding: 10px;
     box-shadow: 1px 1px;
+    color: #fcb10d;
+    text-shadow: 1px 1px black;
 }
 
 .title{
@@ -31,6 +33,10 @@
     float: left;
 }
 
+.nameMaster{
+    color: #fcb10d;
+}
+
 .creator{
     margin: 0 0 0 20px;
     text-align: left;
@@ -41,10 +47,16 @@
     margin-top: 1rem;
     margin-right: -3.5rem;
     float: right;
+    background-color: rgb(94, 88, 88);
+    color: white;
+}
+
+.toRecipePost:hover{
+    background-color: darkslategray;
 }
 
 .deleteRecipeMaster{
-    color: grey;
+    color: #fcb10d !important;
     float: right;
     font-size: 28px;
     font-weight: bold;

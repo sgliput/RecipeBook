@@ -24,8 +24,8 @@ function RecipeBook(props) {
                             </Link>
                         </Col>
                         <Col size="md-1 sm-2" id="xCol">
-                            <IconButton className="deleteRecipePrivate">
-                                <DeleteIcon  data-id={recipe._id} onClick={() => props.showDeleteModal(recipe._id)} />
+                            <IconButton className="deleteRecipePrivate" onClick={() => props.showDeleteModal(recipe._id)}>
+                                <DeleteIcon data-id={recipe._id} />
                             </IconButton>
                         </Col>
                     </Row>
@@ -33,7 +33,7 @@ function RecipeBook(props) {
                     <p className="creator">{recipe.edited ? "Original: " : ""}{recipe.source === "Pinterest" && !recipe.edited ? "From Pinterest" : recipe.source === "Pinterest" && recipe.edited ? "Pinterest" : recipe.otherSite ? recipe.creator : recipe.creatorID === props.userID ? "By You" : `By ${recipe.creator}`}</p>
                     {recipe.imgLink ? (
                         <CardMedia className="cardImage" image={recipe.imgLink} title={recipe.name} />
-                    ) : <CardMedia className="cardDefaultImage" title={recipe.name} />}
+                    ) : <CardMedia className="cardDefaultImage" src="./recipeCardDefault.jpg" title={recipe.name} />}
                     {recipe.cooktime ? <p className="cooktime">Takes {recipe.cooktime}</p> : ""}
                 </CardContent>
             </Card>
@@ -50,7 +50,7 @@ function RecipeBook(props) {
                         </Col>
                         <Col size="md-4 sm-3" id="privateBtnCol">
                             <Link to={"/postRecipe"}>
-                                <button className="btn btn-success toRecipePostFromPrivate">Post a Recipe</button>
+                                <button className="btn toRecipePostFromPrivate">Post a Recipe</button>
                             </Link>
                         </Col>
                     </Row>

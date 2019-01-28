@@ -10,13 +10,21 @@
 .announceBtn1{
     margin-left: 15%;
     width: 70%;
-    border-radius: 20px;  
+    border-radius: 20px;
+    background-color: brown;
+    color: white;
 }
 
 .announceBtn2{
     margin-left: 15%;
     width: 70%;
     border-radius: 20px;
+    background-color: brown;
+    color: white;
+}
+
+.announceBtn1:hover, .announceBtn2:hover{
+    background-color: rgb(122, 32, 32);
 }
 
 

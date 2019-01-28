@@ -17,7 +17,7 @@ class ChartModal extends Component {
                 <div className="modal-content">
                     <div className="md-content">
                     <span className="close" onClick={this.props.closeModal}>&times;</span>
-                        <TagChart show={this.props.show} />
+                        <TagChart home={this.props.home} show={this.props.show} />
 
                     </div>
                 </div>

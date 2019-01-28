@@ -318,7 +318,7 @@ class RecipeSpec extends Component {
                     this.state.editing ? (
                         <section className="recipeForm">
                             <Row>
-                                <button className="btn btn-info stopEditBtn" onClick={this.stopEdit}>Cancel Edit</button>
+                                <button className="btn stopEditBtn" onClick={this.stopEdit}>Cancel Edit</button>
                             </Row>
                             <Row>
                                 <Col size="md-6">
@@ -332,7 +332,8 @@ class RecipeSpec extends Component {
                                 <Col size="md-2">
                                     <label className="control-label tagLabel">Tags:</label>
                                     <select className="form-control tagList" size="1" value={this.state.tagField} onChange={this.addTag}>
-                                        <option defaultValue=""></option>
+                                    <option className="defaultBlank" defaultValue=""></option>
+                                <option value disabled>--Choose a Tag--</option>
                                         <option value="Asian">Asian</option>
                                         <option value="Appetizer">Appetizer</option>
                                         <option value="Baked Goods">Baked Goods</option>
@@ -346,8 +347,8 @@ class RecipeSpec extends Component {
                                         <option value="Casserole">Casserole</option>
                                         <option value="Cheese">Cheese</option>
                                         <option value="Chicken">Chicken</option>
+                                        <option value="Chocolate">Chocolate</option>
                                         <option value="Cookie">Cookie</option>
-                                        <option value="Corn">Corn</option>
                                         <option value="Dessert">Dessert</option>
                                         <option value="Drinks">Drinks</option>
                                         <option value="Eggs">Eggs</option>
@@ -390,7 +391,7 @@ class RecipeSpec extends Component {
                                         <label>Name of Recipe:</label>
                                         <input className="form-control recipeNameField" value={this.state.recipeName} onChange={this.handleRecipeNameChange} />
                                         <br />
-                                        <label>Cook Time:</label>
+                                        <label>Total Time:</label>
                                         <input className="form-control cooktimeField" value={this.state.cooktime} onChange={this.handleCooktimeChange} />
                                         <br />
                                         <label>Description:</label>
@@ -409,7 +410,7 @@ class RecipeSpec extends Component {
                                 </Row>
                                 <Row>
                                     <br />
-                                    <button className="btn btn-success editSubmit" onClick={this.handleEditSubmit}>Submit</button>
+                                    <button className="btn editSubmit" onClick={this.handleEditSubmit}>Submit</button>
                                 </Row>
                             </div>
                         </section>

@@ -124,5 +124,70 @@ module.exports = {
       })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
+  },
+  privateTagProportions: function (req, res) {
+    const tagArray = ["Asian", "Appetizer", "Baked Goods", "BBQ", "Beans", "Beef", "Bread", "Breakfast", "Brunch", "Cake", "Casserole", "Cheese", "Chicken", "Chocolate", "Cookie", "Dessert", "Drinks", "Eggs", "Fish", "Fruit", "Gluten-Free", "Holiday", "Lamb", "Meat", "Mediterranean", "Mexican", "Pasta", "Pastry", "Pizza", "Pork", "Potato", "Poultry", "Rice", "Salad", "Sandwich", "Seafood", "Side Dish", "Soup", "Vegan", "Vegetarian"];
+    const proportionArray = [];
+    let arrayOfTags = [];
+
+    const recursiveTagLoop = (recipes, num1) => {
+      console.log("Hello!");
+      console.log(proportionArray);
+      //Loops through each id in the recipes array
+      if (num1 < recipes.length) {
+        db.Recipe
+          .find({ _id: recipes[num1] })
+          .then(dbModel2 => {
+            console.log(dbModel2[0].tags);
+            //Adds together the tag array of each recipe
+            arrayOfTags = arrayOfTags.concat(dbModel2[0].tags);
+            num1++;
+            //Function calls itself again after increasing its iterator
+            recursiveTagLoop(recipes, num1);
+
+          })
+          .catch(err => res.status(422).json(err))
+          //Once we have an array of all the user's tags
+      } else {
+        console.log(arrayOfTags);
+        //Loops through all the available tags
+        for (var i = 0; i < tagArray.length; i++) {
+          //If an individual tag is not among the user's tags, it adds 0 to the proportionArray
+          if (arrayOfTags.indexOf(tagArray[i]) === -1) {
+            proportionArray.push(0);
+          } else {
+            //If it is found, we find out how many times each tag was used by the user and push that to the proportionArray
+            let count = 0;
+            for (var j = 0; j < arrayOfTags.length; j++) {
+              if (arrayOfTags[j] === tagArray[i]) {
+                count++;
+              }
+              if (j === arrayOfTags.length - 1) {
+                proportionArray.push(count);
+              }
+            }
+          }
+        }
+        console.log(proportionArray);
+        //setTimeout(function(){
+        res.json(proportionArray);
+        //}, 2000); 
+      }
+    }
+
+    //Finds current user and loops through their tags
+    db.User
+      .findById(req.params.userID)
+      .then(dbModel => {
+        console.log("Is this working?");
+        console.log(dbModel);
+        console.log("UserID: " + req.params.userID);
+
+        recursiveTagLoop(dbModel.recipes, 0);
+
+      })
+
+
+
   }
 };

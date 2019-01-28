@@ -34,9 +34,6 @@ class NavBar extends Component {
                                                 <HomeIcon />
                                             </IconButton>
                                         </Tooltip>
-
-
-                                        {/* <button className="btn btn-info toHome">Home Page</button> */}
                                     </Link>
                                 </Col>
                             )}
@@ -50,13 +47,13 @@ class NavBar extends Component {
                         </Col>
                         <Col size="md-2 sm-3" id="toPrivateCol">
                             {this.props.userID && this.props.withSearch ? (
-                                <button className="btn btn-success toPrivateWithSearch">
+                                <button className="btn toPrivateWithSearch">
                                 <Link to={"/userRecipes/" + this.props.userID} className="toPrivateLink">
-                                    Your RecipeBook
+                                    Your Recipe Book
                                 </Link>
                             </button>
                             ) : this.props.userID ? (
-                                <button className="btn btn-success toPrivate">
+                                <button className="btn toPrivate">
                                     <Link to={"/userRecipes/" + this.props.userID} className="toPrivateLink">
                                         Your RecipeBook
                                     </Link>

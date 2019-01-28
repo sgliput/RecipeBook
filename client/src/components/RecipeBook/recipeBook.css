@@ -5,11 +5,11 @@
 
 .cardCol > :first-child{
     margin-bottom: 2rem;
-    
     box-shadow: 1px 1px;
     border-radius: 0;
     max-height: 410px;
     min-height: 410px;
+    background-color: brown;
 }
 
 .cardCol > :first-child:hover{
@@ -17,7 +17,7 @@
 }
 
 .deleteRecipePrivate{
-    color: grey;
+    color: #fcb10d !important;
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -49,10 +49,18 @@
 
 .name{
     margin-right: -1rem;
+    color: #fcb10d;
+    text-shadow: 1.5px 2px black;
 }
 
 .toRecipePostFromPrivate{
     margin-top: 20%;
+    background-color: rgb(94, 88, 88);
+    color: white;
+}
+
+.toRecipePostFromPrivate:hover{
+    background-color: darkslategray;
 }
 
 #recipeNameCol{

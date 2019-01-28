@@ -62,5 +62,8 @@ getUser: function(userName, password) {
   },
   searchPrivateRecipesByTag: function(id, tag) {
     return axios.get("/api/users/privateTagSearch/" + id + "/search/" + tag);
+  },
+  getPrivateTagProportions: function(id) {
+    return axios.get("/api/users/privateTagProportions/" + id);
   }
 };

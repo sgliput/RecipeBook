@@ -50,7 +50,7 @@ function PostedRecipes(props) {
                         {props.userID ? (
                             <Col size="md-4 sm-2" id="toRecipePostCol">
                                 <Link to={"/postRecipe"}>
-                                    <button className="btn btn-success toRecipePost">Post a Recipe</button>
+                                    <button className="btn toRecipePost">Post a Recipe</button>
                                 </Link>
                             </Col>) : ""}
                     </Row>

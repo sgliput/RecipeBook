@@ -14,7 +14,15 @@
 }
 
 .toHome{
-    color: white !important;
+    color: #fcb10d !important;
+}
+
+.toPrivate, .toPrivateWithSearch{
+    background-color: rgb(94, 88, 88);
+}
+
+.toPrivate:hover, .toPrivateWithSearch:hover{
+    background-color: darkslategray;
 }
 
 .toPrivateLink:hover{

@@ -19,12 +19,12 @@
     padding: 20px;
     border: 1px solid #888;
     width: 50%; /* Could be more or less, depending on screen size */
-    border: 4px outset orange;
+    border: 4px outset #fcb10d;
     border-radius: 20px;
   }
 
   .md-content{
-    border: 4px inset blue;
+    border: 4px inset brown;
     border-radius: 17px;
     margin: -20px;
     padding: 10px 30px 10px 10px;

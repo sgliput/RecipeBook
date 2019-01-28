@@ -11,6 +11,12 @@
     margin-left: 88%;
     margin-top: 10px;
     margin-bottom: -40px;
+    background-color: brown;
+    color: white;
+}
+
+.stopEditBtn:hover{
+    background-color: rgb(122, 32, 32);
 }
 
 .backToRecipeBook, .backToRecipeBookEdit{
@@ -113,6 +119,12 @@ ol li{
 .privateEditSubmit{
     margin-bottom: 1rem;
     margin-left: 1rem;
+    background-color: brown;
+    color: white;
+}
+
+.privateEditSubmit:hover{
+    background-color: rgb(122, 32, 32);
 }
 
 

@@ -12,7 +12,6 @@
     background-size: 100% 100%;
     width: 100%;
     margin: 0 auto;
-    color: #fcb10d;
   }
 
 /* .jumbotron{
@@ -33,6 +32,8 @@ h1{
     font-style: italic;
     font-weight: bold;
     background-color: brown;
+    color: #fcb10d;
+    text-shadow: 3px 2.5px black;
     border-radius: 40px;
     width: 30%;
     margin: 50px auto 0 auto;

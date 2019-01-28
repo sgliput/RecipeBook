@@ -782,7 +782,7 @@ class RecipeForm extends Component {
                                         <input className="form-control urlToScrape" value={this.state.url} onChange={this.handleURLChange} />
                                     </Col>
                                     <Col size="md-3">
-                                        <button className="btn btn-success submitURL" onClick={this.handleURLSubmit}>Submit</button>
+                                        <button className="btn submitURL" onClick={this.handleURLSubmit}>Submit</button>
                                     </Col>
 
                                 </Row>
@@ -809,8 +809,8 @@ class RecipeForm extends Component {
                                 <option value="Casserole">Casserole</option>
                                 <option value="Cheese">Cheese</option>
                                 <option value="Chicken">Chicken</option>
+                                <option value="Chocolate">Chocolate</option>
                                 <option value="Cookie">Cookie</option>
-                                <option value="Corn">Corn</option>
                                 <option value="Dessert">Dessert</option>
                                 <option value="Drinks">Drinks</option>
                                 <option value="Eggs">Eggs</option>
@@ -856,7 +856,7 @@ class RecipeForm extends Component {
                                 <label>Your Name:</label>
                                 <input className="form-control nameField" value={this.state.name} onChange={this.handleNameChange} autocomplete="off" />
                                 <br />
-                                <label>Cook Time:</label>
+                                <label>Total Time:</label>
                                 <input className="form-control cooktimeField" value={this.state.cooktime} onChange={this.handleCooktimeChange} autocomplete="off" />
                                 <br />
                                 <label>Description:</label>
@@ -876,7 +876,7 @@ class RecipeForm extends Component {
                         <Row>
                             <br />
                             <Col size="md-2 sm-3" id="recipeSubmitCol">
-                                <button className="btn btn-success recipeSubmit" onClick={this.handleSubmit}>Submit</button>
+                                <button className="btn recipeSubmit" onClick={this.handleSubmit}>Submit</button>
                             </Col>
                             <Col size="md-5 sm-6" id="publicPrivateCol">
                                 <form>

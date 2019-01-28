@@ -73,7 +73,8 @@ const styles = theme => ({
         alignItems: 'center',
         padding: '0 8px',
         ...theme.mixins.toolbar,
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        backgroundColor: "brown"
     },
     h6: {
         marginTop: "-6%",
@@ -101,11 +102,22 @@ const styles = theme => ({
         color: "white",
         fontSize: "1rem"
     },
+    chevron: {
+        color: "#fcb10d"
+    },
+    divider: {
+        backgroundColor: "#fcb10d"
+    },
     instrP: {
-        marginTop: "1rem"
+        backgroundColor: "brown",
+        margin: 0,
+        padding: "1rem 0",
+        color: "#fcb10d",
+        fontSize: "1.1rem"
     },
     list: {
-        paddingLeft: "1.5rem"
+        paddingLeft: "1.5rem",
+        backgroundColor: "#fcb10d"
     },
     content: {
         flexGrow: 1,
@@ -133,33 +145,22 @@ const styles = theme => ({
 
 class PersistentDrawerLeft extends React.Component {
     state = {
-        open: false,
-        headerWidth: "",
-        windowWidth: window.innerWidth
+        open: false
     };
 
     componentDidMount() {
-        headerWidth = document.getElementById('loggedIn').offsetWidth;
-        this.setState({ headerWidth });
-
         var appbar = document.getElementById('appbar');
-        // var loggedIn = document.getElementById("loggedIn");
-        // appbar.style.width = "30%";
-        //console.log(loggedIn.offsetWidth);
         window.onscroll = function (ev) {
             if (this.pageYOffset > 100) {
                 appbar.style.opacity = '0.6';
-                //appbar.style.width = "20%"
             } else {
                 appbar.style.opacity = '1';
-                //appbar.style.width = loggedIn.offsetWidth + "px";
             }
         };
     }
 
     handleDrawerOpen = () => {
         this.setState({ open: true });
-        console.log(this.state.headerWidth);
     };
 
     handleDrawerClose = () => {
@@ -242,21 +243,21 @@ class PersistentDrawerLeft extends React.Component {
                     <div className={classes.drawerHeader}>
                     <button className="btn openChartBtn" onClick={this.showChart}>See Graph</button>
                         <IconButton onClick={this.handleDrawerClose}>
-                            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                            {theme.direction === 'ltr' ? <ChevronLeftIcon className={classes.chevron} /> : <ChevronRightIcon />}
                         </IconButton>
                     </div>
-                    <Divider />
+                    <Divider className={classes.divider} />
                     <p className={classes.instrP}>Click one to search by tag</p>
                     <List className={classes.list}>
 
-                        {["Asian", "Appetizer", "Baked Goods", "BBQ", "Beans", "Beef", "Bread", "Breakfast", "Brunch", "Cake", "Casserole", "Cheese", "Chicken", "Cookie", "Corn", "Dessert", "Drinks", "Eggs", "Fish", "Fruit", "Gluten-Free", "Holiday", "Lamb", "Meat", "Mediterranean", "Mexican", "Pasta", "Pastry", "Pizza", "Pork", "Potato", "Poultry", "Rice", "Salad", "Sandwich", "Seafood", "Side Dish", "Soup", "Vegan", "Vegetarian"].map((text, index) => (
+                        {["Asian", "Appetizer", "Baked Goods", "BBQ", "Beans", "Beef", "Bread", "Breakfast", "Brunch", "Cake", "Casserole", "Cheese", "Chicken", "Chocolate", "Cookie", "Dessert", "Drinks", "Eggs", "Fish", "Fruit", "Gluten-Free", "Holiday", "Lamb", "Meat", "Mediterranean", "Mexican", "Pasta", "Pastry", "Pizza", "Pork", "Potato", "Poultry", "Rice", "Salad", "Sandwich", "Seafood", "Side Dish", "Soup", "Vegan", "Vegetarian"].map((text, index) => (
                             <Chip label={text} key={text} className={classes.chip} onClick={() => this.handleSearchAndClose(text)} />
                         ))}
                     </List>
                     <Divider />
 
                 </Drawer>
-                <ChartModal show={this.props.chartModal} closeModal={this.props.closeModal} />
+                <ChartModal home={this.props.home} show={this.props.chartModal} closeModal={this.props.closeModal} />
             </div>
         );
     }

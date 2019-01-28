@@ -41,7 +41,7 @@ class postRecipe extends Component {
         return (
             <div>
                 <Header />
-                <br />
+                
                 {this.state.userName ? <Drawer userName={this.state.userName} logout={this.logout} /> : ""}
                 <Navbar userID={this.state.userID} />
                 <br />

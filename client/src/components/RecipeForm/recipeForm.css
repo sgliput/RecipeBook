@@ -5,6 +5,12 @@
 
 .recipeSubmit{
     margin-bottom: 1rem;
+    background-color: brown;
+    color: white;
+}
+
+.recipeSubmit:hover{
+    background-color: rgb(122, 32, 32);
 }
 
 .siteToScrape{
@@ -28,7 +34,12 @@
 
 .submitURL{
     margin-top: 1.3rem;
-    
+    background-color: brown;
+    color: white;
+}
+
+.submitURL:hover{
+    background-color: rgb(122, 32, 32);
 }
 
 .publicRadio{
@@ -45,7 +56,7 @@
 }
 
 .tagBtn{
-    background-color: blue;
+    background-color: brown;
     margin-right: 1rem;
     margin-bottom: 1rem;
 }
@@ -53,7 +64,7 @@
 .btn.btn-info.tagBtn:hover{
     text-decoration: none;
     cursor: default;
-    background-color: blue;
+    background-color: brown;
 }
 
 .deleteTag{

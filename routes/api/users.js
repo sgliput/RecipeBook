@@ -33,4 +33,8 @@ router
   .route("/privateTagSearch/:userID/search/:tag")
   .get(usersController.tagSearch);
 
+router
+  .route("/privateTagProportions/:userID")
+  .get(usersController.privateTagProportions);
+
 module.exports = router;
