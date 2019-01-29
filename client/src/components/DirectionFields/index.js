@@ -18,7 +18,6 @@ function DirectionFields(props) {
                         <AddCircleIcon />
                     </IconButton>
             </Tooltip>
-                {/* <button className="btn btn-info addStep" onClick={props.addStep}>Add a Step</button> */}
             </div>
         );
     };

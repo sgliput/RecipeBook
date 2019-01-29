@@ -48,13 +48,12 @@ function SimpleExpansionPanel2(props) {
         <ExpansionPanelDetails className={classes.dropdown}>
           <h3 className="tipH">Posting</h3>
           <p className="tipP">When you post a recipe, you can mark it as either public or private. If you mark it as public, it will be added to the recipes here on the home page, as well as in your personal Recipe Book. If you mark it private, it will be added only to your personal Recipe Book.</p>
-          <p className="tipP">Importing a recipe from another site will add it solely to your private Recipe Book and will not be posted publicly.</p>
+          <p className="tipP">Importing a recipe from another site will add it solely to your private Recipe Book and will not be posted on the home page.</p>
           <h3 className="tipH">Deleting</h3>
-          <p className="tipP">If you delete a recipe from your personal Recipe Book, it will not delete it publicly. As the original poster, if you want to delete a recipe entirely, remove it publicly, then privately.</p>
+          <p className="tipP">If you delete a recipe from your personal Recipe Book, it will not delete it on the home page. As the original poster, if you want to delete a recipe entirely, remove it from the home page first, then from your Recipe Book.</p>
           <h3 className="tipH">Editing</h3>
-          <p className="tipP">When you edit a recipe privately, it creates a record separate from the public version. Doing so will ensure that recipe can't be removed by the original poster.</p>
-          <p className="tipP">If you are the original poster and want to edit the recipe you originally posted, edit it publicly rather than privately.</p>
-          
+          <p className="tipP">When you edit a recipe in your Recipe Book, it creates a record separate from the public version. Doing so will ensure that recipe can't be removed by the original poster.</p>
+          <p className="tipP">If you are the original poster and want to edit the recipe you originally posted, edit the public version rather than the one in your Recipe Book.</p>
         </ExpansionPanelDetails>
       </ExpansionPanel>
     </div>

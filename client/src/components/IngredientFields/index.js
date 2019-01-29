@@ -18,7 +18,6 @@ function IngredientFields(props) {
                         <AddCircleIcon />
                     </IconButton>
             </Tooltip>
-            {/* <button className="btn btn-info addIngredient" onClick={props.addIngredient}>Add an Ingredient</button> */}
         </div>
     );
 }
