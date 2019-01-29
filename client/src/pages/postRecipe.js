@@ -13,6 +13,7 @@ class postRecipe extends Component {
         addedRecipe: ""
     }
 
+    //Immediately stores userName and userID in state
     componentDidMount() {
         const userID = sessionStorage.getItem("userID");
         const userName = sessionStorage.getItem("userName");
@@ -20,6 +21,7 @@ class postRecipe extends Component {
         this.setState({ userID, userName });
     }
 
+    //Displays the addModal showing the recipe just added
     showAddModal = id => {
         this.setState({
             addModal: "block",
@@ -27,21 +29,24 @@ class postRecipe extends Component {
         });
     }
 
+    //Closes add modal
     closeModal = () => {
         this.setState({addModal: "none"});
     }
 
+    //Allows the user to log out (which directs back to the home page)
     logout = () => {
         this.setState({ userID: "", userName: ""});
         sessionStorage.setItem("userID", "");
         sessionStorage.setItem("userName", "");
     }
 
+    //This is the page for the Recipe Form and submitting new recipes
     render() {
         return (
             <div>
                 <Header />
-                
+                {/* Drawer only appears if the user is logged in */}
                 {this.state.userName ? <Drawer userName={this.state.userName} logout={this.logout} /> : ""}
                 <Navbar userID={this.state.userID} />
                 <br />

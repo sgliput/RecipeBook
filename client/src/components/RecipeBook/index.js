@@ -13,7 +13,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 
 function RecipeBook(props) {
-
+    //Maps over all the private recipes, generating a card for each one
     const recipeCards = props.recipes.map((recipe, index) => (
         <div className="col-md-4 col-sm-6 cardCol" key={recipe._id}>
             <Card className="card">
@@ -33,10 +33,13 @@ function RecipeBook(props) {
                         </Col>
                     </Row>
                     <br />
+                    {/* The Pinterest option no longer applies, but this shows the recipe's creator; if the recipe has been edited, it adds the word "Original: " beforehand; if the recipe was posted by the current user, it shows "By You" */}
                     <p className="creator">{recipe.edited ? "Original: " : ""}{recipe.source === "Pinterest" && !recipe.edited ? "From Pinterest" : recipe.source === "Pinterest" && recipe.edited ? "Pinterest" : recipe.otherSite ? recipe.creator : recipe.creatorID === props.userID ? "By You" : `By ${recipe.creator}`}</p>
+                    {/* If there is an imgLink, it is displayed; otherwise, a default picture is shown */}
                     {recipe.imgLink ? (
                         <CardMedia className="cardImage" image={recipe.imgLink} title={recipe.name} />
                     ) : <CardMedia className="cardDefaultImage" src="./recipeCardDefault.jpg" title={recipe.name} />}
+                    {/* If there is a cooktime, it is displayed as well */}
                     {recipe.cooktime ? <p className="cooktime">Takes {recipe.cooktime}</p> : ""}
                 </CardContent>
             </Card>
@@ -49,6 +52,7 @@ function RecipeBook(props) {
                 <Container className="topArea">
                     <Row>
                         <Col size="md-8 sm-9" id="privateTitleCol">
+                            {/* If a tag search has been done, the name of the tag appears in this title */}
                             <h3 className="title">Your {props.currentTag ? props.currentTag : ""} Recipes:</h3>
                         </Col>
                         <Col size="md-4 sm-3" id="privateBtnCol">
@@ -61,18 +65,21 @@ function RecipeBook(props) {
 
             </div>
 
-            {props.currentTag && recipeCards[0] === undefined ? (
-                <Container className="mainContainer">
+            {/* If there are no matches for a tag or keyword search, a "Sorry" message appears */}
+            {(props.currentTag || props.searched) && recipeCards[0] === undefined ? (
+                <Container className="noMatchContainer">
                     <Row>
                         <h3 className="noMatch">Sorry, no matches.</h3>
                     </Row>
                 </Container>
+            // If there are no recipes to display, such as with a new user, this message appears
             ) : recipeCards[0] === undefined ? (
                 <Container className="mainContainer">
                     <Row>
                         <h3 className="startPosting">Start posting to fill your own personal Recipe Book!</h3>
                     </Row>
                 </Container>
+            //Otherwise, the recipe cards are displayed
             ) : (
                         <Container className="mainComponent">
                             <Row>

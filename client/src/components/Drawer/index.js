@@ -87,7 +87,8 @@ const styles = theme => ({
         marginLeft: "11%",
         marginTop: "-6%",
         whiteSpace: "initial",
-        fontSize: "1rem"
+        fontSize: "1rem",
+        fontFamily: "Acme, sans-serif"
     },
     h6noBtnLong: {
         marginLeft: "7%",
@@ -151,6 +152,7 @@ class PersistentDrawerLeft extends React.Component {
     };
 
     componentDidMount() {
+        //Changes the opacity of the appbar in the top left corner if the user scrolls down
         var appbar = document.getElementById('appbar');
         window.onscroll = function (ev) {
             if (this.pageYOffset > 100) {
@@ -169,11 +171,13 @@ class PersistentDrawerLeft extends React.Component {
         this.setState({ open: false });
     };
 
+    //Closes drawer when tag is searched
     handleSearchAndClose = text => {
         this.setState({ open: false });
         this.props.tagSearch(text);
     };
 
+    //Closes drawer when chart modal is displayed
     showChart = () => {
         this.props.showChartModal();
         this.handleDrawerClose();
@@ -195,6 +199,7 @@ class PersistentDrawerLeft extends React.Component {
                         })}>
 
                     <Toolbar disableGutters={!open}>
+                        {/* Displays the menu button only on the home and privateRecipes pages (where recipes are able to be searched) */}
                         {this.props.home || this.props.private ? (
                             <Tooltip title="Tag Search">
                                 <IconButton
@@ -208,16 +213,18 @@ class PersistentDrawerLeft extends React.Component {
                             </Tooltip>
                         ) : <span>&nbsp;&nbsp;&nbsp;</span>}
 
+                        {/* Displays a message with different margins depending on the page, i.e. if the menu button is displayed */}
                         {this.props.userName && (this.props.home || this.props.private) ? (
                             <Typography id="loggedIn" variant="h6" color="inherit" noWrap className={classes.h6}>
                                 Logged in as {this.props.userName}
                             </Typography>
 
                         ) : this.props.userName ? (
-                            <Typography id="loggedIn" variant="h6" color="inherit" noWrap className={this.props.userName.length > 20 ? classes.h6noBtnLong : classes.h6noBtn}>
+                            <Typography id="loggedIn" variant="h6" color="inherit" noWrap className={classes.h6noBtn}>
                                 Logged in as {this.props.userName}
                             </Typography>
                         ) : ""}
+                        {/* If the user is logged in, a log out button is displayed */}
                         {this.props.userName ? (
                             <Tooltip title="Log Out?">
                                 <IconButton
@@ -250,6 +257,7 @@ class PersistentDrawerLeft extends React.Component {
                     </div>
                     <Divider className={classes.divider} />
                     <p className={classes.instrP}>Click one to search by tag</p>
+                    {/* Displays list of tags as chips */}
                     <List className={classes.list}>
 
                         {["Asian", "Appetizer", "Baked Goods", "BBQ", "Beans", "Beef", "Bread", "Breakfast", "Brunch", "Cake", "Casserole", "Cheese", "Chicken", "Chocolate", "Cookie", "Dessert", "Drinks", "Eggs", "Fish", "Fruit", "Gluten-Free", "Holiday", "Lamb", "Meat", "Mediterranean", "Mexican", "Pasta", "Pastry", "Pizza", "Pork", "Potato", "Poultry", "Rice", "Salad", "Sandwich", "Seafood", "Side Dish", "Soup", "Vegan", "Vegetarian"].map((text, index) => (

@@ -33,10 +33,12 @@ function CustomizedInputBase(props) {
 
   return (
     <Paper className={classes.root} elevation={1}>
+      {/* Displays a different search field depending on whether it is on the home or the privateRecipes page */}
       {props.private ?
         <InputBase className={classes.input} placeholder="Search Your Recipes" value={props.privateSearchTerms} onChange={props.handlePrivateSearchChange} /> :
         <InputBase className={classes.input} placeholder="Search Recipes" value={props.searchTerms} onChange={props.handleSearchChange} />}
 
+        {/* This statement displays a disabled button if there are no search terms entered, broken up depending on whether it is on the home or the privateRecipes page */}
       {props.private && props.privateSearchTerms ? (
         <IconButton className={classes.iconButton} aria-label="Search" onClick={props.onPrivateSearch}>
           <SearchIcon />
@@ -54,7 +56,7 @@ function CustomizedInputBase(props) {
         <SearchIcon />
       </IconButton>
       )}
-
+        {/* If the user has searched, the ALL button allows them to retrieve all the recipes again */}
         {props.searched ? (
           <IconButton className={classes.iconButton} aria-label="Get All Recipes" onClick={props.getAllRecipes}>
           All

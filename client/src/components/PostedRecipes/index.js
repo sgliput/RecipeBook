@@ -12,6 +12,7 @@ import "./postedRecipes.css";
 
 function PostedRecipes(props) {
 
+    // Maps the recipes received, generating a card for each one
     const recipeCards = props.recipes.map(recipe => (
         <div className="card" key={recipe._id}>
             <Container>
@@ -33,10 +34,12 @@ function PostedRecipes(props) {
                 </Row>
                 <br />
                 <Row>
+                    {/* The Pinterest possibility no longer applies, but this shows the creator name if there is one; if not, "By Anonymous" appears instead */}
                     {recipe.source === "Pinterest" ? <p className="creator">From Pinterest</p> : recipe.otherSite ? <p className="creator">{recipe.creator}</p> : recipe.creator ? <p className="creator">By {recipe.creator}</p> : <p className="creator">By Anonymous</p>}
                 </Row>
             </Container>
             <hr />
+            {/* The cooktime and description appear if they exist */}
             {recipe.cooktime ? <p className="cooktime">Takes {recipe.cooktime}</p> : ""}
             {recipe.description ? <p className="description">Description: {recipe.description}</p> : ""}
         </div>
@@ -49,6 +52,7 @@ function PostedRecipes(props) {
                 <Container className="topArea">
                     <Row>
                         <Col size="md-8 sm-10" id="recipeTop">
+                            {/* If a tag search has been done, the name of the tag is added to this title */}
                             <h3 className="title">Latest {props.currentTag ? props.currentTag : ""} Recipes:</h3>
                         </Col>
                         {props.userID ? (
@@ -57,12 +61,14 @@ function PostedRecipes(props) {
                                     <button className="btn toRecipePost">Post a Recipe</button>
                                 </Link>
                             </Col>) : ""}
+                            {/* If the user is not logged in and if the first five recipes are not displayed, this left button with special margins appears */}
                         {props.iterator !== 0 && !props.userID ? (
                             <Tooltip title="Previous Recipes">
                                 <IconButton className="recipeBackUnlogged" onClick={props.prevFive}>
                                     <ChevronLeftIcon />
                                 </IconButton>
                             </Tooltip>
+                            // Otherwise, if the user is logged in and the first five recipes are not displayed, the normal left button appears 
                         ) : props.iterator !== 0 ? (
                             <Tooltip title="Previous Recipes">
                                 <IconButton className="recipeBack" onClick={props.prevFive}>
@@ -70,6 +76,7 @@ function PostedRecipes(props) {
                                 </IconButton>
                             </Tooltip>
                         ) : ""}
+                            {/*If any recipes but the last round are displayed and if there are more recipes to display, the right arrow appears */}
                         {props.iterator !== props.lastIterator && props.recipeFives[1] !== undefined && props.recipes.length === 5  ? (
                             <Tooltip title="More Recipes">
                                 <IconButton className="recipeForward" onClick={props.nextFive}>
@@ -81,18 +88,21 @@ function PostedRecipes(props) {
                     <DeleteModal recipeToRemove={props.recipeToRemove} show={props.deleteModal} closeModal={props.closeModal} removeFromPublic={props.removeFromPublic} home={props.home} />
                 </Container>
             </div>
+            {/* If there are no recipes to display, such as a search with no results, a "no matches" message appears */}
             {props.recipes.length === 0 ?
-
-                <h3 class="noMatch">Sorry, no matches.</h3>
+                <h3 className="noMatch">Sorry, no matches.</h3>
+                // Otherwise, if the first five recipes are displayed, they are put in a div with special margins
                 : props.iterator === 0 ? (
                     <div className="cardHolderFirst">
                         {recipeCards}
                     </div>
                 ) : (
+                    //The rest of the recipes are displayed in a normal div
                         <div className="cardHolder">
                             {recipeCards}
                         </div>
                     )}
+                    {/* If any but the first five recipes are displayed, the left arrow appears at the bottom */}
             {props.iterator !== 0 ? (
                 <Tooltip title="Previous Recipes">
                     <IconButton className="recipeBackBottom" onClick={props.prevFive}>
@@ -100,6 +110,7 @@ function PostedRecipes(props) {
                     </IconButton>
                 </Tooltip>
             ) : ""}
+            {/*If any recipes but the last round are displayed and if there are more recipes to display, the right arrow appears at the bottom */}
             {props.iterator !== props.lastIterator && props.recipeFives[1] !== undefined && props.recipes.length === 5 ? (
                 <Tooltip title="More Recipes">
                     <IconButton className="recipeForwardBottom" onClick={props.nextFive}>

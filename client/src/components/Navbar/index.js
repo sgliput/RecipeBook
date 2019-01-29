@@ -13,6 +13,7 @@ class NavBar extends Component {
         userID: ""
     }
 
+    //Puts the current user's ID in state
     componentDidMount() {
         const userID = sessionStorage.getItem("userID");
         this.setState({ userID });
@@ -23,6 +24,7 @@ class NavBar extends Component {
             <div className="navbar">
                 <Container className="navContainer">
                     <Row>
+                        {/* If it's the home page, the word Welcome appears; every other page has a home icon linking back to the home page */}
                         {this.props.home ? (
                             <Col size="md-5 sm-3">
                                 <h2 className="welcome">Welcome!</h2>
@@ -39,6 +41,7 @@ class NavBar extends Component {
                             )}
 
                         <Col size="md-5 sm-6" id="searchCol">
+                        {/* A different SearchField appears depending on whether it's the home page or the private Recipe Book page; every other page has nothing there */}
                             {this.props.home ? (
                                 <SearchField handleSearchChange={this.props.handleSearchChange} searchTerms={this.props.searchTerms} onSearch={this.props.onSearch} getAllRecipes={this.props.getAllRecipes} searched={this.props.searched} />
                             ) : this.props.private ? (
@@ -46,6 +49,7 @@ class NavBar extends Component {
                             ) : ""}
                         </Col>
                         <Col size="md-2 sm-3" id="toPrivateCol">
+                            {/* If the user is logged in and there is a SearchField present, a different button with special margins appears */}
                             {this.props.userID && this.props.withSearch ? (
                                 <button className="btn toPrivateWithSearch">
                                 <Link to={"/userRecipes/" + this.props.userID} className="toPrivateLink">

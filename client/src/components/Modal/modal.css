@@ -50,6 +50,11 @@
     margin-bottom: 1rem;
   }
 
+  .userSubmit, .newUserSubmit{
+    background-color: brown;
+    color: white;
+  }
+
   .newWelcome{
     float: left;
     width: 80%;
@@ -67,6 +72,8 @@
 
   .deleteRecipeBtn{
     margin: 0 44%;
+    background-color: brown;
+    color: white;
   }
 
   .deleteModal-body{
@@ -85,6 +92,8 @@
 
   .addRecipeBtn{
     margin: 0 35%;
+    background-color: brown;
+    color: white;
   }
 
   .addModal-body{
@@ -95,6 +104,10 @@
     height: 40%;
     width: 100%;
     margin: 0 auto;
+  }
+
+  .oops{
+    color: red;
   }
 
   @media screen and (max-width: 767px) {

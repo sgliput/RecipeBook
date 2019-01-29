@@ -249,6 +249,7 @@ class Home extends Component {
             .catch(err => console.log(err));
     }
 
+    //This is the home page
     render() {
         return (
             <div>

@@ -28,10 +28,12 @@ class RecipeForm extends Component {
         currentFieldID: "",
         siteToScrape: "",
         urlToScrape: "",
+        failedScrape: false,
         loggedInUserID: "",
-        selectedOption: "public"
+        selectedOption: "public",
     }
 
+    //Stores userID and userName in state immediately
     componentDidMount() {
         this.setState({
             loggedInUserID: sessionStorage.getItem('userID'),
@@ -72,7 +74,7 @@ class RecipeForm extends Component {
     };
 
     handleImgLinkChange = event => {
-        //Changes this.state.description to the content of the input box
+        //Changes this.state.imgLink to the content of the input box
         this.setState({
             imgLink: event.target.value
         });
@@ -80,6 +82,7 @@ class RecipeForm extends Component {
     };
 
     handleRadioChange = event => {
+        //Changes whether the public or private radio button has been selected
         this.setState({
             selectedOption: event.target.value
         });
@@ -93,6 +96,7 @@ class RecipeForm extends Component {
         const id = event.target.id;
         console.log("Ingredient: " + id);
         const ingrs = this.state.ingredients;
+        //Changes the value of the specific ingredient, based on the field's id value
         ingrs[id] = value;
 
         //Changes this.state.ingredients to the current ingredients object
@@ -103,10 +107,11 @@ class RecipeForm extends Component {
         console.log(this.state.ingredients);
     };
 
+    //Array of ingredient fields, starts with one and can be added to
     IngFields = [
         <div id="ingredient1" key="1">
             <label>Ingredient 1:</label>
-            <input className="form-control ingredient1" id="ingredient1" rows="3" value={this.state.ingredients.ingredient1} onChange={this.IngredientChange} autocomplete="off" />
+            <input className="form-control ingredient1" id="ingredient1" rows="3" value={this.state.ingredients.ingredient1} onChange={this.IngredientChange} autoComplete="off" />
             <br />
         </div>
     ]
@@ -116,16 +121,18 @@ class RecipeForm extends Component {
         const newFieldClass = "ingredient" + (this.state.IngNumberOfFields + 1) + "Field form-control";
         console.log(document.activeElement);
 
+        //Pushes to the IngFields array a new field that corresponds to a specific key/value pair in the ingredients object
         this.IngFields.push(
             <div key={this.state.IngNumberOfFields + 1}>
                 <label>Ingredient {this.state.IngNumberOfFields + 1}:</label>
                 <br />
-                <input className={newFieldClass} id={newID} value={this.state.ingredients[newID]} onChange={this.IngredientChange} autocomplete="off" />
+                <input className={newFieldClass} id={newID} value={this.state.ingredients[newID]} onChange={this.IngredientChange} autoComplete="off" />
                 <br />
             </div>);
         this.setState({
             IngNumberOfFields: this.state.IngNumberOfFields + 1
         });
+        //Waits until new field has been added, then puts focus on it so the user can immediately start typing in the new field
         setTimeout(function () {
             console.log(document.getElementById(newID));
             document.getElementById(newID).focus();
@@ -138,15 +145,15 @@ class RecipeForm extends Component {
         const value = event.target.value;
         const id = event.target.id;
         console.log("Step : " + id);
-        const cursorLocation = event.target.selectionStart;
-        console.log(cursorLocation);
+        // const cursorLocation = event.target.selectionStart;
+        // console.log(cursorLocation);
         const steps = this.state.directions;
+        //Changes the value of the specific step, based on the field's id value
         steps[id] = value;
 
-        //Changes this.state.ingredient1 to the content of the input box
+        //Changes this.state.directions to the current steps object
         this.setState({
             directions: steps,
-            cursorLocation,
             currentFieldID: id
         });
         console.log(this.state.directions);
@@ -154,10 +161,11 @@ class RecipeForm extends Component {
 
     //<button className="btn btn-info addDegree" onClick={this.addDegree}>&deg;</button>
 
+    //Array of direction fields, starts with one and can be added to
     DirFields = [
         <div id="step1" key="1">
             <label>Step 1: </label>
-            <textarea className="form-control step1Field" id="step1" rows="3" value={this.state.directions.step1} onChange={this.StepChange} autocomplete="off" />
+            <textarea className="form-control step1Field" id="step1" rows="3" value={this.state.directions.step1} onChange={this.StepChange} autoComplete="off" />
             <br />
         </div>
     ]
@@ -166,17 +174,19 @@ class RecipeForm extends Component {
         const newID = "step" + (this.state.DirNumberOfFields + 1);
         const newFieldClass = "step" + (this.state.DirNumberOfFields + 1) + "Field form-control";
 
+        //Pushes to the DirFields array a new field that corresponds to a specific key/value pair in the ingredients object
         this.DirFields.push(
             <div key={this.state.DirNumberOfFields + 1}>
                 <label>Step {this.state.DirNumberOfFields + 1}:</label>
                 <br />
-                <textarea className={newFieldClass} id={newID} rows="3" value={this.state.directions[newID]} onChange={this.StepChange} autocomplete="off" />
+                <textarea className={newFieldClass} id={newID} rows="3" value={this.state.directions[newID]} onChange={this.StepChange} autoComplete="off" />
                 <br />
             </div>);
         this.setState({
             DirNumberOfFields: this.state.DirNumberOfFields + 1
         });
         console.log(this.state.directions);
+        //Waits until new field has been added, then puts focus on it so the user can immediately start typing in the new field
         setTimeout(function () {
             console.log(document.getElementById(newID));
             document.getElementById(newID).focus();
@@ -190,6 +200,7 @@ class RecipeForm extends Component {
         const tagArray = this.state.tagArray;
         const tagBtnArray = this.state.tagBtnArray;
         console.log("Index: " + tagArray.indexOf(tag));
+        //Adds new tag and button if it is not empty and is not already in the array
         if (tagArray.indexOf(tag) === -1 && tag !== "") {
             tagArray.push(tag);
             tagBtnArray.push(
@@ -210,6 +221,7 @@ class RecipeForm extends Component {
         const tagBtnArray = this.state.tagBtnArray;
         const index = tagArray.indexOf(tag);
         console.log("Index: " + index);
+        //Removes tag from tagArray and the corresponding button from the tagBtnArray
         if (index > -1) {
             tagArray.splice(index, 1);
             tagBtnArray.splice(index, 1);
@@ -229,18 +241,22 @@ class RecipeForm extends Component {
         const cooktime = this.state.cooktime;
         const description = this.state.description;
         let imgLink = "";
-        if (this.state.imgLink.endsWith(".jpg") || this.state.imgLink.endsWith(".png")) {
+        //Ensures the imgLink is an actual image link ending with .jpg, .jpeg, or .png
+        if (this.state.imgLink.endsWith(".jpg") || this.state.imgLink.endsWith(".png") || this.state.imgLink.endsWith(".jpeg")) {
             imgLink = this.state.imgLink;
         };
         const ingredients = this.state.ingredients;
         const directions = this.state.directions;
         const tagArray = this.state.tagArray;
+
+        //Sets whether the recipe is to be public or private
         let isPublic;
         if (this.state.selectedOption === "public") {
             isPublic = true;
         } else {
             isPublic = false;
         }
+        //All information gathered in one object
         const fullRecipe = {
             name: recipeName,
             creator: userName,
@@ -253,11 +269,14 @@ class RecipeForm extends Component {
             tags: tagArray,
             public: isPublic
         };
+        //If the user is logged in, the recipe is saved to the database
         if (this.state.loggedInUserID) {
             API.saveRecipe(fullRecipe)
                 .then(dbRecipe => {
                     console.log(dbRecipe);
+                    //The addModal is shown, displaying the recipe just added
                     this.props.showAddModal(dbRecipe.data._id);
+                    //The new recipe's _id number is also added to the current user's private Recipe Book (their recipes array)
                     API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
                         .then(dbUser => {
                             console.log(dbUser);
@@ -272,19 +291,23 @@ class RecipeForm extends Component {
 
 
     ///////////////////////// For scraping from other sites ////////////////////
+
+    //Handles choosing a website from the dropdown
     scrapeChange = event => {
         const siteToScrape = event.target.value;
         this.setState({ siteToScrape });
     }
 
     handleURLChange = event => {
-        //Changes this.state.description to the content of the input box
+        //Changes this.state.urlToScrape to the content of the input box
         this.setState({
             urlToScrape: event.target.value
         });
         console.log("urlToScrape: " + this.state.urlToScrape);
     };
 
+    //Handles submission of a URL to scrape a recipe from
+    //Which axios call is triggered depends on the value of this.state.siteToScrape; they are more or less the same in scraping pertinent data and saving it to the database as a private recipe
     handleURLSubmit = event => {
         event.preventDefault();
         if (this.state.siteToScrape === "Food Network") {
@@ -294,7 +317,6 @@ class RecipeForm extends Component {
 
                 const ingredients = [];
                 const steps = [];
-                //https://www.foodnetwork.com/recipes/food-network-kitchen/slow-cooker-chicken-chili-3361911
 
                 const recipeName = $(".o-AssetTitle__a-HeadlineText").text().trim();
                 const creator = $(".o-Attribution__a-Name").children().text().trim();
@@ -305,22 +327,17 @@ class RecipeForm extends Component {
                 const link = this.state.urlToScrape;
 
 
-                // Now, we grab the headline, byline, tag, article link, and summary from every Feedcard element
                 $(".o-Ingredients__a-Ingredient").each((i, element) => {
-
                     const ingredient = $(element).text().trim();
-
                     ingredients.push(ingredient);
-
-                });
+               });
 
                 $(".o-Method__m-Step").each((i, element) => {
-
                     const step = $(element).text().trim();
-
                     steps.push(step);
-
                 });
+
+                //Stores the ingredients in an object like when a recipe is typed in
                 const ingObject = Object.assign({}, ingredients);
                 let keys = Object.keys(ingObject);
                 for (var i = 0; i < keys.length; i++) {
@@ -329,12 +346,7 @@ class RecipeForm extends Component {
                     delete ingObject[i];
                 }
 
-                // //Removing BY and By from each byline
-                // const cutByline1 = byline.replace("BY ", "");
-                // const cutByline2 = cutByline1.replace("By ", "");
-                // console.log("Byline: " + byline);
-
-                // // Add the headline, byline, tag, article link, and summary, and save them as properties of the result object
+               //Gathers all recipe data into an object ready to submit to the database
                 const scrapedRecipe = {
                     name: recipeName,
                     creator: creator,
@@ -351,11 +363,16 @@ class RecipeForm extends Component {
                     public: false
                 };
                 console.log(scrapedRecipe);
+                //If the user is logged in, the scraped recipes is saved as a private recipe
                 if (this.state.loggedInUserID) {
                     API.saveRecipe(scrapedRecipe)
                         .then(dbRecipe => {
                             console.log(dbRecipe);
+                            //If a previous scrape failed, this removes the "Oops" message
+                            this.setState({failedScrape: false});
+                            //Shows the addModal displaying the recipe just added
                             this.props.showAddModal(dbRecipe.data._id);
+                            //The new recipe's _id number is also added to the current user's private Recipe Book (their recipes array)
                             API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
                                 .then(dbUser => {
                                     console.log(dbUser);
@@ -365,6 +382,9 @@ class RecipeForm extends Component {
                 } else {
                     console.log("Sorry");
                 }
+            }).catch(err => {
+                console.log(err);
+                this.setState({failedScrape: true});
             });
             // } else if (this.state.siteToScrape === "Pinterest") {
             //     const proxyurl = "https://cors-anywhere.herokuapp.com/";
@@ -437,6 +457,7 @@ class RecipeForm extends Component {
             //             API.saveRecipe(scrapedRecipe)
             //                 .then(dbRecipe => {
             //                     console.log(dbRecipe);
+            //                     this.setState({failedScrape: false});
             //                     this.props.showAddModal(dbRecipe.data._id);
             //                     API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
             //                         .then(dbUser => {
@@ -449,7 +470,10 @@ class RecipeForm extends Component {
             //         }
 
 
-            //     });
+            //   }).catch(err => {
+            //     console.log(err);
+            //     this.setState({failedScrape: true});
+            // });
         } else if (this.state.siteToScrape === "Epicurious") {
             axios.get(this.state.urlToScrape).then(response => {
 
@@ -468,20 +492,15 @@ class RecipeForm extends Component {
 
 
                 $("li.ingredient").each((i, element) => {
-
                     const ingredient = $(element).text().trim();
-
                     ingredients.push(ingredient);
-
                 });
 
                 $("li.preparation-step").each((i, element) => {
-
                     const step = $(element).text().trim();
-
                     steps.push(step);
-
                 });
+
                 const ingObject = Object.assign({}, ingredients);
                 let keys = Object.keys(ingObject);
                 for (var i = 0; i < keys.length; i++) {
@@ -511,6 +530,7 @@ class RecipeForm extends Component {
                     API.saveRecipe(scrapedRecipe)
                         .then(dbRecipe => {
                             console.log(dbRecipe);
+                            this.setState({failedScrape: false});
                             this.props.showAddModal(dbRecipe.data._id);
                             API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
                                 .then(dbUser => {
@@ -522,7 +542,10 @@ class RecipeForm extends Component {
                     console.log("Sorry");
                 }
 
-            })
+            }).catch(err => {
+                console.log(err);
+                this.setState({failedScrape: true});
+            });
         } else if (this.state.siteToScrape === "Allrecipes") {
             const proxyurl = "https://cors-anywhere.herokuapp.com/";
             console.log("url: " + this.state.urlToScrape);
@@ -586,6 +609,7 @@ class RecipeForm extends Component {
                     API.saveRecipe(scrapedRecipe)
                         .then(dbRecipe => {
                             console.log(dbRecipe);
+                            this.setState({failedScrape: false});
                             this.props.showAddModal(dbRecipe.data._id);
                             API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
                                 .then(dbUser => {
@@ -597,7 +621,10 @@ class RecipeForm extends Component {
                     console.log("Sorry");
                 }
 
-            })
+            }).catch(err => {
+                console.log(err);
+                this.setState({failedScrape: true});
+            });
         } else if (this.state.siteToScrape === "MyRecipes") {
             const proxyurl = "https://cors-anywhere.herokuapp.com/";
             console.log("url: " + this.state.urlToScrape);
@@ -660,6 +687,7 @@ class RecipeForm extends Component {
                     API.saveRecipe(scrapedRecipe)
                         .then(dbRecipe => {
                             console.log(dbRecipe);
+                            this.setState({failedScrape: false});
                             this.props.showAddModal(dbRecipe.data._id);
                             API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
                                 .then(dbUser => {
@@ -671,7 +699,10 @@ class RecipeForm extends Component {
                     console.log("Sorry");
                 }
 
-            })
+            }).catch(err => {
+                console.log(err);
+                this.setState({failedScrape: true});
+            });
         } else if (this.state.siteToScrape === "Yummly") {
             const proxyurl = "https://cors-anywhere.herokuapp.com/";
             console.log("url: " + this.state.urlToScrape);
@@ -735,6 +766,7 @@ class RecipeForm extends Component {
                     API.saveRecipe(scrapedRecipe)
                         .then(dbRecipe => {
                             console.log(dbRecipe);
+                            this.setState({failedScrape: false});
                             this.props.showAddModal(dbRecipe.data._id);
                             API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
                                 .then(dbUser => {
@@ -746,7 +778,10 @@ class RecipeForm extends Component {
                     console.log("Sorry");
                 }
 
-            })
+            }).catch(err => {
+                console.log(err);
+                this.setState({failedScrape: true});
+            });
         } else if (this.state.siteToScrape === "Simply Recipes") {
             const proxyurl = "https://cors-anywhere.herokuapp.com/";
             console.log("url: " + this.state.urlToScrape);
@@ -817,6 +852,7 @@ class RecipeForm extends Component {
                     API.saveRecipe(scrapedRecipe)
                         .then(dbRecipe => {
                             console.log(dbRecipe);
+                            this.setState({failedScrape: false});
                             this.props.showAddModal(dbRecipe.data._id);
                             API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
                                 .then(dbUser => {
@@ -828,7 +864,10 @@ class RecipeForm extends Component {
                     console.log("Sorry");
                 }
 
-            })
+            }).catch(err => {
+                console.log(err);
+                this.setState({failedScrape: true});
+            });
         } else if (this.state.siteToScrape === "Genius Kitchen") {
             const proxyurl = "https://cors-anywhere.herokuapp.com/";
             console.log("url: " + this.state.urlToScrape);
@@ -889,6 +928,7 @@ class RecipeForm extends Component {
                     API.saveRecipe(scrapedRecipe)
                         .then(dbRecipe => {
                             console.log(dbRecipe);
+                            this.setState({failedScrape: false});
                             this.props.showAddModal(dbRecipe.data._id);
                             API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
                                 .then(dbUser => {
@@ -900,7 +940,10 @@ class RecipeForm extends Component {
                     console.log("Sorry");
                 }
 
-            })
+            }).catch(err => {
+                console.log(err);
+                this.setState({failedScrape: true});
+            });
         } else if (this.state.siteToScrape === "Serious Eats") {
             const proxyurl = "https://cors-anywhere.herokuapp.com/";
             console.log("url: " + this.state.urlToScrape);
@@ -972,6 +1015,7 @@ class RecipeForm extends Component {
                     API.saveRecipe(scrapedRecipe)
                         .then(dbRecipe => {
                             console.log(dbRecipe);
+                            this.setState({failedScrape: false});
                             this.props.showAddModal(dbRecipe.data._id);
                             API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
                                 .then(dbUser => {
@@ -983,7 +1027,10 @@ class RecipeForm extends Component {
                     console.log("Sorry");
                 }
 
-            })
+            }).catch(err => {
+                console.log(err);
+                this.setState({failedScrape: true});
+            });
         }
     }
 
@@ -1020,7 +1067,9 @@ class RecipeForm extends Component {
                                         </div>
                                     </Col>
                                     <Col size="md-5">
-                                        <label className="control-label urlToScrapeLabel">URL:</label>
+                                        <label className="control-label urlToScrapeLabel">URL:
+                                        {/* If the URL cannot be scraped successfully, an "Oops" message appears next to the label. */}
+                                        {this.state.failedScrape ? <span>&nbsp;&nbsp;&nbsp;Oops, try a different URL.</span> : ""}</label>
                                         <input className="form-control urlToScrape" value={this.state.url} onChange={this.handleURLChange} />
                                     </Col>
                                     <Col size="md-3">
@@ -1096,19 +1145,19 @@ class RecipeForm extends Component {
                         <Row>
                             <Col size="md-4" id="firstFields">
                                 <label>Name of Recipe:</label>
-                                <input className="form-control recipeNameField" value={this.state.recipeName} onChange={this.handleRecipeNameChange} autocomplete="off" />
+                                <input className="form-control recipeNameField" value={this.state.recipeName} onChange={this.handleRecipeNameChange} autoComplete="off" />
                                 <br />
                                 <label>Your Name:</label>
-                                <input className="form-control nameField" value={this.state.name} onChange={this.handleNameChange} autocomplete="off" />
+                                <input className="form-control nameField" value={this.state.name} onChange={this.handleNameChange} autoComplete="off" />
                                 <br />
                                 <label>Total Time:</label>
-                                <input className="form-control cooktimeField" value={this.state.cooktime} onChange={this.handleCooktimeChange} autocomplete="off" />
+                                <input className="form-control cooktimeField" value={this.state.cooktime} onChange={this.handleCooktimeChange} autoComplete="off" />
                                 <br />
                                 <label>Description:</label>
-                                <textarea className="form-control descriptionField" rows="3" value={this.state.description} onChange={this.handleDescriptionChange} autocomplete="off" />
+                                <textarea className="form-control descriptionField" rows="3" value={this.state.description} onChange={this.handleDescriptionChange} autoComplete="off" />
                                 <br />
                                 <label>Have an image? Copy its URL below:</label>
-                                <input className="form-control imgLinkField" value={this.state.imgLink} onChange={this.handleImgLinkChange} autocomplete="off" />
+                                <input className="form-control imgLinkField" value={this.state.imgLink} onChange={this.handleImgLinkChange} autoComplete="off" />
                                 <br />
                             </Col>
                             <Col size="md-4" id="firstIngrCol">

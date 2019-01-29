@@ -73,6 +73,10 @@
 
 .noMatch{
     margin: 1.5rem auto;
+    background-color: brown;
+    color: #fcb10d;
+    padding: 20px;
+    border-radius: 20px;
 }
 
 @media screen and (max-width: 767px) {

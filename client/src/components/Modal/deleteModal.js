@@ -65,9 +65,9 @@ class DeleteModal extends Component {
                                 {this.state.recipeData.description ? <p className="deleteDescription">Description: {this.state.recipeData.description}</p> : ""}
                                 <br />
                                 {this.props.home ? (
-                                    <button className="btn btn-danger deleteRecipeBtn" onClick={() => this.props.removeFromPublic(this.state.recipeData._id)}>Delete</button>
+                                    <button className="btn deleteRecipeBtn" onClick={() => this.props.removeFromPublic(this.state.recipeData._id)}>Delete</button>
                                 ) : (
-                                        <button className="btn btn-danger deleteRecipeBtn" onClick={() => this.props.deleteUserRecipe(this.state.recipeData._id)}>Delete</button>
+                                        <button className="btn deleteRecipeBtn" onClick={() => this.props.deleteUserRecipe(this.state.recipeData._id)}>Delete</button>
                                     )}
 
                             </div>

@@ -59,7 +59,7 @@ class AddModal extends Component {
                                 {this.state.recipeData.description ? <p className="addDescription">Description: {this.state.recipeData.description}</p> : ""}
                                 <br />
                                 <Link to={"/userRecipes/" + this.props.userID}>
-                                        <button className="btn btn-success addRecipeBtn">Go to Your Recipe Book</button> 
+                                        <button className="btn addRecipeBtn">Go to Your Recipe Book</button> 
                                 </Link>
                             </div>
                         ) : ""}
