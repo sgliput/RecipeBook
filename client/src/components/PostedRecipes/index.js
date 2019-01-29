@@ -9,7 +9,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Tooltip from '@material-ui/core/Tooltip';
 import "./postedRecipes.css";
 
-//arcane-scrubland-36182
 
 function PostedRecipes(props) {
 

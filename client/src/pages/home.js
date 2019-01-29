@@ -31,9 +31,11 @@ class Home extends Component {
     }
 
     componentDidMount() {
+        //Retrieves userID and userName from sessionStorage
         const userID = sessionStorage.getItem("userID");
         const userName = sessionStorage.getItem("userName");
         console.log(userID);
+        //Gets all public recipes
         API.getRecipes()
             .then(res => {
                 console.log(res.data);
@@ -41,16 +43,19 @@ class Home extends Component {
                 let a = res.data;
                 const recipeFives = {};
                 let iterator = 0;
+                //Divides all the recipes into fives, storing them all in an object of arrays
                 while (a.length > 5) {
                     recipeFives[iterator] = a.splice(0, 5);
                     iterator++;
                 }
+                //After counting by fives, adds whatever is left to the end of the object
                 recipeFives[iterator] = a;
                 console.log("This is a");
                 console.log(a);
                 console.log("Recipe recipeFives");
                 console.log(recipeFives);
-
+                //Stores the object of fives in state, setting recipes to the first array (so the first five recipes will be displayed first)
+                //Storing the lastIterator is to indicate the end of the object when progressing through the fives
                 this.setState({
                     recipes: recipeFives[0],
                     recipeFives,
@@ -62,6 +67,7 @@ class Home extends Component {
             })
     }
 
+    //Function for displaying the next five recipes, which progresses to the next array in the recipeFives object
     nextFive = () => {
         const recipeFives = this.state.recipeFives;
         let iterator = this.state.iterator;
@@ -72,6 +78,7 @@ class Home extends Component {
         })
     }
 
+    //Function for displaying the previous five recipes, which backtracks to the previous array in the recipeFives object
     prevFive = () => {
         const recipeFives = this.state.recipeFives;
         let iterator = this.state.iterator;
@@ -92,6 +99,7 @@ class Home extends Component {
 
     onSearch = () => {
         console.log("Search Terms: " + this.state.searchTerms);
+        //Retrieves recipes that match the search terms
         API.searchRecipes(this.state.searchTerms)
             .then(dbRecipes => {
                 console.log(dbRecipes.data);
@@ -105,6 +113,7 @@ class Home extends Component {
 
     tagSearch = text => {
         console.log("Tag: " + text);
+        //Retrieves recipes that include the selected tag
         API.searchRecipesByTag(text)
             .then(dbRecipes => {
                 console.log(dbRecipes.data);
@@ -117,10 +126,11 @@ class Home extends Component {
     }
 
     getAllRecipes = () => {
+        //Gets all public recipes; this is used to get all recipes again after performing a search
         API.getRecipes()
             .then(res => {
                 console.log(res.data);
-
+                //Performs the same division as above, dividing the recipes into fives and storing them in the recipeFives object
                 let a = res.data;
                 const recipeFives = {};
                 let iterator = 0;
@@ -134,6 +144,7 @@ class Home extends Component {
                 console.log("Recipe recipeFives");
                 console.log(recipeFives);
 
+                //Stores the object of fives in state, setting recipes to the first array (so the first five recipes will be displayed first); also clears the search field
                 this.setState({
                     recipes: recipeFives[0],
                     recipeFives,
@@ -146,15 +157,17 @@ class Home extends Component {
             })
     }
 
-
+    //Displays the sign-in modal for new users
     showSignInModal = () => {
         this.setState({ signInModal: "block" });
     }
 
+    //Displays the log-in modal for returning users
     showLogInModal = () => {
         this.setState({ logInModal: "block" });
     }
 
+    //Displays the delete modal for deleting a recipe
     showDeleteModal = id => {
         this.setState({
             deleteModal: "block",
@@ -162,11 +175,12 @@ class Home extends Component {
         });
     }
 
+    //Displays the chart modal for showing a pie chart of the tags
     showChartModal = () => {
         this.setState({ chartModal: "block" });
     }
 
-    //Handles hiding modal when its X is clicked
+    //Handles hiding modal when its X is clicked; also closes the sign-in expansion panel
     closeModal = () => {
         const userID = sessionStorage.getItem("userID");
         const userName = sessionStorage.getItem("userName");
@@ -181,6 +195,7 @@ class Home extends Component {
         });
     }
 
+    //Opens and closes the sign-in expansion panel
     changePanel = () => {
         if (this.state.openCollapse) {
             this.setState({ openCollapse: false });
@@ -189,27 +204,47 @@ class Home extends Component {
         }
     }
 
+    //Handles user logout, removing the currect user from state and sessionStorage
     logout = () => {
         this.setState({ userID: "", userName: "" });
         sessionStorage.setItem("userID", "");
         sessionStorage.setItem("userName", "");
     }
 
-
+    //Function for deleting a recipe on the home page, or more specifically changing it from public to private
     removeFromPublic = id => {
         console.log(id);
         API.updateRecipe(id, { public: false, deleted: true })
             .then(dbRecipe => {
                 console.log(dbRecipe);
+                //Retrieves updated public recipes
                 API.getRecipes()
                     .then(res => {
                         console.log(res.data);
-                        this.setState({
-                            recipes: res.data,
-                            deleteModal: "none"
-                        });
 
+                        //Performs the same division as above, dividing the recipes into fives and storing them in the recipeFives object
+                        let a = res.data;
+                        const recipeFives = {};
+                        let iterator = 0;
+                        while (a.length > 5) {
+                            recipeFives[iterator] = a.splice(0, 5);
+                            iterator++;
+                        }
+                        recipeFives[iterator] = a;
+                        console.log("This is a");
+                        
+                        console.log("Recipe recipeFives");
+                        console.log(recipeFives);
+
+                        //Stores the object of fives in state, setting recipes to the first array (so the first five recipes will be displayed first); also closes the delete modal
+                        this.setState({
+                            recipes: recipeFives[0],
+                            recipeFives,
+                            lastIterator: iterator,
+                            deleteModal: "none"
+                        })
                     })
+
             })
             .catch(err => console.log(err));
     }
@@ -220,14 +255,17 @@ class Home extends Component {
                 <Header />
 
                 <Navbar userID={this.state.userID} handleSearchChange={this.handleSearchChange} searchTerms={this.state.searchTerms} onSearch={this.onSearch} getAllRecipes={this.getAllRecipes} home="home" withSearch="withSearch" searched={this.state.searched} />
+
+                {/* Displays drawer is user is logged in */}
                 {this.state.userName ? <Drawer userName={this.state.userName} home={this.state.home} tagSearch={this.tagSearch} logout={this.logout} chartModal={this.state.chartModal} showChartModal={this.showChartModal} closeModal={this.closeModal} /> : ""}
-                <br />
+                < br />
                 <Container className="homeContainer">
                     <Row>
                         <Col size="md-6 sm-12">
                             <Card id="signInCard">
                                 <Collapsible showSignInModal={this.showSignInModal} showLogInModal={this.showLogInModal} signInModal={this.state.signInModal} logInModal={this.state.logInModal} closeModal={this.closeModal} changePanel={this.changePanel} openCollapse={this.state.openCollapse} />
-                                
+
+                                {/* Displays expansion panel with user tips only if user is logged in */}
                                 {this.state.userID ? (
                                     <Collapsible2 />
                                 ) : ""}
@@ -245,10 +283,9 @@ class Home extends Component {
                             </Card>
                         </Col>
                         <br />
-
                     </Row>
                 </Container>
-            </div>
+            </div >
         )
 
     }
