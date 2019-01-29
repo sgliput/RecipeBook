@@ -85,8 +85,10 @@ function RecipeBook(props) {
                             <Row>
                                 {recipeCards}
                                 <br />
-                                <a href="#top" className="toTop"><button className="btn toTopBtn">Back to Top</button></a>
                             </Row>
+                            <Row>
+                            <a href="#top" className="toTop"><button className="btn toTopBtn">Back to Top</button></a>
+                                </Row>
                             <br />
                         </Container>
 
