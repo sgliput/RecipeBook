@@ -6,6 +6,11 @@
     border: none;
 }
 
+.cardHolderFirst{
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
 .card{
     width: 100%;
     background-color: brown;
@@ -35,6 +40,7 @@
 
 .nameMaster{
     color: #fcb10d;
+    text-shadow: 1.5px 2px black;
 }
 
 .creator{
@@ -66,12 +72,72 @@
     margin-right: -2.3rem !important;
 }
 
+.recipeBack{
+    color: brown !important;
+    margin-top: -7% !important;
+}
+
+.recipeBackUnlogged{
+    color: brown !important;
+    margin-top: 21% !important;
+    margin-left: -67% !important;
+    margin-bottom: -4px !important;
+}
+
+.recipeForward{
+    color: brown !important;
+    position: absolute !important;
+    right: 9%;
+    top: 120px;
+    margin-bottom: -2% !important;
+}
+
+.recipeBackBottom{
+    color: brown !important;
+    margin-bottom: -5% !important;
+}
+
+.recipeForwardBottom{
+    color: brown !important;
+    position: absolute !important;
+    right: 9%;
+    bottom: 6px;
+}
+
 .noMatch{
     text-align: center;
     margin: 2rem 0;
 }
 
+@media screen and (max-width: 1199px) {
+    .recipeBackBottom{
+        margin-bottom: -7% !important;
+    }
+    .recipeBackUnlogged{
+        margin-top: 27% !important;
+        margin-bottom: -5px !important;
+    }
+}
 
+@media screen and (max-width: 991px) {
+    .recipeForward{
+        right: 14.5%;
+        top: 7%;
+    }
+    .recipeBackUnlogged{
+        margin-top: 48% !important;
+        margin-bottom: -8px !important;
+    }
+    .recipeForwardBottom{
+        right: 14.5%;
+    }
+    .recipeBackBottom{
+        margin-bottom: -10% !important;
+    }
+    .cardHolderFirst{
+        margin-top: 25px;
+    }
+}
 
 @media screen and (max-width: 767px) {
     .title, .toRecipePost {
@@ -79,6 +145,22 @@
     }
     .deleteRecipeMaster{
         margin-top: -4.8rem;
+    }
+    .recipeBackUnlogged{
+        margin-left: 5% !important;
+        margin-top: -7% !important;
+        margin-bottom: 4px !important;
+    }
+    .recipeForward{
+        right: 9.5%;
+        top: 7.1%;
+    }
+    .recipeForwardBottom{
+        right: 9.5%;
+    }
+    .recipeBackBottom{
+        margin-bottom: -6% !important;
+        margin-left: 5% !important;
     }
 }
 
@@ -88,5 +170,26 @@
     }
     #toRecipePostCol{
         width: 50%;
+    }
+    .recipeBackUnlogged{
+        margin-left: -47% !important;
+        margin-top: 19% !important;
+        margin-bottom: 7px !important;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .recipeBackUnlogged{
+        margin-top: 24% !important;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    .recipeForward{
+        top: 7%;
+    }
+    .recipeBackUnlogged{
+        margin-top: 33% !important;
+        margin-bottom: 1px !important;
     }
 }

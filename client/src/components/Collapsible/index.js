@@ -19,6 +19,7 @@ const styles = theme => ({
   },
   heading: {
     fontSize: "1.3rem",
+    fontFamily: "Acme, sans-serif",
     fontWeight: theme.typography.fontWeightRegular,
     margin: "0 auto"
   },
@@ -32,22 +33,29 @@ const styles = theme => ({
 
 });
 
-function SimpleExpansionPanel(props) {
-  const { classes } = props;
+class SimpleExpansionPanel extends React.Component {
+  
+  state = {
+      
+  }
+
+  render(){
+    const { classes } = this.props;
   return (
     <div className={classes.root}>
-      <ExpansionPanel className={classes.panel}>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={classes.arrow} />}>
+      <ExpansionPanel expanded={this.props.openCollapse} className={classes.panel}>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={classes.arrow} onClick={this.props.changePanel} />}>
           <Typography className={classes.heading}>
             <Person className={classes.userIcon} />
             Want to sign in?</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.dropdown}>
-          <SignInHome showSignInModal={props.showSignInModal} showLogInModal={props.showLogInModal} signInModal={props.signInModal} logInModal={props.logInModal} closeModal={props.closeModal} />
+          <SignInHome showSignInModal={this.props.showSignInModal} showLogInModal={this.props.showLogInModal} signInModal={this.props.signInModal} logInModal={this.props.logInModal} closeModal={this.props.closeModal} />
         </ExpansionPanelDetails>
       </ExpansionPanel>
     </div>
   );
+}
 }
 
 SimpleExpansionPanel.propTypes = {

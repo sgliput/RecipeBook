@@ -9,6 +9,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 function RecipeBook(props) {
@@ -24,9 +25,11 @@ function RecipeBook(props) {
                             </Link>
                         </Col>
                         <Col size="md-1 sm-2" id="xCol">
-                            <IconButton className="deleteRecipePrivate" onClick={() => props.showDeleteModal(recipe._id)}>
-                                <DeleteIcon data-id={recipe._id} />
-                            </IconButton>
+                            <Tooltip title="Delete Private Recipe">
+                                <IconButton className="deleteRecipePrivate" onClick={() => props.showDeleteModal(recipe._id)}>
+                                    <DeleteIcon data-id={recipe._id} />
+                                </IconButton>
+                            </Tooltip>
                         </Col>
                     </Row>
                     <br />

@@ -376,7 +376,7 @@ class PrivateRecipeSpec extends Component {
                             </Row>
                             <Row>
                                 <Col size="md-6">
-                                    <h3 className="formInst">Editing <br /> {this.state.recipeName}</h3>
+                                    <h3 className="formInst">Editing Private Version of <br /> {this.state.recipeName}</h3>
                                     <h4 className="editCreator">{this.state.recipeData.edited ? "Original: " : ""}{this.state.source === "Pinterest" ? "From Pinterest" : this.state.otherSite ? this.state.creator : this.state.recipeData.creatorID === this.state.loggedInUserID ? "Posted by You" : `By ${this.state.creator}`}</h4>
 
                                 </Col>

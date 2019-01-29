@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 import PostedRecipes from "../components/PostedRecipes";
 import Drawer from "../components/Drawer";
 import Collapsible from "../components/Collapsible";
+import Collapsible2 from "../components/Collapsible2";
 import Card from '@material-ui/core/Card';
 import "./home.css";
 
@@ -23,7 +24,10 @@ class Home extends Component {
         searchTerms: "",
         searched: "",
         home: "home",
-        currentTag: ""
+        currentTag: "",
+        recipeFives: {},
+        iterator: 0,
+        openCollapse: false
     }
 
     componentDidMount() {
@@ -33,14 +37,15 @@ class Home extends Component {
         API.getRecipes()
             .then(res => {
                 console.log(res.data);
-                
-                var a = res.data;
-                var recipeFives = {};
-                var iterator = 0;
+
+                let a = res.data;
+                const recipeFives = {};
+                let iterator = 0;
                 while (a.length > 5) {
                     recipeFives[iterator] = a.splice(0, 5);
                     iterator++;
                 }
+                recipeFives[iterator] = a;
                 console.log("This is a");
                 console.log(a);
                 console.log("Recipe recipeFives");
@@ -49,11 +54,32 @@ class Home extends Component {
                 this.setState({
                     recipes: recipeFives[0],
                     recipeFives,
+                    lastIterator: iterator,
                     userID,
                     userName
                 });
 
             })
+    }
+
+    nextFive = () => {
+        const recipeFives = this.state.recipeFives;
+        let iterator = this.state.iterator;
+        iterator++;
+        this.setState({
+            recipes: recipeFives[iterator],
+            iterator
+        })
+    }
+
+    prevFive = () => {
+        const recipeFives = this.state.recipeFives;
+        let iterator = this.state.iterator;
+        iterator--;
+        this.setState({
+            recipes: recipeFives[iterator],
+            iterator
+        })
     }
 
     handleSearchChange = event => {
@@ -94,11 +120,29 @@ class Home extends Component {
         API.getRecipes()
             .then(res => {
                 console.log(res.data);
+
+                let a = res.data;
+                const recipeFives = {};
+                let iterator = 0;
+                while (a.length > 5) {
+                    recipeFives[iterator] = a.splice(0, 5);
+                    iterator++;
+                }
+                recipeFives[iterator] = a;
+                console.log("This is a");
+                console.log(a);
+                console.log("Recipe recipeFives");
+                console.log(recipeFives);
+
                 this.setState({
-                    recipes: res.data,
+                    recipes: recipeFives[0],
+                    recipeFives,
+                    lastIterator: iterator,
                     searched: "",
-                    currentTag: ""
+                    currentTag: "",
+                    searchTerms: ""
                 });
+
             })
     }
 
@@ -132,8 +176,17 @@ class Home extends Component {
             deleteModal: "none",
             chartModal: "none",
             userID,
-            userName
+            userName,
+            openCollapse: false
         });
+    }
+
+    changePanel = () => {
+        if (this.state.openCollapse) {
+            this.setState({ openCollapse: false });
+        } else {
+            this.setState({ openCollapse: true });
+        }
     }
 
     logout = () => {
@@ -173,10 +226,14 @@ class Home extends Component {
                     <Row>
                         <Col size="md-6 sm-12">
                             <Card id="signInCard">
-                                <Collapsible showSignInModal={this.showSignInModal} showLogInModal={this.showLogInModal} signInModal={this.state.signInModal} logInModal={this.state.logInModal} closeModal={this.closeModal} />
+                                <Collapsible showSignInModal={this.showSignInModal} showLogInModal={this.showLogInModal} signInModal={this.state.signInModal} logInModal={this.state.logInModal} closeModal={this.closeModal} changePanel={this.changePanel} openCollapse={this.state.openCollapse} />
+                                
+                                {this.state.userID ? (
+                                    <Collapsible2 />
+                                ) : ""}
                                 <br />
                                 <p className="rbIntro"><strong>Recipe Book</strong> is the one place you can keep all of your favorite recipes and share them with the world. Here, you can view and search recipes others have posted and, once signed in, save them to your personal <strong>Recipe Book</strong>, where you can edit them as you wish.</p>
-                                <p className="rbIntro">You can even import recipes from sites like Food Network, Pinterest, Epicurious, and AllRecipes and add them to your private collection.</p>
+                                <p className="rbIntro">You can even import recipes from sites like Food Network, Yummly, Epicurious, and AllRecipes and add them to your private collection.</p>
                                 <p className="rbIntro">And of course, if you have any family favorites or special creations of your own, you can compile them in your own private culinary treasury or post them publicly and let other readers enjoy them too.</p>
                                 <p className="rbIntro">With <strong>Recipe Book</strong>, it's easier than ever to store your favorite recipes at the tip of your fingers.</p>
 
@@ -184,7 +241,7 @@ class Home extends Component {
                         </Col>
                         <Col size="md-6 sm-12">
                             <Card id="publicRecipesCard">
-                                <PostedRecipes recipes={this.state.recipes} userID={this.state.userID} removeFromPublic={this.removeFromPublic} recipeToRemove={this.state.recipeToRemove} showDeleteModal={this.showDeleteModal} deleteModal={this.state.deleteModal} closeModal={this.closeModal} home={this.state.home} currentTag={this.state.currentTag} />
+                                <PostedRecipes recipes={this.state.recipes} userID={this.state.userID} removeFromPublic={this.removeFromPublic} recipeToRemove={this.state.recipeToRemove} showDeleteModal={this.showDeleteModal} deleteModal={this.state.deleteModal} closeModal={this.closeModal} home={this.state.home} currentTag={this.state.currentTag} recipeFives={this.state.recipeFives} iterator={this.state.iterator} lastIterator={this.state.lastIterator} nextFive={this.nextFive} prevFive={this.prevFive} />
                             </Card>
                         </Col>
                         <br />

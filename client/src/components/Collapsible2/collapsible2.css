@@ -1,0 +1,14 @@
+.tipP{
+    text-align: center;
+    margin-top: 1rem;
+    color: #fcb10d;
+    text-shadow: 1px 1px black;
+    font-size: 1.1rem;
+}
+
+.tipH{
+    text-align: center;
+    color: #fcb10d;
+    margin-top: 1rem;
+    text-shadow: 1.5px 2px black;
+}

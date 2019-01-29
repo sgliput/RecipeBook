@@ -322,7 +322,7 @@ class RecipeSpec extends Component {
                             </Row>
                             <Row>
                                 <Col size="md-6">
-                                    <h3 className="formInst">Editing <br /> {this.state.recipeName}</h3>
+                                    <h3 className="formInst">Editing Public Version of <br /> {this.state.recipeName}</h3>
                                     {this.state.source === "Pinterest" ? <h4 className="editCreator">From Pinterest</h4> : this.state.otherSite ? <h4 className="editCreator">{this.state.creator}</h4> : this.state.creator ? <h4 className="editCreator">By {this.state.creator}</h4> : <h4 className="editCreator">By Anonymous (a.k.a. You)</h4>}
 
                                 </Col>

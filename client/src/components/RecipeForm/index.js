@@ -26,14 +26,17 @@ class RecipeForm extends Component {
         DirNumberOfFields: 1,
         cursorLocation: "",
         currentFieldID: "",
-        siteToScrape: "Food Network",
+        siteToScrape: "",
         urlToScrape: "",
         loggedInUserID: "",
         selectedOption: "public"
     }
 
     componentDidMount() {
-        this.setState({ loggedInUserID: sessionStorage.getItem('userID') });
+        this.setState({
+            loggedInUserID: sessionStorage.getItem('userID'),
+            name: sessionStorage.getItem("userName")
+        });
     }
 
     handleRecipeNameChange = event => {
@@ -233,7 +236,7 @@ class RecipeForm extends Component {
         const directions = this.state.directions;
         const tagArray = this.state.tagArray;
         let isPublic;
-        if(this.state.selectedOption === "public") {
+        if (this.state.selectedOption === "public") {
             isPublic = true;
         } else {
             isPublic = false;
@@ -363,90 +366,90 @@ class RecipeForm extends Component {
                     console.log("Sorry");
                 }
             });
-        } else if (this.state.siteToScrape === "Pinterest") {
-            const proxyurl = "https://cors-anywhere.herokuapp.com/";
-            console.log("url: " + this.state.urlToScrape);
-            axios.get(proxyurl + this.state.urlToScrape).then(response => {
+            // } else if (this.state.siteToScrape === "Pinterest") {
+            //     const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            //     console.log("url: " + this.state.urlToScrape);
+            //     axios.get(proxyurl + this.state.urlToScrape).then(response => {
 
 
-                const $ = cheerio.load(response.data);
+            //         const $ = cheerio.load(response.data);
 
-                //https://www.pinterest.com/pin/202591683214899897/
+            //         //https://www.pinterest.com/pin/202591683214899897/
 
-                const parsed = JSON.parse($("#jsInit1").contents()).resourceDataCache[0].data;
+            //         const parsed = JSON.parse($("#jsInit1").contents()).resourceDataCache[0].data;
 
-                const recipeName = parsed.rich_metadata.recipe.name;
-                const link = parsed.rich_metadata.url;
-                const creator = this.state.urlToScrape;
-                let cooktime = "";
-                if (parsed.rich_metadata.recipe.cook_times.total) {
-                    cooktime = parsed.rich_metadata.recipe.cook_times.total.m + " minutes";
-                }
-                const description = parsed.description;
-                //const imageSrc = parsed.board.image_thumbnail_url;
+            //         const recipeName = parsed.rich_metadata.recipe.name;
+            //         const link = parsed.rich_metadata.url;
+            //         const creator = this.state.urlToScrape;
+            //         let cooktime = "";
+            //         if (parsed.rich_metadata.recipe.cook_times.total) {
+            //             cooktime = parsed.rich_metadata.recipe.cook_times.total.m + " minutes";
+            //         }
+            //         const description = parsed.description;
+            //         //const imageSrc = parsed.board.image_thumbnail_url;
 
-                const ingredientArrays = parsed.rich_metadata.recipe.categorized_ingredients.map(Ing => {
-                    const ings = Ing.ingredients.map(lowerIng => {
-                        return lowerIng.amt + " " + lowerIng.name;
-                    });
-                    return ings;
-                });
-                const ingredients = [];
-                for (let i = 0; i < ingredientArrays.length; i++) {
-                    for (let j = 0; j < ingredientArrays[i].length; j++) {
-                        ingredients.push(ingredientArrays[i][j]);
-                    }
-                }
+            //         const ingredientArrays = parsed.rich_metadata.recipe.categorized_ingredients.map(Ing => {
+            //             const ings = Ing.ingredients.map(lowerIng => {
+            //                 return lowerIng.amt + " " + lowerIng.name;
+            //             });
+            //             return ings;
+            //         });
+            //         const ingredients = [];
+            //         for (let i = 0; i < ingredientArrays.length; i++) {
+            //             for (let j = 0; j < ingredientArrays[i].length; j++) {
+            //                 ingredients.push(ingredientArrays[i][j]);
+            //             }
+            //         }
 
-                let scrapedRecipe = "";
-                if (recipeName && creator && description && ingredients && link && cooktime) {
-                    scrapedRecipe = {
-                        name: recipeName,
-                        creator: creator,
-                        description: description,
-                        cooktime: cooktime,
-                        //imgLink: imageSrc,
-                        ingredients: ingredients,
-                        tags: this.state.tagArray,
-                        link: link,
-                        otherSite: true,
-                        source: "Pinterest",
-                        public: false
-                    };
-                } else if (recipeName && creator && description && ingredients && link) {
-                    scrapedRecipe = {
-                        name: recipeName,
-                        creator: creator,
-                        description: description,
-                        //imageSrc: imageSrc,
-                        ingredients: ingredients,
-                        tags: this.state.tagArray,
-                        link: link,
-                        otherSite: true,
-                        source: "Pinterest",
-                        public: false
-                    };
-                }
-                console.log(scrapedRecipe);
-
-
-                if (this.state.loggedInUserID) {
-                    API.saveRecipe(scrapedRecipe)
-                        .then(dbRecipe => {
-                            console.log(dbRecipe);
-                            this.props.showAddModal(dbRecipe.data._id);
-                            API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
-                                .then(dbUser => {
-                                    console.log(dbUser);
-                                })
-                        })
-                        .catch(err => console.log(err));
-                } else {
-                    console.log("Sorry");
-                }
+            //         let scrapedRecipe = "";
+            //         if (recipeName && creator && description && ingredients && link && cooktime) {
+            //             scrapedRecipe = {
+            //                 name: recipeName,
+            //                 creator: creator,
+            //                 description: description,
+            //                 cooktime: cooktime,
+            //                 //imgLink: imageSrc,
+            //                 ingredients: ingredients,
+            //                 tags: this.state.tagArray,
+            //                 link: link,
+            //                 otherSite: true,
+            //                 source: "Pinterest",
+            //                 public: false
+            //             };
+            //         } else if (recipeName && creator && description && ingredients && link) {
+            //             scrapedRecipe = {
+            //                 name: recipeName,
+            //                 creator: creator,
+            //                 description: description,
+            //                 //imageSrc: imageSrc,
+            //                 ingredients: ingredients,
+            //                 tags: this.state.tagArray,
+            //                 link: link,
+            //                 otherSite: true,
+            //                 source: "Pinterest",
+            //                 public: false
+            //             };
+            //         }
+            //         console.log(scrapedRecipe);
 
 
-            });
+            //         if (this.state.loggedInUserID) {
+            //             API.saveRecipe(scrapedRecipe)
+            //                 .then(dbRecipe => {
+            //                     console.log(dbRecipe);
+            //                     this.props.showAddModal(dbRecipe.data._id);
+            //                     API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
+            //                         .then(dbUser => {
+            //                             console.log(dbUser);
+            //                         })
+            //                 })
+            //                 .catch(err => console.log(err));
+            //         } else {
+            //             console.log("Sorry");
+            //         }
+
+
+            //     });
         } else if (this.state.siteToScrape === "Epicurious") {
             axios.get(this.state.urlToScrape).then(response => {
 
@@ -744,6 +747,243 @@ class RecipeForm extends Component {
                 }
 
             })
+        } else if (this.state.siteToScrape === "Simply Recipes") {
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            console.log("url: " + this.state.urlToScrape);
+            axios.get(proxyurl + this.state.urlToScrape).then(response => {
+
+                const $ = cheerio.load(response.data);
+
+                let ingredients = [];
+                const steps = [];
+
+                const recipeName = $("#sr-recipe-callout").children("h2").text().trim();
+                const creator = $(".author").text().trim();
+                const creatorID = this.state.loggedInUserID;
+                const description = $(".meta-description-content").text().trim();
+                //Adds together the preptime and cooktime values to get total time
+                let preptime = $(".preptime").text().trim();
+                let cooktime = $(".cooktime").text().trim();
+                preptime = preptime.split(" ");
+                cooktime = cooktime.split(" ");
+                let total = parseInt(preptime[0]) + parseInt(cooktime[0]);
+                cooktime[0] = total;
+                cooktime = cooktime.join(" ");
+
+                const imageSrc = $(".featured-image").children("img").attr("src");
+                const link = this.state.urlToScrape;
+
+
+                $(".ingredient").each((i, element) => {
+                    const ingredient = $(element).text().trim();
+                    if (ingredient !== "") {
+                        ingredients.push(ingredient);
+                    }
+                });
+
+                $("#sr-recipe-method div p").each((i, element) => {
+                    const step = $(element).text().trim();
+                    if (step !== "") {
+                        steps.push(step);
+                    }
+                });
+
+                const ingObject = Object.assign({}, ingredients);
+                let keys = Object.keys(ingObject);
+                for (var i = 0; i < keys.length; i++) {
+                    var key = keys[i].replace(i, "ingredient" + i);
+                    ingObject[key] = ingObject[keys[i]];
+                    delete ingObject[i];
+                }
+
+
+                const scrapedRecipe = {
+                    name: recipeName,
+                    creator: "By " + creator + " / Simply Recipes",
+                    creatorID: creatorID,
+                    description: description,
+                    cooktime: cooktime,
+                    imgLink: imageSrc,
+                    ingredients: ingredients,
+                    directions: steps,
+                    tags: this.state.tagArray,
+                    link: link,
+                    otherSite: true,
+                    source: "Simply Recipes",
+                    public: false
+                };
+                console.log(scrapedRecipe);
+                if (this.state.loggedInUserID) {
+                    API.saveRecipe(scrapedRecipe)
+                        .then(dbRecipe => {
+                            console.log(dbRecipe);
+                            this.props.showAddModal(dbRecipe.data._id);
+                            API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
+                                .then(dbUser => {
+                                    console.log(dbUser);
+                                })
+                        })
+                        .catch(err => console.log(err));
+                } else {
+                    console.log("Sorry");
+                }
+
+            })
+        } else if (this.state.siteToScrape === "Genius Kitchen") {
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            console.log("url: " + this.state.urlToScrape);
+            axios.get(proxyurl + this.state.urlToScrape).then(response => {
+
+                const $ = cheerio.load(response.data);
+
+                let ingredients = [];
+                const steps = [];
+
+                const recipeName = $(".recipe-header").children("h1").text().trim();
+                const creator = $(".byline").children(".print-only-inline").text().trim();
+                const creatorID = this.state.loggedInUserID;
+                //Splits cooktime into an array (lots of white space and symbols) and gets only the last six values, rejoining them afterward (such as 50mins)
+                let cooktime = $("td.time").text().trim();
+                cooktime = cooktime.split("").slice(-6).join("");
+                const link = this.state.urlToScrape;
+
+
+                $(".ingredient-list li").each((i, element) => {
+                    const ingredient = $(element).text().trim();
+                    if (ingredient !== "") {
+                        ingredients.push(ingredient);
+                    }
+                });
+
+                $(".directions-inner ol li").each((i, element) => {
+                    const step = $(element).text().trim();
+                    if (step !== "" && step !== "Submit a Correction") {
+                        steps.push(step);
+                    }
+                });
+
+                const ingObject = Object.assign({}, ingredients);
+                let keys = Object.keys(ingObject);
+                for (var i = 0; i < keys.length; i++) {
+                    var key = keys[i].replace(i, "ingredient" + i);
+                    ingObject[key] = ingObject[keys[i]];
+                    delete ingObject[i];
+                }
+
+
+                const scrapedRecipe = {
+                    name: recipeName,
+                    creator: "By " + creator + " / Genius Kitchen",
+                    creatorID: creatorID,
+                    cooktime: cooktime,
+                    ingredients: ingredients,
+                    directions: steps,
+                    tags: this.state.tagArray,
+                    link: link,
+                    otherSite: true,
+                    source: "Genius Kitchen",
+                    public: false
+                };
+                console.log(scrapedRecipe);
+                if (this.state.loggedInUserID) {
+                    API.saveRecipe(scrapedRecipe)
+                        .then(dbRecipe => {
+                            console.log(dbRecipe);
+                            this.props.showAddModal(dbRecipe.data._id);
+                            API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
+                                .then(dbUser => {
+                                    console.log(dbUser);
+                                })
+                        })
+                        .catch(err => console.log(err));
+                } else {
+                    console.log("Sorry");
+                }
+
+            })
+        } else if (this.state.siteToScrape === "Serious Eats") {
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            console.log("url: " + this.state.urlToScrape);
+            axios.get(proxyurl + this.state.urlToScrape).then(response => {
+
+                const $ = cheerio.load(response.data);
+
+                let ingredients = [];
+                const steps = [];
+
+                const recipeName = $(".recipe-title").text().trim();
+                //For some reason, creator is a string with a duplicate value, so this regex gets rid of the duplicate
+                let creator = $(".author-name").children(".name").text().trim();
+                creator = creator.replace(/^(.+)\1+$/m, '$1');
+
+                const creatorID = this.state.loggedInUserID;
+                let description = $(".recipe-introduction-body").children("p").first().next().text().trim();
+
+                if ($(".recipe-notes").children(".info").children("p").text().trim()) {
+                    let notes = $(".recipe-notes").children(".info").children("p").text().trim();
+                    description = description + " " + notes;
+                }
+
+                let cooktime = $(".recipe-about").children("li").first().next().next().children(".info").text().trim();
+                const imageSrc = $(".se-pinit-image-container").children("img").attr("src");
+                const link = this.state.urlToScrape;
+
+
+                $(".ingredient").each((i, element) => {
+                    const ingredient = $(element).text().trim();
+                    if (ingredient !== "") {
+                        ingredients.push(ingredient);
+                    }
+                });
+
+                $(".recipe-procedure .recipe-procedure-text").each((i, element) => {
+                    const step = $(element).text().trim();
+                    if (step !== "") {
+                        steps.push(step);
+                    }
+                });
+
+                const ingObject = Object.assign({}, ingredients);
+                let keys = Object.keys(ingObject);
+                for (var i = 0; i < keys.length; i++) {
+                    var key = keys[i].replace(i, "ingredient" + i);
+                    ingObject[key] = ingObject[keys[i]];
+                    delete ingObject[i];
+                }
+
+
+                const scrapedRecipe = {
+                    name: recipeName,
+                    creator: "By " + creator + " / Serious Eats",
+                    creatorID: creatorID,
+                    cooktime: cooktime,
+                    description: description,
+                    ingredients: ingredients,
+                    directions: steps,
+                    imgLink: imageSrc,
+                    tags: this.state.tagArray,
+                    link: link,
+                    otherSite: true,
+                    source: "Serious Eats",
+                    public: false
+                };
+                console.log(scrapedRecipe);
+                if (this.state.loggedInUserID) {
+                    API.saveRecipe(scrapedRecipe)
+                        .then(dbRecipe => {
+                            console.log(dbRecipe);
+                            this.props.showAddModal(dbRecipe.data._id);
+                            API.updateUserRecipes(this.state.loggedInUserID, dbRecipe.data._id)
+                                .then(dbUser => {
+                                    console.log(dbUser);
+                                })
+                        })
+                        .catch(err => console.log(err));
+                } else {
+                    console.log("Sorry");
+                }
+
+            })
         }
     }
 
@@ -765,15 +1005,17 @@ class RecipeForm extends Component {
                                         <div className="form-group">
                                             <label className="control-label siteToScrapeLabel">Website:</label>
                                             <select className="form-control siteToScrape" size="1" onChange={this.scrapeChange}>
+                                                <option className="defaultBlank" defaultValue=""></option>
+                                                <option value disabled>--Choose a Site--</option>
                                                 <option defaultValue="Food Network">Food Network</option>
                                                 <option value="Epicurious">Epicurious</option>
                                                 <option value="Allrecipes">Allrecipes</option>
-                                                <option value="Food.com">Food.com</option>
+                                                <option value="Genius Kitchen">Genius Kitchen</option>
                                                 <option value="MyRecipes">MyRecipes</option>
                                                 <option value="Yummly">Yummly</option>
                                                 <option value="Simply Recipes">Simply Recipes</option>
-                                                <option value="SeriousEats.com">SeriousEats.com</option>
-                                                <option value="Pinterest">Pinterest</option>
+                                                <option value="Serious Eats">Serious Eats</option>
+                                                {/* <option value="Pinterest">Pinterest</option> */}
                                             </select>
                                         </div>
                                     </Col>
@@ -782,7 +1024,10 @@ class RecipeForm extends Component {
                                         <input className="form-control urlToScrape" value={this.state.url} onChange={this.handleURLChange} />
                                     </Col>
                                     <Col size="md-3">
+                                    {this.state.siteToScrape && this.state.urlToScrape ? 
                                         <button className="btn submitURL" onClick={this.handleURLSubmit}>Submit</button>
+                                        :
+                                        <button disabled className="btn submitURL" onClick={this.handleURLSubmit}>Submit</button>}
                                     </Col>
 
                                 </Row>
@@ -794,7 +1039,7 @@ class RecipeForm extends Component {
                         <Col size="md-2">
                             <label className="control-label tagLabel">Tags:</label>
                             <select className="form-control tagList" size="1" value={this.state.tagField} onChange={this.addTag}>
-                            <option className="defaultBlank" defaultValue=""></option>
+                                <option className="defaultBlank" defaultValue=""></option>
                                 <option value disabled>--Choose a Tag--</option>
                                 <option value="Asian">Asian</option>
                                 <option value="Appetizer">Appetizer</option>

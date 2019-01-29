@@ -23,11 +23,17 @@
 .specRecipeNamePublic{
     text-align: center;
     margin-top: -1rem;
+    color: brown;
+    text-shadow: 1px 1px #fcb10d;
+    font-size: 2.4rem;
 }
 
 .specRecipeNameUnlogged{
     text-align: center;
     padding-top: 2rem;
+    color: brown;
+    text-shadow: 1px 1px #fcb10d;
+    font-size: 2.4rem;
 }
 
 p{
@@ -91,10 +97,12 @@ p{
 
 ul li{
     margin-bottom: 7px;
+    margin-right: 1rem;
 }
 
 ol li{
     margin-bottom: 1rem;
+    margin-left: -1rem;
 }
 
 .noDirections{

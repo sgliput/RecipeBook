@@ -81,7 +81,7 @@ const styles = theme => ({
         whiteSpace: "initial",
         display: "inline-block",
         fontSize: "1rem",
-
+        fontFamily: "Acme, sans-serif"
     },
     h6noBtn: {
         marginLeft: "11%",
@@ -139,7 +139,9 @@ const styles = theme => ({
         margin: theme.spacing.unit,
         backgroundColor: "brown",
         color: "white",
-        cursor: "pointer"
+        cursor: "pointer",
+        fontFamily: "Signika, sans-serif",
+        fontSize: ".9rem"
     },
 });
 
