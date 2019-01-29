@@ -88,20 +88,19 @@
     color: brown !important;
     position: absolute !important;
     right: 9%;
-    top: 120px;
-    margin-bottom: -2% !important;
+    top: 102px;
 }
 
 .recipeBackBottom{
     color: brown !important;
-    margin-bottom: -5% !important;
+    margin-bottom: -4% !important;
 }
 
 .recipeForwardBottom{
     color: brown !important;
     position: absolute !important;
     right: 9%;
-    bottom: 6px;
+    bottom: -2px;
 }
 
 .noMatch{
