@@ -264,7 +264,9 @@ class Home extends Component {
                     <Row>
                         <Col size="md-6 sm-12">
                             <Card id="signInCard">
+                                {!this.state.userID ? (
                                 <Collapsible showSignInModal={this.showSignInModal} showLogInModal={this.showLogInModal} signInModal={this.state.signInModal} logInModal={this.state.logInModal} closeModal={this.closeModal} changePanel={this.changePanel} openCollapse={this.state.openCollapse} />
+                                ) : ""}
 
                                 {/* Displays expansion panel with user tips only if user is logged in */}
                                 {this.state.userID ? (

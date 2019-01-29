@@ -84,11 +84,14 @@ function RecipeBook(props) {
                         <Container className="mainComponent">
                             <Row>
                                 {recipeCards}
+                                <br />
+                                <a href="#top" className="toTop"><button className="btn toTopBtn">Back to Top</button></a>
                             </Row>
                             <br />
                         </Container>
 
                     )}
+
             <DeleteModal recipeToRemove={props.recipeToRemove} show={props.deleteModal} closeModal={props.closeModal} deleteUserRecipe={props.deleteUserRecipe} />
         </div >
     );
