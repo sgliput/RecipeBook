@@ -335,7 +335,7 @@ class PrivateRecipeSpec extends Component {
                 ingredients: ingObjects,
                 directions: dirObjects,
                 tags: tagArray,
-                public: isPublic,
+                public: false,
                 edited: true,
                 deleted: false,
                 otherSite: this.state.otherSite,
