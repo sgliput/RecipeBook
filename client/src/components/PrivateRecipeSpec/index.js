@@ -328,7 +328,7 @@ class PrivateRecipeSpec extends Component {
             const editedRecipe = {
                 name: recipeName,
                 creator: this.state.creator,
-                creatorID: this.state.loggedInUserID,
+                creatorID: this.state.creatorID,
                 cooktime: cooktime,
                 description: description,
                 imgLink: imgLink,
@@ -472,7 +472,7 @@ class PrivateRecipeSpec extends Component {
                                             <Col size="md-2 sm-3" id="recipeSubmitCol">
                                                 <button className="btn privateEditSubmit" onClick={this.handlePrivateEdit}>Submit</button>
                                             </Col>
-                                            {!this.state.isPublic ? (
+                                            {!this.state.isPublic && this.state.loggedInUserID === this.state.creatorID ? (
                                                 <Col size="md-5 sm-6" id="publicPrivateCol">
                                                     <form>
 
