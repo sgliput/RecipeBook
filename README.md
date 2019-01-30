@@ -1,4 +1,4 @@
-# RecipeBook
+# Recipe Book
 
 ## Deployed Project
 
@@ -45,29 +45,32 @@ The website is made up of five main pages:
 * privateRecipes.js, the Recipe Book displaying all of the current user's private recipes
 * privateRecipe.js, the page for viewing (and editing) a specific private recipe
 
-On the home page, a new user has access to recipes posted publicly, including a keyword search. Only five recipes are displayed at a time, with arrow buttons allowing the user to show the next five or the previous five. When a user either signs in as a new user or as a returning user, various elements become visible. The sign-in expansion panel is replaced with an expansion panel with tips for posting, editing, and deleting recipes. Also added are a drawer featuring tags and the user's user name, a button to access the recipe form, and a button to link to the user's personal Recipe Book. The drawer's tags can trigger a recipe search based on tag, and it includes a button to display a pie chart (courtesy of chart.js) showing the percentage of each tag used. If the user originally posted a recipe, a trashcan icon allows them to delete it from the home page, that is change its status from public to private.
+On the home page (see first screenshot below), a new user has access to recipes posted publicly, including a keyword search. Only five recipes are displayed at a time, with arrow buttons allowing the user to show the next five or the previous five. When a user either signs in as a new user or as a returning user, various elements become visible (see second screenshot below). The sign-in expansion panel is replaced with an expansion panel with tips for posting, editing, and deleting recipes. Also added are a drawer featuring tags and the user's user name, a button to access the recipe form, and a button to link to the user's personal Recipe Book. Once opened with the menu icon in the top left corner, the drawer shows tags that can trigger a recipe search based on tag, and it includes a button to display a pie chart (courtesy of chart.js) showing the percentage of each tag used. If the user originally posted a recipe, a trashcan icon allows them to delete it from the home page, that is change its status from public to private.
 
 ![Home Page, Not Logged In](./images/homeNotLoggedIn.png)
+
 ![Home Page, Logged In](./images/homeLoggedIn.png)
 
-On the postRecipe page, the form includes fields for the recipe name, creator name, total cook time, description, and image link. For ingredients and directions, there are also initial fields for Ingredient 1 and Step 1; a button below each causes an additional field to be added below the first (Ingredient 2, Ingredient 3, etc.). A tag dropdown list allows tag buttons to be added in a section above. Near the top, a user can choose from a dropdown of websites (Food Network, AllRecipes, etc.) and enter a corresponding URL; clicking the nearby button will scrape the URL for a recipe and add it to the user's private Recipe Book. (Scraped recipes cannot be made public.)
+On the postRecipe page (see screenshot below), the form includes fields for the recipe name, creator name, total cook time, description, and image link. For ingredients and directions, there are also initial fields for Ingredient 1 and Step 1; a button below each causes an additional field to be added below the first (Ingredient 2, Ingredient 3, etc.). A tag dropdown list allows tag buttons to be added in a section above. Near the top, a user can choose from a dropdown of websites (Food Network, AllRecipes, etc.) and enter a corresponding URL; clicking the nearby button will scrape the URL for a recipe and add it to the user's private Recipe Book. (Scraped recipes cannot be made public.)
 
 ![postRecipe Page](./images/postRecipe.png)
 
-On the recipe page, a public recipe is displayed with all important information (name, original creator's name, ingredients, a link to the original source if it was scraped from another site, etc.). In the top left corner is an Add button that adds the recipe to the current user's Recipe Book, if the recipe is not already there; either way, it links directly to their Recipe Book page. If the user was the one who originally posted the recipe, an edit icon appears in the top left. Clicking it hides the recipe and shows the edit form, filled out with all of the recipe information, which the user can then update. Submitting the update will update the public recipe and anywhere the recipe has been added to others' Recipe Books.
+On the recipe page (see first screenshot below), a public recipe is displayed with all important information (name, original creator's name, ingredients, a link to the original source if it was scraped from another site, etc.). In the top left corner is an Add button that adds the recipe to the current user's Recipe Book, if the recipe is not already there; either way, it links directly to their Recipe Book page. If the user was the one who originally posted the recipe, an edit icon appears in the top left. Clicking it hides the recipe and shows the edit form (see second screenshot below), filled out with all of the recipe information, which the user can then update. Submitting the update will update the public recipe and anywhere the recipe has been added to others' Recipe Books.
 
 ![Recipe Page](./images/recipe.png)
+
 ![Recipe Page, Edit Mode](./images/recipeEdit.png)
 
-On the privateRecipes page, all of the user's saved recipes (those they posted/scraped and those they've saved from the public recipes) are displayed as cards showing the recipe name, creator name, cooktime, and image, with a default image if no image link was provided. If the recipe has been edited, the word "Original: " appears before the creator name. Every card has a trash can allowing them to delete the recipe from their Recipe Book. If the recipe is marked as public, it will only remove it from their Recipe Book and not affect the public one on the home page. If the recipe is marked as private (meaning only the user has access to it), the recipe is entirely deleted from the database. Also on this page is the same search field and tag drawer, which now search only the user's saved recipes. There is also another button to show the pie chart, which shows the tag percentages of the user's saved recipes. Clicking the recipe name on the card goes to the privateRecipe page.
+On the privateRecipes page (see screenshot below), all of the user's saved recipes (those they posted/scraped and those they've saved from the public recipes) are displayed as cards showing the recipe name, creator name, cooktime, and image, with a default image if no image link was provided. If the recipe has been edited, the word "Original: " appears before the creator name. Every card has a trash can allowing them to delete the recipe from their Recipe Book. If the recipe is marked as public, it will only remove it from their Recipe Book and not affect the public one on the home page. If the recipe is marked as private (meaning only the user has access to it), the recipe is entirely deleted from the database. Also on this page is the same search field and tag drawer, which now search only the user's saved recipes. There is also another button to show the pie chart, which shows the tag percentages of the user's saved recipes. Clicking the recipe name on the card goes to the privateRecipe page.
 
 ![privateRecipes Page](./images/privateRecipes.png)
 
-On the privateRecipe page, a single private recipe is displayed, along with an edit button in the top right corner, much like the public recipe page. If the recipe is private and not scraped from another site, the user also has the ability to make it public from this form. If the user makes a change on the edit form and submits, two things can happen.
+On the privateRecipe page (see first screenshot below), a single private recipe is displayed, along with an edit button in the top right corner that show the filled-out edit form (see second screenshot below), much like the public recipe page. If the recipe is private and not scraped from another site, the user also has the ability to make it public from this form. If the user makes a change on the edit form and submits, two things can happen.
 * If the recipe is public (such as one saved from the home page), it creates a separate private record that only the current user has access to.
 * If the recipe is private (meaning marked as private, scraped, or already edited), it simply updates the current recipe.
 
 ![privateRecipe Page](./images/privateRecipe.png)
+
 ![privateRecipe Page, Edit Mode](./images/privateRecipeEdit.png)
 
 ## React Components
