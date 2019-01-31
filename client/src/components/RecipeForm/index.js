@@ -1054,14 +1054,14 @@ class RecipeForm extends Component {
                                             <select className="form-control siteToScrape" size="1" onChange={this.scrapeChange}>
                                                 <option className="defaultBlank" defaultValue=""></option>
                                                 <option value disabled>--Choose a Site--</option>
-                                                <option defaultValue="Food Network">Food Network</option>
-                                                <option value="Epicurious">Epicurious</option>
                                                 <option value="Allrecipes">Allrecipes</option>
+                                                <option value="Epicurious">Epicurious</option>
+                                                <option value="Food Network">Food Network</option>
                                                 <option value="Genius Kitchen">Genius Kitchen</option>
                                                 <option value="MyRecipes">MyRecipes</option>
-                                                <option value="Yummly">Yummly</option>
-                                                <option value="Simply Recipes">Simply Recipes</option>
                                                 <option value="Serious Eats">Serious Eats</option>
+                                                <option value="Simply Recipes">Simply Recipes</option>
+                                                <option value="Yummly">Yummly</option>
                                                 {/* <option value="Pinterest">Pinterest</option> */}
                                             </select>
                                         </div>
