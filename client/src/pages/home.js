@@ -103,8 +103,28 @@ class Home extends Component {
         API.searchRecipes(this.state.searchTerms)
             .then(dbRecipes => {
                 console.log(dbRecipes.data);
+
+                let a = dbRecipes.data;
+                const recipeFives = {};
+                let iterator = 0;
+                //Divides all the recipes into fives, storing them all in an object of arrays
+                while (a.length > 5) {
+                    recipeFives[iterator] = a.splice(0, 5);
+                    iterator++;
+                }
+                //After counting by fives, adds whatever is left to the end of the object
+                recipeFives[iterator] = a;
+                console.log("This is a");
+                console.log(a);
+                console.log("Recipe recipeFives");
+                console.log(recipeFives);
+                //Stores the object of fives in state, setting recipes to the first array (so the first five recipes will be displayed first)
+                //Storing the lastIterator is to indicate the end of the object when progressing through the fives
                 this.setState({
-                    recipes: dbRecipes.data,
+                    recipes: recipeFives[0],
+                    recipeFives,
+                    lastIterator: iterator,
+                    iterator: 0,
                     searched: "searched",
                     currentTag: ""
                 })
@@ -117,8 +137,28 @@ class Home extends Component {
         API.searchRecipesByTag(text)
             .then(dbRecipes => {
                 console.log(dbRecipes.data);
+
+                let a = dbRecipes.data;
+                const recipeFives = {};
+                let iterator = 0;
+                //Divides all the recipes into fives, storing them all in an object of arrays
+                while (a.length > 5) {
+                    recipeFives[iterator] = a.splice(0, 5);
+                    iterator++;
+                }
+                //After counting by fives, adds whatever is left to the end of the object
+                recipeFives[iterator] = a;
+                console.log("This is a");
+                console.log(a);
+                console.log("Recipe recipeFives");
+                console.log(recipeFives);
+                //Stores the object of fives in state, setting recipes to the first array (so the first five recipes will be displayed first)
+                //Storing the lastIterator is to indicate the end of the object when progressing through the fives
                 this.setState({
-                    recipes: dbRecipes.data,
+                    recipes: recipeFives[0],
+                    recipeFives,
+                    lastIterator: iterator,
+                    iterator: 0,
                     searched: "searched",
                     currentTag: text
                 })
@@ -149,6 +189,7 @@ class Home extends Component {
                     recipes: recipeFives[0],
                     recipeFives,
                     lastIterator: iterator,
+                    iterator: 0,
                     searched: "",
                     currentTag: "",
                     searchTerms: ""
